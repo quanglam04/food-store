@@ -7,11 +7,6 @@
                     <div class="div">
                         Group 1
                     </div>
-                    <div>
-                        <a href="https://www.facebook.com/profile.php?id=100041721947314" target="_blank">Website</a>
-                        &middot;
-                        <a href="https://www.youtube.com/@hoidanit" target="_blank"></a>
-                    </div>
                 </div>
             </div>
         </footer>

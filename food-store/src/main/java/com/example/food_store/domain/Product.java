@@ -1,10 +1,15 @@
 package com.example.food_store.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -13,15 +18,48 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
+    @NotEmpty(message = "Tên sản phẩm không được để trống")
     private String name;
+
+    @NotNull
+    @DecimalMin(value = "0", inclusive = false, message = "Price phải lớn hơn 0")
     private double price;
+
     private String image;
+
+    @NotNull
+    @NotEmpty(message = "detailDesc không được để trống")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
+
+    @NotNull
+    @NotEmpty(message = "shortDesc không được để trống")
     private String shortDesc;
+
+    @NotNull
+    @Min(value = 1, message = "Số lượng cần lớn hơn hoặc bằng 1")
     private long quantity;
-    private long sold;
-    private String factory;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCustomerTarget() {
+        return customerTarget;
+    }
+
+    public void setCustomerTarget(String customerTarget) {
+        this.customerTarget = customerTarget;
+    }
+
     private String target;
+    private String type;
+    private String customerTarget;
 
     public long getId() {
         return id;
@@ -79,22 +117,6 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public long getSold() {
-        return sold;
-    }
-
-    public void setSold(long sold) {
-        this.sold = sold;
-    }
-
-    public String getFactory() {
-        return factory;
-    }
-
-    public void setFactory(String factory) {
-        this.factory = factory;
-    }
-
     public String getTarget() {
         return target;
     }
@@ -106,8 +128,8 @@ public class Product {
     @Override
     public String toString() {
         return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
-                + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", sold=" + sold + ", factory="
-                + factory + ", target=" + target + "]";
+                + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", ="
+                + ", target=" + target + "]";
     }
 
 }

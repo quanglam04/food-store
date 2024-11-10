@@ -7,8 +7,8 @@
             <meta charset="utf-8" />
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-            <meta name="description" content="Hỏi Dân IT - Dự án laptopshop" />
-            <meta name="author" content="Hỏi Dân IT" />
+            <meta name="description" />
+            <meta name="author" />
             <title>Dashboard </title>
             <link href="/css/styles.css" rel="stylesheet" />
             <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -67,6 +67,33 @@
 
                                             </tbody>
                                         </table>
+                                        <a href="/admin" class="btn btn-success mt-3">Back</a>
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination justify-content-center">
+                                                <li class="page-item">
+                                                    <a class="${1 eq currentPage ? 'disabled page-link' : 'page-link'}"
+                                                        href="/admin/user?page=${currentPage - 1}"
+                                                        aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                                <c:forEach begin="0" end="${totalPages - 1}" varStatus="loop">
+                                                    <li class="page-item">
+                                                        <a class="${(loop.index + 1) eq currentPage ? 'active page-link' : 'page-link'}"
+                                                            href="/admin/user?page=${loop.index + 1}">
+                                                            ${loop.index + 1}
+                                                        </a>
+                                                    </li>
+                                                </c:forEach>
+                                                <li class="page-item">
+                                                    <a class="${totalPages eq currentPage ? 'disabled page-link' : 'page-link'}"
+                                                        href="/admin/user?page=${currentPage + 1}" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+
                                     </div>
 
                                 </div>
