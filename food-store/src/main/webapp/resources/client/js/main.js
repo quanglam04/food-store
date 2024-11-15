@@ -446,28 +446,25 @@
     }
     document.addEventListener("DOMContentLoaded", function () {
         const viewMoreBtn = document.getElementById("viewMoreBtn");
-        const hiddenItems = document.querySelectorAll(".product-item.hidden");
+
         const totalItems = document.querySelectorAll(".product-item");
         if (totalItems.length < 8) {
             viewMoreBtn.style.display = "none";
-            console.log(hiddenItems.length);
             return;
         }
+
         viewMoreBtn.addEventListener("click", function () {
-            // Cập nhật danh sách các sản phẩm bị ẩn mỗi lần nhấn nút
-            console.log("NO");
+            const hiddenItems = document.querySelectorAll(".product-item.hidden");
             hiddenItems.forEach((item, index) => {
-                if (index < 8) {  // Hiển thị thêm 8 sản phẩm mỗi lần nhấp
+                if (index < 8) {
                     item.classList.remove("hidden");
                 }
             });
 
-            // Kiểm tra nếu không còn sản phẩm nào bị ẩn thì ẩn nút "View More"
             const remainingHiddenItems = document.querySelectorAll(".product-item.hidden");
             if (remainingHiddenItems.length === 0) {
                 viewMoreBtn.style.display = "none";
             }
-
         });
     });
 
