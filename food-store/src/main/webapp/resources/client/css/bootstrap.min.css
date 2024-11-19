@@ -7777,7 +7777,7 @@ fieldset:disabled .btn {
 }
 
 .my-auto {
-    margin-top: auto !important;
+    margin-top: -5px !important;
     margin-bottom: auto !important
 }
 

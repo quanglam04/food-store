@@ -3,15 +3,18 @@
         <style>
             /* Đảm bảo form có vị trí tương đối */
             .input-group {
-                position: relative; /* Cho phép các phần tử con như autocomplete-item có thể đặt vị trí tuyệt đối */
+                position: relative;
+                /* Cho phép các phần tử con như autocomplete-item có thể đặt vị trí tuyệt đối */
             }
 
             /* Kiểu dáng cho danh sách gợi ý autocomplete */
             .autocomplete-items {
                 position: absolute;
-                top: 100%; /* Đặt gợi ý dưới thanh tìm kiếm */
+                top: 100%;
+                /* Đặt gợi ý dưới thanh tìm kiếm */
                 left: 0;
-                width: 100%; /* Chiều rộng bằng với thanh tìm kiếm */
+                width: 100%;
+                /* Chiều rộng bằng với thanh tìm kiếm */
                 background-color: #fff;
                 border: 1px solid #d4d4d4;
                 max-height: 200px;
@@ -23,9 +26,6 @@
             .autocomplete-active {
                 background-color: #d4d4d4;
             }
-
-
-
         </style>
         <!-- Navbar start -->
         <div class="container-fluid fixed-top " style="background-color: #E8E8E8;">
@@ -48,19 +48,20 @@
                         <div class="d-flex m-3 me-0">
 
 
+
+                            <form action="/products" method="get" class="input-group rounded">
+                                <label for="tags"></label>
+                                <input name="text" type="text" id="tags" class="form-control rounded"
+                                    placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                <button type="submit" class="input-group-text border-0" id="search-addon">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
+                            <div id="autocomplete-list" class="autocomplete-items"></div>
+
                             <c:if test="${not empty pageContext.request.userPrincipal}">
-
-                                <form action="/products" method="get" class="input-group rounded">
-                                    <label for="tags"></label>
-                                    <input name="text" type="text" id = "tags" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                                    <button type="submit" class="input-group-text border-0"   id="search-addon">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </form>
-                                <div id="autocomplete-list" class="autocomplete-items"></div>
-
                                 <a href="/cart" class="position-relative me-4 my-auto">
-                                    <i class="fa fa-shopping-bag fa-2x"></i>
+                                    <i class="fa fa-shopping-bag fa-3x"></i>
                                     <span
                                         class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                                         style="top: -5px; left: 15px; height: 20px; min-width: 20px;" id="sumCart">
@@ -74,7 +75,7 @@
                                     <a href="#" class="dropdown" role="button" id="dropdownMenuLink"
                                         data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                        <i class="fas fa-user fa-2x"></i>
+                                        <i class="fas fa-user fa-3x"></i>
                                     </a>
 
                                     <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
