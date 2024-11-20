@@ -420,7 +420,6 @@
                 $("#sumCart").text(sum)
                 //show message
                 $.toast({
-
                     heading: 'Giỏ hàng',
                     text: 'Thêm sản phẩm vào giỏ hàng thành công',
                     position: 'top-right',

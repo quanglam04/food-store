@@ -611,18 +611,12 @@
                     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
                 <script>
 
-                    <%--$(function() {--%>
-                    <%--    var availableTags = ${nameProducts};--%>
-                    <%--    $("#tags").autocomplete({--%>
-                    <%--        source: availableTags--%>
-                    <%--    });--%>
-                    <%--    minLength: 1--%>
-                    <%--});--%>
-                    var nameProducts = ${nameProducts};
+
+                    var nameProducts = `${nameProducts}`;
                     function autocomplete(inp, arr) {
                         var currentFocus;
 
-                        inp.addEventListener("input", function(e) {
+                        inp.addEventListener("input", function (e) {
                             var a, b, i, val = this.value;
                             closeAllLists();
                             if (!val) { return false; }
@@ -639,7 +633,7 @@
                                     b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
                                     b.innerHTML += arr[i].substr(val.length);
                                     b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                                    b.addEventListener("click", function(e) {
+                                    b.addEventListener("click", function (e) {
                                         inp.value = this.getElementsByTagName("input")[0].value;
                                         closeAllLists();
                                     });
@@ -648,7 +642,7 @@
                             }
                         });
 
-                        inp.addEventListener("keydown", function(e) {
+                        inp.addEventListener("keydown", function (e) {
                             var x = document.getElementById(this.id + "autocomplete-list");
                             if (x) x = x.getElementsByTagName("div");
                             if (e.keyCode == 40) {
@@ -688,13 +682,13 @@
                             }
                         }
 
-                        document.addEventListener("click", function(e) {
+                        document.addEventListener("click", function (e) {
                             closeAllLists(e.target);
                         });
                     }
 
                     // Kích hoạt autocomplete khi trang đã tải xong
-                    document.addEventListener("DOMContentLoaded", function() {
+                    document.addEventListener("DOMContentLoaded", function () {
                         var input = document.getElementById("tags");
                         if (input) {
                             autocomplete(input, nameProducts);
