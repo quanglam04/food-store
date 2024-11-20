@@ -230,6 +230,8 @@
         let priceArr = [];
         let customertargetArr = [];
         let typeArr = [];
+
+
         //factory filter
         $("#factoryFilter .form-check-input:checked").each(function () {
             factoryArr.push($(this).val());
@@ -268,6 +270,7 @@
         searchParams.delete('customertarget')
         searchParams.delete('price')
         searchParams.delete('type')
+        searchParams.delete('text')
 
         if (factoryArr.length > 0) {
             searchParams.set('factory', factoryArr.join(','));
