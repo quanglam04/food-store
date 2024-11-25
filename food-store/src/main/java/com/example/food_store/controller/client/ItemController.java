@@ -1,7 +1,6 @@
 package com.example.food_store.controller.client;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -20,8 +19,6 @@ import com.example.food_store.domain.Product;
 import com.example.food_store.domain.Product_;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ProductCriteriaDTO;
-import com.example.food_store.repository.CartDetailRepository;
-import com.example.food_store.repository.CartRepository;
 import com.example.food_store.service.ProductService;
 import com.example.food_store.service.UserService;
 import com.example.food_store.service.sendEmail.SendEmail;
@@ -36,17 +33,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ItemController {
     private final ProductService productService;
     private final UserService userService;
-    private final CartDetailRepository cartDetailRepository;
-    private final CartRepository cartRepository;
     private final SendEmail sendEmail;
 
     public ItemController(ProductService productService, UserService userService,
-            CartDetailRepository cartDetailRepository, CartRepository cartRepository,
             SendEmail sendEmail) {
         this.productService = productService;
         this.userService = userService;
-        this.cartDetailRepository = cartDetailRepository;
-        this.cartRepository = cartRepository;
         this.sendEmail = sendEmail;
     }
 

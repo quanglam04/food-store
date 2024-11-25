@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.food_store.domain.Order;
 import com.example.food_store.domain.OrderDetail;
 import com.example.food_store.service.OrderService;
-import com.example.food_store.service.sendEmail.SendEmail;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,12 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class OrderController {
 
     private final OrderService orderService;
-    private final SendEmail sendEmail;
 
-    public OrderController(OrderService orderService, SendEmail sendEmail) {
+    public OrderController(OrderService orderService) {
 
         this.orderService = orderService;
-        this.sendEmail = sendEmail;
     }
 
     @GetMapping("/admin/order")

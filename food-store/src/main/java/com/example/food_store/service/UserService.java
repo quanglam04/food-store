@@ -3,7 +3,6 @@ package com.example.food_store.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 import com.example.food_store.domain.Role;
 import com.example.food_store.domain.User;

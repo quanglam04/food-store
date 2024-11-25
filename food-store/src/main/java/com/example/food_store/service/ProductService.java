@@ -112,7 +112,6 @@ public class ProductService {
             int min = 0;
             int max = 0;
 
-            // Set the appropriate min and max based on the price range string
             switch (p) {
                 case "duoi-100-nghin":
                     min = 0;
@@ -298,11 +297,11 @@ public class ProductService {
         return this.productRepository.count();
     }
 
-    public List<String> getAllNames(){
+    public List<String> getAllNames() {
         List<Product> products = this.productRepository.findAll();
         List<String> names = new ArrayList<String>();
         for (Product product : products) {
-            names.add("\""+ product.getName() +"\"");
+            names.add("\"" + product.getName() + "\"");
         }
         return names;
     }

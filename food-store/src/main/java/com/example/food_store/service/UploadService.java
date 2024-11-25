@@ -40,7 +40,6 @@ public class UploadService {
             stream.write(bytes);
             stream.close();
 
-            // this.userService.handleSaveUser(trinhlam);
         } catch (IOException e) {
             e.printStackTrace();
         }

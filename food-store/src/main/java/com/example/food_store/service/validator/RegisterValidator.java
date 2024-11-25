@@ -38,8 +38,6 @@ public class RegisterValidator implements ConstraintValidator<RegisterChecked, R
             valid = false;
         }
 
-        // Additional validations can be added here
-
         return valid;
     }
 }
