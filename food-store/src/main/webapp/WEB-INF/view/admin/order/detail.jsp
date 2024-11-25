@@ -12,7 +12,7 @@
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                     <meta name="description" />
                     <meta name="author" />
-                    <title>Detail Order</title>
+                    <title>Chi tiết đơn hàng</title>
                     <link href="/css/styles.css" rel="stylesheet" />
 
                     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -26,11 +26,11 @@
                         <div id="layoutSidenav_content">
                             <main>
                                 <div class="container-fluid px-4">
-                                    <h1 class="mt-4">Orders</h1>
+                                    <h1 class="mt-4">Đơn hàng</h1>
                                     <ol class="breadcrumb mb-4">
-                                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="/admin/order">Order</a></li>
-                                        <li class="breadcrumb-item active">View detail</li>
+                                        <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                        <li class="breadcrumb-item"><a href="/admin/order">Đơn hàng</a></li>
+                                        <li class="breadcrumb-item active">Chi tiết</li>
                                     </ol>
                                     <div class="mt-5">
                                         <div class="row">
@@ -107,7 +107,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <a href="/admin/order" class="btn btn-success mt-3">Back</a>
+                                                <a href="/admin/order" class="btn btn-success mt-3">Quay lại</a>
                                                 <hr>
 
                                             </div>

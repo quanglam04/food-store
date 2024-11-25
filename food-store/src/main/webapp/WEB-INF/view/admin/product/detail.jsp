@@ -12,7 +12,7 @@
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                     <meta name="description" />
                     <meta name="author" />
-                    <title>Detail Product </title>
+                    <title>Chi tiết sản phẩm </title>
                     <link href="/css/styles.css" rel="stylesheet" />
 
                     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -26,16 +26,16 @@
                         <div id="layoutSidenav_content">
                             <main>
                                 <div class="container-fluid px-4">
-                                    <h1 class="mt-4">Products</h1>
+                                    <h1 class="mt-4">Sản phẩm</h1>
                                     <ol class="breadcrumb mb-4">
-                                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="/admin/product">Product</a></li>
-                                        <li class="breadcrumb-item active">View detail</li>
+                                        <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                        <li class="breadcrumb-item"><a href="/admin/product">Sản phẩm</a></li>
+                                        <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
                                     </ol>
                                     <div class="container mt-5">
                                         <div class="row">
                                             <div style="text-align: center;">
-                                                <h3>Product detail with id = ${id}</h3>
+                                                <h3>Chi tiết sản phẩm với id = ${id}</h3>
                                             </div>
                                             <div class="col-12 mx-auto">
 
@@ -49,8 +49,8 @@
 
                                                     <ul class="list-group list-group-flush">
                                                         <li class="list-group-item">ID: ${product.id}</li>
-                                                        <li class="list-group-item">Name: ${product.name}</li>
-                                                        <li class="list-group-item">Price: <p class=" fs-7 mb-0">
+                                                        <li class="list-group-item">Tên: ${product.name}</li>
+                                                        <li class="list-group-item">Giá: <p class=" fs-7 mb-0">
                                                                 <fmt:formatNumber type="number"
                                                                     value="${product.price}" />
                                                             </p>
@@ -60,7 +60,7 @@
                                                     </ul>
                                                 </div>
                                                 <div style="margin-left: 35% ;">
-                                                    <a href="/admin/product" class="btn btn-success mt-2">Back</a>
+                                                    <a href="/admin/product" class="btn btn-success mt-2">Quay lại</a>
                                                 </div>
                                                 <hr>
                                             </div>

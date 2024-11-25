@@ -12,7 +12,7 @@
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                     <meta name="description" />
                     <meta name="author" />
-                    <title>Update Order</title>
+                    <title>Cập nhật đơn hàng</title>
                     <link href="/css/styles.css" rel="stylesheet" />
 
                     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -30,16 +30,16 @@
                         <div id="layoutSidenav_content">
                             <main>
                                 <div class="container-fluid px-4">
-                                    <h1 class="mt-4">Orders</h1>
+                                    <h1 class="mt-4">Đơn hàng</h1>
                                     <ol class="breadcrumb mb-4">
-                                        <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                        <li class="breadcrumb-item"><a href="/admin/order">Order</a></li>
-                                        <li class="breadcrumb-item active">Update</li>
+                                        <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                        <li class="breadcrumb-item"><a href="/admin/order">Đơn hàng</a></li>
+                                        <li class="breadcrumb-item active">Cập nhật đơn hàng</li>
                                     </ol>
                                     <div class=" mt-5">
                                         <div class="row">
                                             <div class="col-md-6 col-12 mx-auto">
-                                                <h3>Update a order</h3>
+                                                <h3>Cập nhật đơn hàng</h3>
                                                 <hr />
                                                 <form:form method="post" action="/admin/order/update" class="row"
                                                     modelAttribute="newOrder">
@@ -50,7 +50,7 @@
                                                         <form:input type="text" class="form-control" path="id" />
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label>Order id = ${newOrder.id} </label>
+                                                        <label>Đơn hàng với id = ${newOrder.id} </label>
                                                         &nbsp; &nbsp; &nbsp; &nbsp;
                                                         <label class="form-label">Price:
                                                             <fmt:formatNumber type="number"
@@ -59,22 +59,23 @@
                                                     </div>
 
                                                     <div class="mb-3 col-12 col-md-6">
-                                                        <label class="form-label">User:</label>
+                                                        <label class="form-label">Người dùng:</label>
                                                         <form:input type="text" class="form-control" disabled="true"
                                                             path="user.fullName" />
                                                     </div>
 
                                                     <div class="mb-3 col-12 col-md-6">
-                                                        <label class="form-label">Status:</label>
+                                                        <label class="form-label">Trạng thái:</label>
                                                         <form:select class="form-select" path="status">
-                                                            <form:option value="PENDING">PENDING</form:option>
-                                                            <form:option value="SHIPPING">SHIPPING</form:option>
-                                                            <form:option value="COMPLETE">COMPLETE</form:option>
-                                                            <form:option value="CANCEL">CANCEL</form:option>
+                                                            <form:option value="Chưa xử lý">Chưa xử lý</form:option>
+                                                            <form:option value="Đang vận chuyển">Đang vận chuyển
+                                                            </form:option>
+                                                            <form:option value="Hoàn thành">Hoàn thành</form:option>
+                                                            <form:option value="Hủy">Hủy</form:option>
                                                         </form:select>
                                                     </div>
                                                     <div class="col-12 mb-5">
-                                                        <button type="submit" class="btn btn-warning">Update</button>
+                                                        <button type="submit" class="btn btn-warning">Cập nhật</button>
                                                     </div>
                                                 </form:form>
 

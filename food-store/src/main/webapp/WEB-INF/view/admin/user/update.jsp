@@ -10,7 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" />
                 <meta name="author" />
-                <title>Dashboard </title>
+                <title>Bảng điều khiển </title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -22,15 +22,15 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Update Users</h1>
+                                <h1 class="mt-4">Cập nhật người dùng</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Users</li>
+                                    <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                    <li class="breadcrumb-item active">Người dùng</li>
                                 </ol>
                                 <div class="container mt-5">
                                     <div class="row">
                                         <div class="col-md-6 col-12 mx-auto">
-                                            <h3>Update a Users</h3>
+                                            <h3>Cập nhật người dùng</h3>
                                             <hr />
                                             <form:form method="post" action="/admin/user/update"
                                                 modelAttribute="newUser">
@@ -44,19 +44,19 @@
                                                         disabled="true" />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label">Phone number:</label>
+                                                    <label class="form-label">Số điện thoại:</label>
                                                     <form:input type="text" class="form-control" path="phone" />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label">Full Name:</label>
+                                                    <label class="form-label">Tên đầy đủ:</label>
                                                     <form:input type="text" class="form-control" path="fullName" />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label">Address:</label>
+                                                    <label class="form-label">Địa chỉ:</label>
                                                     <form:input type="text" class="form-control" path="address" />
                                                 </div>
 
-                                                <button type="submit" class="btn btn-primary">Update</button>
+                                                <button type="submit" class="btn btn-primary">Cập nhật</button>
                                             </form:form>
                                         </div>
 

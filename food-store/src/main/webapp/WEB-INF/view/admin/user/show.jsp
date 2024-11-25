@@ -9,7 +9,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
             <meta name="description" />
             <meta name="author" />
-            <title>Dashboard </title>
+            <title>Bảng điều khiển </title>
             <link href="/css/styles.css" rel="stylesheet" />
             <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         </head>
@@ -21,17 +21,17 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <div class="container-fluid px-4">
-                            <h1 class="mt-4">Manage Users</h1>
+                            <h1 class="mt-4">Quản lý người dùng</h1>
                             <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Users</li>
+                                <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                <li class="breadcrumb-item active">Người dùng</li>
                             </ol>
                             <div class="mt-5">
                                 <div class="row">
                                     <div class="col-12 mx-auto">
                                         <div class="d-flex justify-content-between">
-                                            <h3>Table users</h3>
-                                            <a href="/admin/user/create" class="btn btn-primary">Create a user</a>
+                                            <h3>Bảng thông tin người dùng</h3>
+                                            <a href="/admin/user/create" class="btn btn-primary">Tạo một người dùng</a>
                                         </div>
 
                                         <hr />
@@ -40,9 +40,9 @@
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Email</th>
-                                                    <th>Full Name</th>
-                                                    <th>Role</th>
-                                                    <th>Action</th>
+                                                    <th>Tên đầy đủ</th>
+                                                    <th>Vai trò</th>
+                                                    <th>Thao tác</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -54,12 +54,12 @@
                                                         <td>${user.fullName}</td>
                                                         <td>${user.role.name}</td>
                                                         <td>
-                                                            <a href="/admin/user/${user.id}"
-                                                                class="btn btn-success">View</a>
+                                                            <a href="/admin/user/${user.id}" class="btn btn-success">Chi
+                                                                tiết</a>
                                                             <a href="/admin/user/update/${user.id}"
-                                                                class="btn btn-warning  mx-2">Update</a>
+                                                                class="btn btn-warning  mx-2">Cập nhật</a>
                                                             <a href="/admin/user/delete/${user.id}"
-                                                                class="btn btn-danger">Delete</a>
+                                                                class="btn btn-danger">Xóa</a>
                                                         </td>
                                                     </tr>
 
@@ -67,7 +67,7 @@
 
                                             </tbody>
                                         </table>
-                                        <a href="/admin" class="btn btn-success mt-3">Back</a>
+                                        <a href="/admin" class="btn btn-success mt-3">Quay lại</a>
                                         <nav aria-label="Page navigation example">
                                             <ul class="pagination justify-content-center">
                                                 <li class="page-item">

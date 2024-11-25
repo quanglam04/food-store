@@ -10,7 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" />
                 <meta name="author" />
-                <title>Create Product</title>
+                <title>Tạo sản phẩm</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
                 <script>
@@ -33,16 +33,16 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Products</h1>
+                                <h1 class="mt-4">Sản phẩm</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active"><a href="/admin/product">Product</a></li>
-                                    <li class="breadcrumb-item active">Create</li>
+                                    <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                    <li class="breadcrumb-item active"><a href="/admin/product">Sản phẩm</a></li>
+                                    <li class="breadcrumb-item active">Tạo sản phẩm</li>
                                 </ol>
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-md-6 col-12 mx-auto">
-                                            <h3>Create a product</h3>
+                                            <h3>Tạo 1 sản phẩm</h3>
                                             <hr />
                                             <form:form method="post" action="/admin/product/create" class="row"
                                                 enctype="multipart/form-data" modelAttribute="newPrd">
@@ -65,35 +65,35 @@
 
 
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Name:</label>
+                                                    <label class="form-label">Tên:</label>
                                                     <form:input type="text"
                                                         class="form-control ${not empty errorName ? 'is-invalid' : ''}"
                                                         path="name" />
                                                     ${errorName}
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Price:</label>
+                                                    <label class="form-label">Giá:</label>
                                                     <form:input type="number"
                                                         class="form-control ${not empty errorPrice ? 'is-invalid' : ''}"
                                                         path="price" />
                                                     ${errorPrice}
                                                 </div>
                                                 <div class="mb-3 col-12">
-                                                    <label class="form-label">Detail description:</label>
+                                                    <label class="form-label">Miêu tả chi tiết:</label>
                                                     <form:textarea type="text"
                                                         class="form-control ${not empty errorDetailDesc ? 'is-invalid' : ''}"
                                                         path="detailDesc" />
                                                     ${errorDetailDesc}
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Short description:</label>
+                                                    <label class="form-label">Miêu tả ngắn gọn:</label>
                                                     <form:input type="text"
                                                         class="form-control ${not empty errorShortDesc ? 'is-invalid' : ''}"
                                                         path="shortDesc" />
                                                     ${errorShortDesc}
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Quantity:</label>
+                                                    <label class="form-label">Số lượng:</label>
                                                     <form:input type="number"
                                                         class="form-control ${not empty errorQuantity ? 'is-invalid' : ''}"
                                                         path="quantity" />
@@ -103,7 +103,7 @@
 
 
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Target:</label>
+                                                    <label class="form-label">Mục tiêu:</label>
                                                     <form:select class="form-select" path="target">
                                                         <form:option value="giam-can">Giảm cân</form:option>
                                                         <form:option value="tang-chieu-cao">Tăng chiều cao
@@ -116,7 +116,7 @@
                                                 </div>
 
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Customers Target:</label>
+                                                    <label class="form-label">Đối tượng khách hàng:</label>
                                                     <form:select class="form-select" path="customerTarget">
                                                         <form:option value="dan-van-phong">Dành cho dân văn phòng
                                                         </form:option>
@@ -136,7 +136,7 @@
                                                 </div>
 
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Type:</label>
+                                                    <label class="form-label">Loại:</label>
                                                     <form:select class="form-select" path="type">
                                                         <form:option value="rau">Rau</form:option>
                                                         <form:option value="cu">Củ
@@ -154,16 +154,16 @@
                                                     </form:select>
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label for="avatarFile" class="form-label">Image:</label>
+                                                    <label for="avatarFile" class="form-label">Ảnh:</label>
                                                     <input class="form-control" type="file" id="avatarFile"
-                                                        accept=".png, .jpg, .jpeg" name="productFile" />
+                                                        accept=".png, .jpg, .jpeg" name="productFile" required="true" />
                                                 </div>
                                                 <div class="col-12 mb-3">
                                                     <img style="max-height: 250px; display: none;" alt="avatar preview"
                                                         id="avatarPreview" />
                                                 </div>
                                                 <div class="col-12 mb-5">
-                                                    <button type="submit" class="btn btn-primary">Create</button>
+                                                    <button type="submit" class="btn btn-primary">Tạo</button>
                                                 </div>
                                             </form:form>
 

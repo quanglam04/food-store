@@ -11,7 +11,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" content="" />
                 <meta name="author" content="" />
-                <title>Dashboard</title>
+                <title>Bảng điều khiển</title>
                 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
                 <link href="css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -68,16 +68,16 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Dashboard</h1>
+                                <h1 class="mt-4">Bảng điều khiển</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item active">Dashboard</li>
+                                    <li class="breadcrumb-item active">Bảng điều khiển</li>
                                 </ol>
                                 <div class="row">
                                     <div class="col-xl-4 col-md-6 mb-4">
                                         <div class="card bg-primary text-white">
                                             <div class="card-body">Số lượng User: (${countUser})</div>
                                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                                <a class="small footer-link" href="/admin/user">View Details</a>
+                                                <a class="small footer-link" href="/admin/user">Chi tiết</a>
                                                 <div class="small"><i class="fas fa-angle-right"></i></div>
                                             </div>
                                         </div>
@@ -86,7 +86,7 @@
                                         <div class="card bg-danger text-white">
                                             <div class="card-body">Số lượng đơn hàng: (${countOrder})</div>
                                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                                <a class="small footer-link" href="/admin/order">View Details</a>
+                                                <a class="small footer-link" href="/admin/order">Chi tiết</a>
                                                 <div class="small"><i class="fas fa-angle-right"></i></div>
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                                         <div class="card bg-success text-white">
                                             <div class="card-body">Số lượng sản phẩm: (${countProduct})</div>
                                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                                <a class="small footer-link" href="/admin/product">View Details</a>
+                                                <a class="small footer-link" href="/admin/product">Chi tiết</a>
                                                 <div class="small"><i class="fas fa-angle-right"></i></div>
                                             </div>
                                         </div>

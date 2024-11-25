@@ -1,20 +1,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <style>
-            /* Đảm bảo form có vị trí tương đối */
             .input-group {
                 position: relative;
-                /* Cho phép các phần tử con như autocomplete-item có thể đặt vị trí tuyệt đối */
+
             }
 
-            /* Kiểu dáng cho danh sách gợi ý autocomplete */
             .autocomplete-items {
                 position: absolute;
                 top: 100%;
-                /* Đặt gợi ý dưới thanh tìm kiếm */
                 left: 0;
                 width: 100%;
-                /* Chiều rộng bằng với thanh tìm kiếm */
                 background-color: #fff;
                 border: 1px solid #d4d4d4;
                 max-height: 200px;
@@ -22,7 +18,6 @@
                 z-index: 9999;
             }
 
-            /* Kiểu dáng cho item gợi ý khi được chọn */
             .autocomplete-active {
                 background-color: #d4d4d4;
             }

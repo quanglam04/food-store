@@ -193,7 +193,7 @@
                                                                     path="cartDetails[${status.index}].id" />
                                                             </div>
                                                             <div class="form-group">
-                                                                <label>Quantity:</label>
+                                                                <label>Số lượng:</label>
                                                                 <form:input class="form-control" type="text"
                                                                     value="${cartDetail.quantity}"
                                                                     path="cartDetails[${status.index}].quantity" />

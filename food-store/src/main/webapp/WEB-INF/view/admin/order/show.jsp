@@ -11,7 +11,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" />
                 <meta name="author" />
-                <title>Dashboard</title>
+                <title>Bảng điều khiển</title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -25,13 +25,13 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manager Orders</h1>
+                                <h1 class="mt-4">Quản lý đơn hàng</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item "><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Orders</li>
+                                    <li class="breadcrumb-item "><a href="/admin">Bảng điều khiển</a></li>
+                                    <li class="breadcrumb-item active">Đơn hàng</li>
                                 </ol>
                                 <div>
-                                    <h3>Table Orders</h3>
+                                    <h3>Bảng thông tin đơn hàng</h3>
                                 </div>
                                 <hr>
 
@@ -40,10 +40,10 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Total Price</th>
-                                            <th>User</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
+                                            <th>Tổng</th>
+                                            <th>Người dùng</th>
+                                            <th>Trạng thái</th>
+                                            <th>Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -61,11 +61,12 @@
                                                 </td>
                                                 <td>${order.status}</td>
                                                 <td>
-                                                    <a href="/admin/order/${order.id}" class="btn btn-success">View</a>
+                                                    <a href="/admin/order/${order.id}" class="btn btn-success">Chi
+                                                        tiết</a>
                                                     <a href="/admin/order/update/${order.id}"
-                                                        class="btn btn-warning  mx-2">Update</a>
+                                                        class="btn btn-warning  mx-2">Cập nhật</a>
                                                     <a href="/admin/order/delete/${order.id}"
-                                                        class="btn btn-danger">Delete</a>
+                                                        class="btn btn-danger">Xóa</a>
                                                 </td>
                                             </tr>
 
@@ -73,7 +74,7 @@
 
                                     </tbody>
                                 </table>
-                                <a href="/admin" class="btn btn-success mt-3">Back</a>
+                                <a href="/admin" class="btn btn-success mt-3">Quay lại</a>
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
                                         <li class="page-item">

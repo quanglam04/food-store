@@ -10,7 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" />
                 <meta name="author" />
-                <title>Delete Product </title>
+                <title>Xóa sản phẩm </title>
                 <link href="/css/styles.css" rel="stylesheet" />
 
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -23,22 +23,22 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Products</h1>
+                                <h1 class="mt-4">Sản phẩm</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="/admin/product">Product</a></li>
-                                    <li class="breadcrumb-item active">Delete</li>
+                                    <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                    <li class="breadcrumb-item"><a href="/admin/product">Sản phẩm</a></li>
+                                    <li class="breadcrumb-item active">Xóa</li>
                                 </ol>
                                 <div class=" mt-5">
                                     <div class="row">
                                         <div class="col-12 mx-auto">
                                             <div class="d-flex justify-content-between">
-                                                <h3>Delete the product with id = ${id}</h3>
+                                                <h3>Xóa sản phẩm với id = ${id}</h3>
                                             </div>
 
                                             <hr />
                                             <div class="alert alert-danger">
-                                                Are you sure to delete this product ?
+                                                Bạn có chắc chắn xóa sản phẩm này ?
                                             </div>
                                             <form:form method="post" action="/admin/product/delete"
                                                 modelAttribute="newProduct">
@@ -47,7 +47,7 @@
                                                     <form:input value="${id}" type="text" class="form-control"
                                                         path="id" />
                                                 </div>
-                                                <button class="btn btn-danger">Confirm</button>
+                                                <button class="btn btn-danger">Xác nhậnn</button>
                                             </form:form>
 
                                         </div>

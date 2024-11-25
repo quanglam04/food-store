@@ -89,7 +89,7 @@
                         <div class="row g-4 mb-5">
                             <div>
                                 <ol class="breadcrumb ">
-                                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
                                     <li class="breadcrumb-item active">Chi tiết sản phẩm</li>
                                 </ol>
                             </div>

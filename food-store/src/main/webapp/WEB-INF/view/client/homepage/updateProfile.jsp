@@ -79,18 +79,18 @@
                                                             disabled="true" />
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">Phone :</label>
+                                                        <label class="form-label">Số điện thoại :</label>
                                                         <form:input type="text" class="form-control" path="phone" />
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label class="form-label">Address:</label>
+                                                        <label class="form-label">Địa chỉ:</label>
                                                         <form:input type="text" class="form-control" path="address" />
                                                     </div>
 
 
                                                     <!-- Input để chọn file tải lên -->
                                                     <div class="mb-3 col-12 col-md-6">
-                                                        <label for="avatarFile" class="form-label">Avatar:</label>
+                                                        <label for="avatarFile" class="form-label">Ảnh đại diện:</label>
                                                         <input class="form-control" type="file" id="avatarFile"
                                                             accept=".png, .jpg, .jpeg" name="avatarFile" />
 
@@ -101,7 +101,7 @@
                                                     </div>
 
 
-                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
                                                 </form:form>
 
                                             </div>

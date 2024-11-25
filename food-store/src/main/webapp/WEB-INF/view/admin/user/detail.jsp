@@ -9,7 +9,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
             <meta name="description" />
             <meta name="author" />
-            <title>Dashboard </title>
+            <title>Bảng điều khiển </title>
             <link href="/css/styles.css" rel="stylesheet" />
             <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         </head>
@@ -21,10 +21,10 @@
                 <div id="layoutSidenav_content">
                     <main>
                         <div class="container-fluid px-4">
-                            <h1 class="mt-4">User Detail</h1>
+                            <h1 class="mt-4">Chi tiết người dùng</h1>
                             <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Users</li>
+                                <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                <li class="breadcrumb-item active">Người dùng</li>
                             </ol>
                             <div class="container mt-5 mt-5">
                                 <div class="row">
@@ -42,13 +42,13 @@
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item">ID: ${user.id}</li>
                                                 <li class="list-group-item">Email: ${user.email}</li>
-                                                <li class="list-group-item">FullName: ${user.fullName}</li>
-                                                <li class="list-group-item">Role: ${user.role.name}</li>
-                                                <li class="list-group-item">Address: ${user.address}</li>
+                                                <li class="list-group-item">Tên đầy đủ: ${user.fullName}</li>
+                                                <li class="list-group-item">Vai trò: ${user.role.name}</li>
+                                                <li class="list-group-item">Địa chỉ: ${user.address}</li>
                                             </ul>
                                         </div>
                                         <hr>
-                                        <a href="/admin/user" class="btn btn-success mt-3">Back</a>
+                                        <a href="/admin/user" class="btn btn-success mt-3">Quay lại</a>
 
                                     </div>
 

@@ -5,7 +5,7 @@
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
                     <div class="div">
-                        Group 1
+                        Nhóm 1
                     </div>
                 </div>
             </div>

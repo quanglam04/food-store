@@ -118,9 +118,9 @@
 
                                         <ul class="profile-details list-unstyled mt-4">
                                             <li><span>Email:</span> ${user.email}</li>
-                                            <li><span>Phone:</span> ${user.phone}</li>
-                                            <li><span>Address:</span> ${user.address}</li>
-                                            <li><span>Role:</span> ${user.role.name}</li>
+                                            <li><span>Số điện thoại:</span> ${user.phone}</li>
+                                            <li><span>Địa chỉ:</span> ${user.address}</li>
+                                            <li><span>Vai trò:</span> ${user.role.name}</li>
                                         </ul>
 
                                         <div class="btn btn-primary mt-3">

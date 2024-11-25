@@ -10,7 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" />
                 <meta name="author" />
-                <title>Dashboard </title>
+                <title>Bảng điều khiển </title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -22,18 +22,17 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Manage Products</h1>
+                                <h1 class="mt-4">Quản lý sản phẩm</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Products</li>
+                                    <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                    <li class="breadcrumb-item active">Sản phẩm</li>
                                 </ol>
                                 <div class="mt-5">
                                     <div class="row">
                                         <div class="col-12 mx-auto">
                                             <div class="d-flex justify-content-between">
-                                                <h3>Table products</h3>
-                                                <a href="/admin/product/create" class="btn btn-primary">Create a
-                                                    product</a>
+                                                <h3>Bảng thông tin sản phẩm</h3>
+                                                <a href="/admin/product/create" class="btn btn-primary">Tạo sản phẩm</a>
                                             </div>
 
                                             <hr />
@@ -41,10 +40,10 @@
                                                 <thead>
                                                     <tr>
                                                         <th>ID</th>
-                                                        <th>Name</th>
-                                                        <th>Price</th>
+                                                        <th>Tên</th>
+                                                        <th>Giá</th>
 
-                                                        <th>Action</th>
+                                                        <th>Thao tác</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -62,11 +61,11 @@
 
                                                             <td>
                                                                 <a href="/admin/product/${product.id}"
-                                                                    class="btn btn-success">View</a>
+                                                                    class="btn btn-success">Chi tiết</a>
                                                                 <a href="/admin/product/update/${product.id}"
-                                                                    class="btn btn-warning  mx-2">Update</a>
+                                                                    class="btn btn-warning  mx-2">Cập nhật</a>
                                                                 <a href="/admin/product/delete/${product.id}"
-                                                                    class="btn btn-danger">Delete</a>
+                                                                    class="btn btn-danger">Xóa</a>
                                                             </td>
                                                         </tr>
 
@@ -75,7 +74,7 @@
                                                 </tbody>
                                             </table>
                                             <!-- phân trang -->
-                                            <a href="/admin" class="btn btn-success mt-3">Back</a>
+                                            <a href="/admin" class="btn btn-success mt-3">Quay lại</a>
                                             <nav aria-label="Page navigation example">
                                                 <ul class="pagination justify-content-center">
 

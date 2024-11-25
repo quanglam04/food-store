@@ -612,7 +612,7 @@
                 <script>
 
 
-                    var nameProducts = `${nameProducts}`;
+                    var nameProducts = ${ nameProducts };
                     function autocomplete(inp, arr) {
                         var currentFocus;
 

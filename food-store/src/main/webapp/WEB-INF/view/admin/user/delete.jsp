@@ -10,7 +10,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
                 <meta name="description" />
                 <meta name="author" />
-                <title>Dashboard </title>
+                <title>Bảng điều khiển </title>
                 <link href="/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
             </head>
@@ -22,18 +22,18 @@
                     <div id="layoutSidenav_content">
                         <main>
                             <div class="container-fluid px-4">
-                                <h1 class="mt-4">Delete User</h1>
+                                <h1 class="mt-4">Xóa người dùng</h1>
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Users</li>
+                                    <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+                                    <li class="breadcrumb-item active">Người dùng</li>
                                 </ol>
                                 <div class="container mt-5">
                                     <div class="row">
                                         <div class="col-md-6 col-12 mx-auto">
-                                            <h3>Delete the User with ID = ${id}</h3>
+                                            <h3>Xóa người dùng với ID = ${id}</h3>
                                             <hr />
                                             <div class="alert alert-danger" role="alert">
-                                                Are you sure to delete this user?
+                                                Bạn có chắc chắn xóa người dùng này?
                                             </div>
 
                                             <form:form method="post" action="/admin/user/delete"
@@ -45,7 +45,7 @@
                                                         path="id" />
                                                 </div>
 
-                                                <button class="btn btn-danger">Confirm</button>
+                                                <button class="btn btn-danger">Xác nhận</button>
 
                                             </form:form>
 

@@ -380,7 +380,7 @@
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js">
                     </script>
                     <script>
-                        var nameProducts = `${nameProducts}`;
+                        var nameProducts = ${ nameProducts };
                         function autocomplete(inp, arr) {
                             var currentFocus;
 
