@@ -47,7 +47,7 @@
                                                     <form:input value="${id}" type="text" class="form-control"
                                                         path="id" />
                                                 </div>
-                                                <button class="btn btn-danger">Xác nhậnn</button>
+                                                <button class="btn btn-danger">Xác nhận</button>
                                             </form:form>
 
                                         </div>
