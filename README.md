@@ -51,8 +51,7 @@
         <h2>Thông tin liên hệ</h2>
         <p>Nếu gặp vấn đề khi khởi chạy, vui lòng liên hệ:</p>
         <ul>
-            <li><strong>Email:</strong> quanglam04@example.com</li>
-            <li><strong>GitHub Issues:</strong> <a href="https://github.com/quanglam04/food-store/issues">Food Store Issues</a></li>
+            <li><strong>Email:</strong> trinhquanglam2k4@gmail.com</li>
         </ul>
     </div>
 </body>
