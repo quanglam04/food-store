@@ -11,6 +11,11 @@
         <h2>Giới thiệu</h2>
         <p>Dự án <strong>Food Store</strong> là một ứng dụng web quản lý cửa hàng thực phẩm, được xây dựng bằng Spring Boot, Spring Security(Form Authentication), Spring MVC, Spring Session, Template ViewEngine( JSP ) và tích hợp với Docker để dễ dàng triển khai.</p>
     </div>
+    <img src="https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_3.png" alt="Ảnh Demo " style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:5px; padding:5px;margin-left:30px">
+    <br></br>
+    <img src="https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_2.png" alt="Ảnh Demo " style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:5px; padding:5px;margin-left:30px">
+    <br></br>
+    <img src="https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_1.png" alt="Ảnh Demo " style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:5px; padding:5px;margin-left:30px">
     <div class="section">
         <h2>Các bước khởi tạo dự án</h2>
         <h3>Bước 1: Clone dự án từ GitHub</h3>
