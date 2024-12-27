@@ -43,6 +43,7 @@
                                             <th>Tổng</th>
                                             <th>Người dùng</th>
                                             <th>Trạng thái</th>
+                                            <th>Thông tin giao dịch</th>
                                             <th>Thao tác</th>
                                         </tr>
                                     </thead>
@@ -60,6 +61,13 @@
                                                     ${order.receiverName}
                                                 </td>
                                                 <td>${order.status}</td>
+                                                <td>
+                                                    <div>Trạng thái: ${order.paymentStatus}</div>
+                                                    <div><span style="font-weight: bold;">Mã giao dịch</span>
+                                                        ${order.paymentRef}
+                                                    </div>
+
+                                                </td>
                                                 <td>
                                                     <a href="/admin/order/${order.id}" class="btn btn-success">Chi
                                                         tiết</a>
