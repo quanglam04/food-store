@@ -57,6 +57,11 @@ public class ProductService {
         return this.productRepository.save(prd);
     }
 
+    public void updatePaymentStatus(String paymentRef, String paymentStatus) {
+        Order order = this.orderRepository.findByPaymentRef(paymentRef);
+        order.setPaymentStatus(paymentStatus);
+    }
+
     public Page<Product> fetchProducts(Pageable pageable) {
         return this.productRepository.findAll(pageable);
     }

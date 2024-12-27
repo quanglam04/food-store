@@ -12,4 +12,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     long count();
 
     List<Order> findByUser(User user);
+
+    Order findByPaymentRef(String paymentRef);
 }

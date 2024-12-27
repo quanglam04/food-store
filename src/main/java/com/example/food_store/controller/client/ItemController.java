@@ -3,6 +3,7 @@ package com.example.food_store.controller.client;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -161,7 +162,9 @@ public class ItemController {
     }
 
     @GetMapping("/afterOrder")
-    public String getAfterOrderPage(HttpServletRequest request) {
+    public String getAfterOrderPage(HttpServletRequest request,
+            @RequestParam("vnp_ResponseCode") Optional<String> vnpayResponseOptional,
+            @RequestParam("vnp_TxnRef") Optional<String> paymentRef) {
         HttpSession session = request.getSession(false);
         Long id = (long) session.getAttribute("id");
 
@@ -170,6 +173,13 @@ public class ItemController {
 
         sendEmail.sendEmail(email, "Xác nhận đơn hàng",
                 "FoodStore chân thành cảm ơn bạn vì đã sử dụng sản phẩm của chúng tôi!");
+
+        if (vnpayResponseOptional.isPresent() && paymentRef.isPresent()) {
+            // cap nhat trang thai order
+            String paymentStatus = vnpayResponseOptional.get().equals("00") ? "Thanh toán thành công"
+                    : "Thanh toán thất bại";
+            this.productService.updatePaymentStatus(paymentRef.get(), paymentStatus);
+        }
 
         return "client/cart/afterOrder";
     }
