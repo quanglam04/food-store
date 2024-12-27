@@ -238,7 +238,7 @@ public class ProductService {
 
     public void handlePlaceOrder(
             User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone, String paymentMethod) {
+            String receiverName, String receiverAddress, String receiverPhone, String paymentMethod, String uuid) {
 
         // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
@@ -257,8 +257,7 @@ public class ProductService {
 
                 order.setPaymentMethod(paymentMethod);
                 order.setPaymentStatus("Chưa thanh toán");
-                final String uuid = UUID.randomUUID().toString().replace("-", "");
-                order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOW" : uuid);
+                order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : uuid);
                 double sum = 0;
                 for (CartDetail cd : cartDetails) {
                     sum += cd.getPrice() * cd.getQuantity();

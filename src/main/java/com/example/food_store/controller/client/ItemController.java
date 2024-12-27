@@ -1,7 +1,9 @@
 package com.example.food_store.controller.client;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +23,7 @@ import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ProductCriteriaDTO;
 import com.example.food_store.service.ProductService;
 import com.example.food_store.service.UserService;
+import com.example.food_store.service.VNPAYService;
 import com.example.food_store.service.sendEmail.SendEmail;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,12 +37,14 @@ public class ItemController {
     private final ProductService productService;
     private final UserService userService;
     private final SendEmail sendEmail;
+    private final VNPAYService vnpayService;
 
     public ItemController(ProductService productService, UserService userService,
-            SendEmail sendEmail) {
+            SendEmail sendEmail, VNPAYService vnpayService) {
         this.productService = productService;
         this.userService = userService;
         this.sendEmail = sendEmail;
+        this.vnpayService = vnpayService;
     }
 
     @GetMapping("/product/{id}")
@@ -135,15 +140,22 @@ public class ItemController {
             @RequestParam("receiverName") String receiverName,
             @RequestParam("receiverAddress") String receiverAddress,
             @RequestParam("receiverPhone") String receiverPhone,
-            @RequestParam("paymentMethod") String paymentMethod) {
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("totalPrice") String totalPrice) throws UnsupportedEncodingException {
         User currentUser = new User();// null
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
+
+        final String uuid = UUID.randomUUID().toString().replace("-", "");
+
         this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone,
-                paymentMethod);
+                paymentMethod, uuid);
         if (!paymentMethod.equals("COD")) {
-            // vnpay
+            String ip = this.vnpayService.getIpAddress(request);
+            String vnpUrl = this.vnpayService.generateVNPayURL(Double.parseDouble(totalPrice), uuid, ip);
+
+            return "redirect:" + vnpUrl;
         }
         return "redirect:/afterOrder";
     }
