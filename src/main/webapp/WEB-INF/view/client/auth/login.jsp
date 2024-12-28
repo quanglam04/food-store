@@ -72,10 +72,26 @@
                                                     Đăng nhập
                                                 </button>
                                             </div>
-                                            <div class="mt-4 text-center">
-                                                Bạn chưa có tài khoản? <a href="/register">Đăng ký</a>
-                                            </div>
                                         </form>
+
+                                        <div>
+                                            <div style="text-align: center;margin-top: 15px;"><span
+                                                    style="font-weight: bold;">Hoặc sử dụng</span></div>
+                                            <div class="d-flex justify-content-center align-items-center my-3"
+                                                style="gap: 20px">
+                                                <a href="/oauth2/authorization/google" title="Đăng nhập với Google">
+                                                    <img height="40" width="40"
+                                                        src="/client/img/provider/default-google.png" />
+                                                </a>
+                                                <a href="/oauth2/authorization/github" title="Đăng nhập với Github">
+                                                    <img height="40" width="40"
+                                                        src="/client/img/provider/default-github.png" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 text-center">
+                                            Bạn chưa có tài khoản? <a href="/register">Đăng ký</a>
+                                        </div>
                                     </div>
                                 </div>
 
