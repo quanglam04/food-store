@@ -40,9 +40,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 // craete new user
                 User oldUser = new User();
                 oldUser.setEmail(email);
-                oldUser.setAvatar("default-google.png");
+                oldUser.setAvatar(
+                        registrationeId.equalsIgnoreCase("github") ? "default-github.png" : "default-google.png");
                 oldUser.setFullName(fullName);
-                oldUser.setProvider("GOOGLE");
+                oldUser.setProvider(registrationeId.equalsIgnoreCase("github") ? "GITHUB" : "GOOGLE");
                 oldUser.setPassword("trinhlam");
                 oldUser.setRole(userRole);
                 this.userService.saveUser(oldUser);
