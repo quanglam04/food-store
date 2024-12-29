@@ -47,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 oldUser.setPassword("trinhlam");
                 oldUser.setRole(userRole);
                 this.userService.saveUser(oldUser);
-            } else if (!user.getProvider().equals("GOOGLE") && !user.getProvider().equals("GITHUB")) {
+            } else if (!user.getProvider().equalsIgnoreCase(registrationeId)) {
                 System.out.println("????????User với email: " + email + " đã tồn tại");
                 return null;
             }
