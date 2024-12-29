@@ -47,7 +47,7 @@
     </div>
     <div class="section">
         <h2>Dừng ứng dụng</h2>
-        <pre><code>docker compose -p trinhlam-spring-mvc-app down</code></pre>
+        <pre><code>docker compose -p food-store-app down</code></pre>
     </div>
     <div class="section">
         <h2>Yêu cầu hệ thống</h2>
