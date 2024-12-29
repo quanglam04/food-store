@@ -27,7 +27,7 @@
         <h3>Bước 2: Di chuyển vào thư mục dự án</h3>
         <pre><code>cd food-store</code></pre>
         <h3>Bước 3: Chạy ứng dụng với Docker</h3>
-        <pre><code>docker compose -p trinhlam-spring-mvc-app up -d</code></pre>
+        <pre><code>docker compose -p food-store-app up -d</code></pre>
     </div>
     <div class="section">
         <h2>Truy cập ứng dụng</h2>
@@ -47,7 +47,7 @@
     </div>
     <div class="section">
         <h2>Dừng ứng dụng</h2>
-        <pre><code>docker compose -p trinhlam-spring-mvc-app down</code></pre>
+        <pre><code>docker compose -p food-store-app down</code></pre>
     </div>
     <div class="section">
         <h2>Yêu cầu hệ thống</h2>
