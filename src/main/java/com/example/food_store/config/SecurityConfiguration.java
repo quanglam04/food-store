@@ -15,6 +15,7 @@ import org.springframework.session.security.web.authentication.SpringSessionReme
 
 import com.example.food_store.service.CustomUserDetailsService;
 import com.example.food_store.service.UserService;
+import com.example.food_store.service.userInfo.CustomOAuth2UserService;
 
 import jakarta.servlet.DispatcherType;
 
@@ -59,7 +60,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
 
         http
                 .authorizeHttpRequests(authorize -> authorize
@@ -78,7 +79,12 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
 
-                .oauth2Login(oauth2 -> oauth2.loginPage("/login"))
+                .oauth2Login(oauth2 -> oauth2.loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error")
+                        .userInfoEndpoint(user -> user.userService(new CustomOAuth2UserService(userService)))
+
+                )
 
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
