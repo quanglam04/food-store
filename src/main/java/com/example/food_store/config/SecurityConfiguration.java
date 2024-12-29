@@ -1,5 +1,6 @@
 package com.example.food_store.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -23,86 +24,92 @@ import jakarta.servlet.DispatcherType;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Autowired
+        private CustomOAuth2AuthenticationFailureHandler customFailureHandler;
 
-    @Bean
-    public UserDetailsService userDetailsService(UserService userService) {
-        return new CustomUserDetailsService(userService);
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public DaoAuthenticationProvider authProvider(
-            PasswordEncoder passwordEncoder,
-            UserDetailsService userDetailsService) {
+        @Bean
+        public UserDetailsService userDetailsService(UserService userService) {
+                return new CustomUserDetailsService(userService);
+        }
 
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        authProvider.setHideUserNotFoundExceptions(false);
+        @Bean
+        public DaoAuthenticationProvider authProvider(
+                        PasswordEncoder passwordEncoder,
+                        UserDetailsService userDetailsService) {
 
-        return authProvider;
-    }
+                DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+                authProvider.setUserDetailsService(userDetailsService);
+                authProvider.setPasswordEncoder(passwordEncoder);
+                authProvider.setHideUserNotFoundExceptions(false);
 
-    @Bean
-    public AuthenticationSuccessHandler customSuccessHandler() {
-        return new CustomSuccessHandler();
-    }
+                return authProvider;
+        }
 
-    @Bean
-    public SpringSessionRememberMeServices rememberMeServices() {
-        SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
-        // optionally customize
-        rememberMeServices.setAlwaysRemember(true);
-        return rememberMeServices;
-    }
+        @Bean
+        public AuthenticationSuccessHandler customSuccessHandler() {
+                return new CustomSuccessHandler();
+        }
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
+        @Bean
+        public SpringSessionRememberMeServices rememberMeServices() {
+                SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
+                // optionally customize
+                rememberMeServices.setAlwaysRemember(true);
+                return rememberMeServices;
+        }
 
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD,
-                                DispatcherType.INCLUDE)
-                        .permitAll()
+        @Bean
+        SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
 
-                        .requestMatchers("/product/**", "/", "/password/**", "/login/**", "/client/**", "/css/**",
-                                "/js/**",
-                                "/register/**",
-                                "/products/**",
-                                "/images/**", "/send-request-to-mail", "reset-password/**",
-                                "/process-reset-password/**", "/verify/**")
-                        .permitAll()
+                http
+                                .authorizeHttpRequests(authorize -> authorize
+                                                .dispatcherTypeMatchers(DispatcherType.FORWARD,
+                                                                DispatcherType.INCLUDE)
+                                                .permitAll()
 
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+                                                .requestMatchers("/product/**", "/", "/password/**", "/login/**",
+                                                                "/client/**", "/css/**",
+                                                                "/js/**",
+                                                                "/register/**",
+                                                                "/products/**",
+                                                                "/images/**", "/send-request-to-mail",
+                                                                "reset-password/**",
+                                                                "/process-reset-password/**", "/verify/**")
+                                                .permitAll()
 
-                .oauth2Login(oauth2 -> oauth2.loginPage("/login")
-                        .successHandler(customSuccessHandler())
-                        .failureUrl("/login?error")
-                        .userInfoEndpoint(user -> user.userService(new CustomOAuth2UserService(userService)))
+                                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                .anyRequest().authenticated())
 
-                )
+                                .oauth2Login(oauth2 -> oauth2.loginPage("/login")
+                                                .successHandler(customSuccessHandler())
+                                                .failureHandler(customFailureHandler)
+                                                .userInfoEndpoint(user -> user
+                                                                .userService(new CustomOAuth2UserService(userService)))
 
-                .sessionManagement((sessionManagement) -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                        .invalidSessionUrl("/logout?expired")
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false))
+                                )
 
-                .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
+                                .sessionManagement((sessionManagement) -> sessionManagement
+                                                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                                                .invalidSessionUrl("/logout?expired")
+                                                .maximumSessions(1)
+                                                .maxSessionsPreventsLogin(false))
 
-                .rememberMe(r -> r.rememberMeServices(rememberMeServices()))
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .failureUrl("/login?error")
-                        .successHandler(customSuccessHandler())
-                        .permitAll())
-                .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"));
+                                .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
 
-        return http.build();
-    }
+                                .rememberMe(r -> r.rememberMeServices(rememberMeServices()))
+                                .formLogin(formLogin -> formLogin
+                                                .loginPage("/login")
+                                                .failureUrl("/login?error")
+                                                .successHandler(customSuccessHandler())
+                                                .permitAll())
+                                .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"));
+
+                return http.build();
+        }
 
 }

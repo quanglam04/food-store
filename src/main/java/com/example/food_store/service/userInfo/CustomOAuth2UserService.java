@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.example.food_store.domain.Role;
 import com.example.food_store.domain.User;
 import com.example.food_store.service.UserService;
+import com.example.food_store.service.exception.CustomOAuth2Exception;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -49,7 +50,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 this.userService.saveUser(oldUser);
             } else if (!user.getProvider().equalsIgnoreCase(registrationeId)) {
                 System.out.println("????????User với email: " + email + " đã tồn tại");
-                return null;
+                throw new CustomOAuth2Exception("Tài khoản đã tồn tại");
             }
         }
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>User email: " + email);

@@ -37,6 +37,12 @@
                                                 <div class="my-2" style="color: green;">Đăng xuất thành công</div>
                                             </c:if>
 
+                                            <c:if test="${not empty param.error1}">
+                                                <div class="alert alert-danger">
+                                                    ${param.error1}
+                                                </div>
+                                            </c:if>
+
                                             <div class="form-group">
                                                 <label for="email">Tài khoản đăng nhập</label>
                                                 <input id="email" type="email" class="form-control" name="username"
@@ -100,6 +106,16 @@
                         </div>
                     </div>
                 </section>
+
+                <script type="text/javascript">
+                    // Kiểm tra nếu có lỗi trong URL
+                    if (window.location.search.indexOf('error1') !== -1) {
+                        // Xóa query string "error" sau khi hiển thị thông báo
+                        var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                        window.history.replaceState({}, document.title, newUrl);
+                    }
+                </script>
+
 
                 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
