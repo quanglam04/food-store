@@ -29,11 +29,12 @@
                                         <h4 class="card-title">Đăng nhập</h4>
                                         <form method="POST" action="/login" class="my-login-validation" novalidate="">
                                             <c:if test="${param.error != null}">
-                                                <div class="my-2" style="color: red;">Invalid email or password.</div>
+                                                <div class="my-2" style="color: red;">Thông tin đăng nhập không hợp lệ
+                                                </div>
                                             </c:if>
 
                                             <c:if test="${param.logout != null}">
-                                                <div class="my-2" style="color: green;">Logout success</div>
+                                                <div class="my-2" style="color: green;">Đăng xuất thành công</div>
                                             </c:if>
 
                                             <div class="form-group">
