@@ -38,7 +38,7 @@ public class GeminiController {
         reader.close();
         
         System.out.println(">>>>>>>>>>>>>>>> " + responseStr);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(extractTextFromResponse(responseStr.toString()));
+        return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(extractTextFromResponse(responseStr.toString()));
     }
 
     private String extractTextFromResponse(String jsonResponse) {
