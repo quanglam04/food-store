@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8" />
     <title>Gọi API Gemini từ JSP</title>
   </head>
   <body>
@@ -22,7 +23,8 @@
       }
 
       // Thêm phần text yêu cầu
-      let fullText = userText + " Viết thành 1 đoạn văn, bỏ những ký tự";
+      let fullText =
+        userText + " Viết thành 1 đoạn văn, 15 từ trên 1 dòng, bỏ những ký tự";
 
       const requestBody = {
         contents: [
