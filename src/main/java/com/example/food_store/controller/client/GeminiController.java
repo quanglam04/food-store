@@ -37,7 +37,7 @@ public class GeminiController {
         }
         reader.close();
         
-        System.out.println(">>>>>>>>>>>>>>>> " + responseStr);
+         
         return ResponseEntity.ok()
         .contentType(new MediaType("text", "plain", StandardCharsets.UTF_8))
         .body(extractTextFromResponse(responseStr.toString()));

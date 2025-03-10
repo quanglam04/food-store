@@ -14,6 +14,18 @@
   </body>
 
   <script>
+    function formatText(text, wordsPerLine = 10) {
+      const words = text.split(/\s+/); // Tách thành mảng các từ
+      let formattedText = words.reduce((acc, word, index) => {
+        if (index % wordsPerLine === 0 && index !== 0) {
+          acc += "<br>"; // Xuống dòng sau mỗi 10 từ
+        }
+        acc += (index % wordsPerLine === 0 ? "" : " ") + word;
+        return acc;
+      }, "");
+
+      return formattedText;
+    }
     async function fetchGeminiResponse() {
       // Lấy nội dung từ ô input
       let userText = document.getElementById("userInput").value.trim();
@@ -23,8 +35,7 @@
       }
 
       // Thêm phần text yêu cầu
-      let fullText =
-        userText + " Viết thành 1 đoạn văn, 15 từ trên 1 dòng, bỏ những ký tự";
+      let fullText = userText + " Viết thành 1 đoạn văn, 15 từ trên 1 dòng.";
 
       const requestBody = {
         contents: [
@@ -52,14 +63,10 @@
         }
 
         const data = await response.text();
-        console.log(data);
-        document.getElementById("response").innerText = JSON.stringify(
-          data,
-          null,
-          2
-        );
+        const formattedData = formatText(data, 10);
+        document.getElementById("response").innerHTML = formattedData;
       } catch (error) {
-        document.getElementById("response").innerText = "Lỗi: " + error.message;
+        document.getElementById("response").innerHTML = "Lỗi: " + error.message;
       }
     }
   </script>
