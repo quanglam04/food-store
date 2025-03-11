@@ -66,7 +66,7 @@ public class SecurityConfiguration {
         @Bean
         SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
 
-                http
+                http .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .dispatcherTypeMatchers(DispatcherType.FORWARD,
                                                                 DispatcherType.INCLUDE)
@@ -79,7 +79,7 @@ public class SecurityConfiguration {
                                                                 "/products/**",
                                                                 "/images/**", "/send-request-to-mail",
                                                                 "reset-password/**",
-                                                                "/process-reset-password/**", "/verify/**")
+                                                                "/process-reset-password/**", "/verify/**","/gemini-proxy")
                                                 .permitAll()
 
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
