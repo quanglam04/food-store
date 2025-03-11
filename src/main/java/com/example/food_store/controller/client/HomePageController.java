@@ -247,7 +247,7 @@ public class HomePageController {
 
     @GetMapping("/test-Gemini")
     public String getTestGemini() {
-        return "client/layout/testGemini";
+        return "client/layout/chat-bot";
     }
     
 
