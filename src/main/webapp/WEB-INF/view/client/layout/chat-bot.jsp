@@ -109,7 +109,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       .bot-message {
         background-color: #0078ff;
         color: white;
-        float: left;
+        float: right;
         border-bottom-left-radius: 5px;
       }
 
@@ -234,7 +234,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       <div class="chat-header">
         <div class="chat-title">
           <img
-            src="https://via.placeholder.com/30/0078FF/FFFFFF?text=AI"
+            src="https://img.freepik.com/free-vector/chatbot-chat-message-vectorart_78370-4104.jpg"
             alt="AI Icon"
           />
           AI ChatBot
@@ -348,7 +348,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         // Add "Answered by AI" text
         const answeredBy = document.createElement("div");
         answeredBy.className = "answered-by";
-        answeredBy.innerHTML = "Answered by AI";
+        answeredBy.innerHTML = "Answered by FoodStore-AI";
         chatBox.appendChild(answeredBy);
 
         chatBox.scrollTop = chatBox.scrollHeight;
@@ -358,7 +358,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       function sendMessage() {
         const userInput = document.getElementById("userInput");
         const message = userInput.value.trim();
-
+        const messageCallAPI =
+          message +
+          ".Vui lòng viết thành đoạn văn và không chứa ký tự đặc biệt.";
         if (message === "") return;
 
         addUserMessage(message);
@@ -372,7 +374,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         document.getElementById("chatBox").appendChild(typingIndicator);
 
         // Call API to get response
-        fetchGeminiResponse(message);
+        fetchGeminiResponse(messageCallAPI);
       }
 
       // Send message from collapsed chat view
