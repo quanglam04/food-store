@@ -173,6 +173,7 @@
                                 </div>
                             </div>
                         </main>
+                        <jsp:include page="../../client/layout/chat-bot.jsp" />
                         <jsp:include page="../layout/footer.jsp" />
                     </div>
                 </div>
