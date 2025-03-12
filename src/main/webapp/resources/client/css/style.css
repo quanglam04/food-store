@@ -14,11 +14,11 @@
 
 .back-to-top {
     position: fixed;
-    right: 30px;
-    bottom: 30px;
+    right: 20px;
+    bottom: 92px;
     display: flex;
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    height: 60px;
     align-items: center;
     justify-content: center;
     transition: 0.5s;

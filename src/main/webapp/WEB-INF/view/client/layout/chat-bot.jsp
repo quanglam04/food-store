@@ -97,10 +97,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       }
 
       .user-message {
-        background-color: #f1f1f1;
-        float: right;
-        border-bottom-right-radius: 5px;
-      }
+    font-weight: bold;
+    background-color: #F1F302;
+    float: right;
+    border-bottom-right-radius: 5px;
+}
 
       .bot-message {
         background-color: #0078ff;
@@ -119,18 +120,18 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       }
 
       .bot-avatar {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: #0078ff;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        left: -40px;
-        bottom: 0;
-      }
+    width: 38px;
+    height: 37px;
+    border-radius: 50%;
+    background-color: #0078ff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: -57px;
+    bottom: 0;
+}
 
       .answered-by {
         text-align: center;
@@ -307,21 +308,21 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       }
 
       // thêm tin nhắn của người dùng vào cuộc trò chuyện
-      function addUserMessage(message) {
-        const chatBox = document.getElementById("chatBox");
-        const messageDiv = document.createElement("div");
-        messageDiv.className = "message user-message";
-        messageDiv.innerHTML = message;
+        function addUserMessage(message) {
+          const chatBox = document.getElementById("chatBox");
+          const messageDiv = document.createElement("div");
+          messageDiv.className = "message user-message";
+          messageDiv.innerHTML = message;
 
-        // Optional: thêm avatar người dùng
-        // const avatar = document.createElement("div");
-        // avatar.className = "user-avatar";
-        // avatar.style.backgroundImage = "url('user-avatar.jpg')";
-        // messageDiv.appendChild(avatar);
+          // Optional: thêm avatar người dùng
+          const avatar = document.createElement("div");
+          avatar.className = "user-avatar";
+          avatar.style.backgroundImage = "url('https://cdn-icons-png.flaticon.com/512/6596/6596121.png')";
+          messageDiv.appendChild(avatar);
 
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
+          chatBox.appendChild(messageDiv);
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
 
       // thêm tin nhắn bot vào cuộc trò chuyện
       function addBotMessage(message) {

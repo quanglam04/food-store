@@ -214,6 +214,7 @@
 
 
                     <jsp:include page="../layout/footer.jsp" />
+                    <jsp:include page="../layout/chat-bot.jsp" />
 
 
                     <!-- Back to Top -->

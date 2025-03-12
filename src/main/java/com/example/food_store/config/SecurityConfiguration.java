@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
 import com.example.food_store.service.CustomUserDetailsService;
@@ -66,7 +67,12 @@ public class SecurityConfiguration {
         @Bean
         SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
 
-                http .csrf(csrf -> csrf.disable())
+                http
+                                .csrf(csrf -> csrf
+                                                // Cho phép các request tới Gemini API mà không cần CSRF token
+                                                .ignoringRequestMatchers("/gemini-proxy/**")
+                                                // Các endpoint khác vẫn yêu cầu CSRF protection
+                                                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                                 .authorizeHttpRequests(authorize -> authorize
                                                 .dispatcherTypeMatchers(DispatcherType.FORWARD,
                                                                 DispatcherType.INCLUDE)
@@ -79,7 +85,8 @@ public class SecurityConfiguration {
                                                                 "/products/**",
                                                                 "/images/**", "/send-request-to-mail",
                                                                 "reset-password/**",
-                                                                "/process-reset-password/**", "/verify/**","/gemini-proxy","/test-Gemini")
+                                                                "/process-reset-password/**", "/verify/**",
+                                                                "/gemini-proxy", "/test-Gemini")
                                                 .permitAll()
 
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")

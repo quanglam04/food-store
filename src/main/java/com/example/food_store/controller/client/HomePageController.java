@@ -245,10 +245,4 @@ public class HomePageController {
         return "client/homepage/changePasswordSuccess";
     }
 
-    @GetMapping("/test-Gemini")
-    public String getTestGemini() {
-        return "client/layout/chat-bot";
-    }
-    
-
 }
