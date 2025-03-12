@@ -14,7 +14,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         padding: 0;
       }
 
-      /* Chat button styles */
       .chat-button {
         position: fixed;
         bottom: 20px;
@@ -36,7 +35,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 24px;
       }
 
-      /* Chat window styles */
       .chat-container {
         position: fixed;
         bottom: 20px;
@@ -53,7 +51,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         display: none;
       }
 
-      /* Header styles */
       .chat-header {
         display: flex;
         justify-content: space-between;
@@ -82,7 +79,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         color: #333;
       }
 
-      /* Message area styles */
       .chat-box {
         flex: 1;
         overflow-y: auto;
@@ -145,7 +141,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         padding-top: 40px;
       }
 
-      /* Input area styles */
       .chat-input-container {
         display: flex;
         align-items: center;
@@ -174,7 +169,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         font-size: 14px;
       }
 
-      /* Collapsed version styles */
       .chat-collapsed {
         position: fixed;
         bottom: 0;
@@ -224,12 +218,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     </style>
   </head>
   <body>
-    <!-- Chat Button -->
     <div class="chat-button" id="chatButton" onclick="openChat()">
       <div class="chat-icon">💬</div>
     </div>
 
-    <!-- Chat Container (Expanded) -->
     <div class="chat-container" id="chatContainer">
       <div class="chat-header">
         <div class="chat-title">
@@ -243,7 +235,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       </div>
 
       <div class="chat-box" id="chatBox">
-        <!-- Messages will be added here dynamically -->
+        <!-- Phần tin nhắn sẽ được thêm động vào đây -->
       </div>
 
       <div class="chat-input-container">
@@ -258,7 +250,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       </div>
     </div>
 
-    <!-- Chat Collapsed View (Side Bar) -->
+    <!-- trò chuyện thu gọn chế độ xem ( thanh lướt ) -->
     <div class="chat-collapsed" id="chatCollapsed">
       <div class="chat-collapsed-header">
         Chat-<br />bot AI
@@ -284,18 +276,18 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     </div>
 
     <script>
-      // Toggle between different chat views: 'expanded', 'collapsed', 'button', 'none'
+      // chuyển đổi giữa các chế độ
       function toggleChatView(view) {
         const chatButton = document.getElementById("chatButton");
         const chatContainer = document.getElementById("chatContainer");
         const chatCollapsed = document.getElementById("chatCollapsed");
 
-        // Hide all elements first
+        // ấn các phần tử
         chatButton.style.display = "none";
         chatContainer.style.display = "none";
         chatCollapsed.style.display = "none";
 
-        // Show the requested view
+        // hiển thị chế độ xem được yêu cầu
         if (view === "button") {
           chatButton.style.display = "flex";
         } else if (view === "expanded") {
@@ -305,23 +297,23 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         }
       }
 
-      // Open the chat window when button is clicked
+      // mở cửa sổ trò chuyện khi nhấn vào nút
       function openChat() {
         toggleChatView("expanded");
-        // Add a welcome message if the chat is empty
+        // thêm tin nhắn chào mừng nếu cuộc trò chuyện đang trống
         if (document.getElementById("chatBox").innerHTML === "") {
           addBotMessage("Chào bạn! Tôi có thể giúp gì cho bạn hôm nay?");
         }
       }
 
-      // Add a user message to the chat
+      // thêm tin nhắn của người dùng vào cuộc trò chuyện
       function addUserMessage(message) {
         const chatBox = document.getElementById("chatBox");
         const messageDiv = document.createElement("div");
         messageDiv.className = "message user-message";
         messageDiv.innerHTML = message;
 
-        // Optional: Add user avatar
+        // Optional: thêm avatar người dùng
         // const avatar = document.createElement("div");
         // avatar.className = "user-avatar";
         // avatar.style.backgroundImage = "url('user-avatar.jpg')";
@@ -331,7 +323,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         chatBox.scrollTop = chatBox.scrollHeight;
       }
 
-      // Add a bot message to the chat
+      // thêm tin nhắn bot vào cuộc trò chuyện
       function addBotMessage(message) {
         const chatBox = document.getElementById("chatBox");
         const messageDiv = document.createElement("div");
@@ -345,7 +337,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 
         chatBox.appendChild(messageDiv);
 
-        // Add "Answered by AI" text
+        // thêm đoạn text: trả lời bởi FoodStore-AI
         const answeredBy = document.createElement("div");
         answeredBy.className = "answered-by";
         answeredBy.innerHTML = "Answered by FoodStore-AI";
@@ -354,7 +346,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         chatBox.scrollTop = chatBox.scrollHeight;
       }
 
-      // Process and send user message
+      // xử lý và call API với input người dùng nhập vào
       function sendMessage() {
         const userInput = document.getElementById("userInput");
         const message = userInput.value.trim();
@@ -366,18 +358,18 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         addUserMessage(message);
         userInput.value = "";
 
-        // Show typing indicator
+        // hiển thị hiệu ứng đang nhập
         const typingIndicator = document.createElement("div");
         typingIndicator.className = "message bot-message";
         typingIndicator.id = "typingIndicator";
         typingIndicator.innerHTML = "Đang nhập...";
         document.getElementById("chatBox").appendChild(typingIndicator);
 
-        // Call API to get response
+        // gọi API của gemini để lấy kết quả trả về
         fetchGeminiResponse(messageCallAPI);
       }
 
-      // Send message from collapsed chat view
+      // gửi tin nhắn từ chế độ xem trò chuyện đã thu gọn
       function sendCollapsedMessage() {
         const collapsedInput = document.getElementById("collapsedInput");
         const message = collapsedInput.value.trim();
@@ -387,19 +379,19 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         collapsedInput.value = "";
         toggleChatView("expanded");
 
-        // Add the message to the expanded chat and send it
+        // thêm tin nhắn rồi gửi
         document.getElementById("userInput").value = message;
         sendMessage();
       }
 
-      // Handle enter key press in the input field
+      // xử lý nếu người dùng bấm enter thay vì gửi
       function handleKeyPress(event) {
         if (event.key === "Enter") {
           sendMessage();
         }
       }
 
-      // Fetch response from Gemini API
+      // lấy Data từ API của gemini
       async function fetchGeminiResponse(userText) {
         try {
           const requestBody = {
@@ -412,7 +404,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             body: JSON.stringify(requestBody),
           });
 
-          // Remove typing indicator
+          // xóa thông báo đang nhập
           const typingIndicator = document.getElementById("typingIndicator");
           if (typingIndicator) {
             typingIndicator.remove();
@@ -423,7 +415,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           const data = await response.text();
           addBotMessage(data);
         } catch (error) {
-          // Remove typing indicator
+          // xóa thông báo đang nhập
           const typingIndicator = document.getElementById("typingIndicator");
           if (typingIndicator) {
             typingIndicator.remove();
@@ -433,7 +425,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         }
       }
 
-      // Initialize the chat with the button view
+      // khởi tạo trò chuyện bằng chế độ xem nút
       document.addEventListener("DOMContentLoaded", function () {
         toggleChatView("button");
       });

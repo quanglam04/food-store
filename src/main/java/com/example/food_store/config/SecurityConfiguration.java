@@ -79,7 +79,7 @@ public class SecurityConfiguration {
                                                                 "/products/**",
                                                                 "/images/**", "/send-request-to-mail",
                                                                 "reset-password/**",
-                                                                "/process-reset-password/**", "/verify/**","/gemini-proxy")
+                                                                "/process-reset-password/**", "/verify/**","/gemini-proxy","/test-Gemini")
                                                 .permitAll()
 
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
