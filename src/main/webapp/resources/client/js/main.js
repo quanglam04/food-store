@@ -384,7 +384,7 @@
 
             },
             error: function (response) {
-                alert("Có lỗi xảy ra!")
+                alert("Có lỗi xảy ra_1!")
                 console.log("error: ", response);
             }
 
@@ -431,7 +431,7 @@
 
             },
             error: function (response) {
-                alert("Có lỗi xảy ra!")
+                alert("Có lỗi xảy ra_2!")
                 console.log("error: ", response);
             }
 
