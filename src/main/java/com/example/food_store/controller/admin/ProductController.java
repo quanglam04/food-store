@@ -133,6 +133,9 @@ public class ProductController {
             currentProduct.setPrice(prd.getPrice());
             currentProduct.setQuantity(prd.getQuantity());
             currentProduct.setType(prd.getType());
+
+            currentProduct.setSource(prd.getSource());
+            currentProduct.setUnit(prd.getUnit());
             currentProduct.setCustomerTarget(prd.getCustomerTarget());
             currentProduct.setShortDesc(prd.getShortDesc());
 

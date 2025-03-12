@@ -7,6 +7,8 @@ target/
 *.doc
 *.docx
 
+webapp/resources/client/img/
+webapp/resources/images/
 ### STS ###
 .apt_generated
 .classpath

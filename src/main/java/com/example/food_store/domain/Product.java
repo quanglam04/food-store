@@ -41,6 +41,14 @@ public class Product {
     @Min(value = 1, message = "Số lượng cần lớn hơn hoặc bằng 1")
     private long quantity;
 
+    @NotNull
+    private String source;
+
+    @NotNull
+    private String unit;
+
+    
+
     public String getType() {
         return type;
     }
@@ -130,6 +138,22 @@ public class Product {
         return "Product [id=" + id + ", name=" + name + ", price=" + price + ", image=" + image + ", detailDesc="
                 + detailDesc + ", shortDesc=" + shortDesc + ", quantity=" + quantity + ", ="
                 + ", target=" + target + "]";
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
 }
