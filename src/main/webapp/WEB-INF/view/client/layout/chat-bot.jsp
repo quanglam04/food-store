@@ -352,8 +352,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         const userInput = document.getElementById("userInput");
         const message = userInput.value.trim();
         const messageCallAPI =
-          message +
-          ".Vui lòng viết thành đoạn văn và không chứa ký tự đặc biệt.";
+          "Chỉ trả lời các câu hỏi liên quan đến thực phẩm, thức ăn, chế độ ăn. Viết thành đoạn văn và loại bỏ tất cả ký tự đặc biệt khỏi câu trả lời." +message;
         if (message === "") return;
 
         addUserMessage(message);
