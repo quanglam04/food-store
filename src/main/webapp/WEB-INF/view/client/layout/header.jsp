@@ -47,7 +47,7 @@
                             <form action="/products" method="get" class="input-group rounded">
                                 <label for="tags"></label>
                                 <input name="text" type="text" id="tags" class="form-control rounded"
-                                    placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                    placeholder="Tìm kiếm" aria-label="Search" aria-describedby="search-addon" />
                                 <button type="submit" class="input-group-text border-0" id="search-addon">
                                     <i class="fas fa-search"></i>
                                 </button>
