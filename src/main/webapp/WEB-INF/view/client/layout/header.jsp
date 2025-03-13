@@ -83,8 +83,10 @@
                                             </div>
                                         </li>
 
-                                        <li><a class="dropdown-item" href="/view-profile">Quản lý tài khoản</a></li>
-
+                                        <% if (session.getAttribute("role") != null && session.getAttribute("role").equals("ADMIN")) { %>
+                                            <li><a class="dropdown-item" href="/admin">Trang quản trị</a></li>
+                                        <% } %>
+                                        <li><a class="dropdown-item" href="/view-profile">Cập nhật thông tin cá nhân</a></li>
                                         <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                         <li><a class="dropdown-item" href="/change-password">Đổi mật khẩu</a></li>
                                         <li>
