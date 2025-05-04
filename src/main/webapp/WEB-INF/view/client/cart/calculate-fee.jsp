@@ -78,11 +78,92 @@ uri="http://www.springframework.org/tags/form" %>
         </div>
       </div>
     </div>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 500px;
+        margin: auto;
+        height: 210px;
+      "
+    >
+      <div>
+        <p>Tỉnh/Thành phố</p>
+        <select name="provinceId">
+          <option value="269">Lào Cai</option>
+          <option value="268">Hưng yên</option>
+          <option value="267">Hòa Bình</option>
+          <option value="266">Sơn La</option>
+          <option value="265">Điện Biên</option>
+          <option value="264">Lai Châu</option>
+          <option value="263">Yên Bái</option>
+          <option value="262">Bình Định</option>
+          <option value="261">Ninh Thuận</option>
+          <option value="260">Phú Yên</option>
+          <option value="259">Kon Tum</option>
+          <option value="258">Bình Thuận</option>
+          <option value="253">Bạc Liêu</option>
+          <option value="252">Cà Mau</option>
+          <option value="250">Hậu Giang</option>
+          <option value="249">Bắc Ninh</option>
+          <option value="248">Bắc Giang</option>
+          <option value="247">Lạng Sơn</option>
+          <option value="246">Cao Bằng</option>
+          <option value="245">Bắc Kạn</option>
+          <option value="244">Thái Nguyên</option>
+          <option value="243">Quảng Nam</option>
+          <option value="242">Quảng Ngãi</option>
+          <option value="241">Đắk Nông</option>
 
-    <div style="height: 300px">
-      Chỗ này sẽ tạo 1 cái form cho người dùng chọn quận huyện nơi người nhận
+          <option value="240">Tây Ninh</option>
+          <option value="239">Bình Phước</option>
+          <option value="238">Quảng Trị</option>
+          <option value="237">Quảng Bình</option>
+          <option value="236">Hà Tĩnh</option>
+          <option value="235">Nghệ An</option>
+          <option value="234">Thanh Hóa</option>
+          <option value="233">Ninh Bình</option>
+          <option value="232">Hà Nam</option>
+          <option value="231">Nam Định</option>
+          <option value="230">Quảng Ninh</option>
+          <option value="229">Phú Thọ</option>
+          <option value="228">Tuyên Quang</option>
+          <option value="227">Hà Giang</option>
+          <option value="226">Thái Bình</option>
+          <option value="225">Hải Dương</option>
+          <option value="224">Hải Phòng</option>
+          <option value="223">Thừa Thiên Huế</option>
+          <option value="221">Vĩnh Phúc</option>
+          <option value="220">Cần Thơ</option>
+          <option value="219">Kiên Giang</option>
+          <option value="218">Sóc Trăng</option>
+          <option value="217">An Giang</option>
+          <option value="216">Đồng Tháp</option>
+          <option value="215">Vĩnh Long</option>
+          <option value="214">Trà Vinh</option>
+          <option value="213">Bến Tre</option>
+          <option value="212">Tiền Giang</option>
+
+          <option value="211">Long An</option>
+          <option value="210">Đắk Lắk</option>
+          <option value="209">Lâm Đồng</option>
+          <option value="208">Khánh Hòa</option>
+          <option value="207">Gia Lai</option>
+          <option value="206">Bà Rịa - Vũng Tàu</option>
+          <option value="205">Bình Dương</option>
+          <option value="204">Đồng Nai</option>
+          <option value="203">Đà Nẵng</option>
+          <option value="202">Hồ Chí Minh</option>
+          <option value="201">Hà Nội</option>
+        </select>
+      </div>
+      <div>
+        <p>Quận/Huyện</p>
+        <select id="districtSelect" name="districtId"></select>
+      </div>
+      <div><p>Phường xã</p></div>
     </div>
-
     <jsp:include page="../layout/footer.jsp" />
     <jsp:include page="../layout/chat-bot.jsp" />
 
