@@ -14,6 +14,10 @@ uri="http://www.springframework.org/tags/form" %>
         position: relative;
         margin-top: -14px;
       }
+      #fee {
+        font-family: "Arial", "Helvetica", sans-serif;
+        font-weight: 400;
+      }
     </style>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
@@ -83,9 +87,8 @@ uri="http://www.springframework.org/tags/form" %>
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 500px;
+        width: 700px;
         margin: auto;
-        height: 210px;
       "
     >
       <div>
@@ -166,6 +169,16 @@ uri="http://www.springframework.org/tags/form" %>
         <p>Phường xã</p>
         <select id="wardSelect" name="wardCode"></select>
       </div>
+
+      <button type="button" id="calculateFee" class="btn btn-outline-success">
+        Tính toán
+      </button>
+    </div>
+    <div style="margin-left: 45%; padding-top: 15px">
+      <input id="address" type="text" placeholder="Nhập địa chỉ" />
+    </div>
+    <div style="margin-left: 45%; padding-top: 50px; padding-bottom: 50px">
+      <h4 id="fee">Chi phí vận chuyển:</h4>
     </div>
     <jsp:include page="../layout/footer.jsp" />
     <jsp:include page="../layout/chat-bot.jsp" />
@@ -257,11 +270,14 @@ uri="http://www.springframework.org/tags/form" %>
       const provinceSelect = document.querySelector(
         'select[name="provinceId"]'
       );
+
       if (provinceSelect) {
         // Lấy danh sách quận/huyện khi trang được tải với giá trị provinceId ban đầu
         getDistricts(provinceSelect.value);
+        console.log("ProvinceID: " + provinceSelect.value);
         // Thêm event listener cho sự kiện thay đổi tỉnh/thành phố
         provinceSelect.addEventListener("change", function () {
+          console.log("ProvinceID: " + provinceSelect.value);
           getDistricts(this.value);
         });
       }
@@ -363,6 +379,109 @@ uri="http://www.springframework.org/tags/form" %>
             wardSelect.innerHTML = '<option value="">Chọn phường/xã</option>';
           }
         });
+      }
+    });
+    // ---------------Xử lý Logic tính toán chi phí vận chuyển-------------------------------
+
+    // Hàm tính phí vận chuyển qua API GHN
+    function calculateShippingFee() {
+      // Lấy thông tin quận/huyện và phường/xã đã chọn
+      const toDistrictId = document.getElementById("districtSelect").value;
+      const toWardCode = document.getElementById("wardSelect").value;
+      const address = document.getElementById("address").value;
+      console.log(address);
+      console.log("DistrictID: " + toDistrictId, "WardCode:" + toWardCode);
+      // Kiểm tra đã chọn đủ thông tin chưa
+      if (!toDistrictId || !toWardCode || !address) {
+        alert("Vui lòng chọn đầy đủ Quận/Huyện, Phường/Xã và địa chỉ");
+        return;
+      }
+
+      // Hiển thị trạng thái đang tính toán
+      const feeElement = document.getElementById("fee");
+      feeElement.textContent = "Chi phí vận chuyển: Đang tính...";
+
+      // Cấu hình request
+      const url =
+        "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee";
+      const token = "ed67dc49-2835-11f0-8c8d-faf19a0e6e5b";
+      const shopId = "5759905";
+
+      // Dữ liệu gửi đi
+      const requestData = {
+        from_district_id: 1542,
+        from_ward_code: "1B1507",
+        service_id: 53321,
+        service_type_id: null,
+        to_district_id: parseInt(toDistrictId),
+        to_ward_code: toWardCode,
+        height: 50,
+        length: 20,
+        weight: 200,
+        width: 20,
+        insurance_value: 10000,
+        cod_failed_amount: 2000,
+        coupon: null,
+      };
+
+      // Gửi request đến API
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Token: token,
+          ShopId: shopId,
+        },
+        body: JSON.stringify(requestData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.code === 200 && data.data) {
+            // Format số tiền sang định dạng VND
+
+            const formattedFee = FormatCurrency(data.data.total);
+
+            // Hiển thị phí vận chuyển
+            const a = 111;
+            const s = "s" + a;
+            console.log(s);
+            console.log(`s ${a}`);
+
+            feeElement.textContent =
+              "Chi phí vận chuyển: " + formattedFee + " đồng";
+
+            // Lưu thông tin phí vận chuyển nếu cần
+            localStorage.setItem("shippingFee", data.data.total);
+          } else {
+            console.error(
+              "Error calculating fee:",
+              data.message || "Unknown error"
+            );
+            feeElement.textContent = "Chi phí vận chuyển: Không thể tính toán";
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching shipping fee:", error);
+          feeElement.textContent = "Chi phí vận chuyển: Có lỗi xảy ra";
+        });
+    }
+
+    const FormatCurrency = (currency) => {
+      if (isNaN(currency)) return "";
+      return currency.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
+
+    // Thêm event listener cho nút tính toán chi phí
+    document.addEventListener("DOMContentLoaded", function () {
+      const calculateButton = document.getElementById("calculateFee");
+
+      if (calculateButton) {
+        calculateButton.addEventListener("click", calculateShippingFee);
       }
     });
   </script>
