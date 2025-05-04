@@ -240,4 +240,9 @@ public class ItemController {
         return "client/product/show";
     }
 
+    @GetMapping("user/order/calculate-fee")
+    public String calculateFee(){
+        return "client/cart/calculate-fee";
+    }
+
 }
