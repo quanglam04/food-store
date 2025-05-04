@@ -32,13 +32,11 @@ uri="http://www.springframework.org/tags/form" %>
         padding: 20px;
       }
 
-      /* Main container styles */
       .shipping-calculator {
         max-width: 800px;
         margin: 20px auto;
       }
 
-      /* Card styles */
       .card {
         background-color: white;
         border-radius: 12px;
@@ -47,7 +45,6 @@ uri="http://www.springframework.org/tags/form" %>
         margin-bottom: 20px;
       }
 
-      /* Title styles */
       .card-title {
         display: flex;
         align-items: center;
@@ -63,7 +60,6 @@ uri="http://www.springframework.org/tags/form" %>
         font-size: 22px;
       }
 
-      /* Form layout */
       .form-row {
         display: flex;
         flex-wrap: wrap;
@@ -76,7 +72,6 @@ uri="http://www.springframework.org/tags/form" %>
         min-width: 200px;
       }
 
-      /* Label styles */
       .form-label {
         display: flex;
         align-items: center;
@@ -89,7 +84,6 @@ uri="http://www.springframework.org/tags/form" %>
         margin-right: 6px;
       }
 
-      /* Select and input styles */
       .form-select,
       .form-input {
         width: 100%;
@@ -117,7 +111,6 @@ uri="http://www.springframework.org/tags/form" %>
         box-shadow: 0 0 0 2px rgba(0, 166, 90, 0.1);
       }
 
-      /* Button styles */
       .btn-container {
         display: flex;
         justify-content: center;
@@ -147,7 +140,6 @@ uri="http://www.springframework.org/tags/form" %>
         margin-right: 8px;
       }
 
-      /* Result styles */
       .result-title {
         display: flex;
         align-items: center;
@@ -249,7 +241,7 @@ uri="http://www.springframework.org/tags/form" %>
               <i class="fas fa-map-marker-alt"></i>
               Tỉnh/Thành phố
             </label>
-            <select name="provinceId" class="form-select">
+            <select id="provinceSelect" name="provinceId" class="form-select">
               <option value="201">Hà Nội</option>
               <option value="202">Hồ Chí Minh</option>
               <option value="203">Đà Nẵng</option>
@@ -359,13 +351,28 @@ uri="http://www.springframework.org/tags/form" %>
       </div>
 
       <!-- Result Card -->
-      <div class="card">
-        <h3 class="result-title">
-          <i class="fas fa-truck"></i>
-          Kết quả tính phí vận chuyển
-        </h3>
-        <div class="result-content" id="fee">Chưa có thông tin</div>
-      </div>
+      <form:form action="/checkout" method="get">
+        <input
+          type="hidden"
+          name="${_csrf.parameterName}"
+          value="${_csrf.token}"
+        />
+        <div class="card">
+          <h3 class="result-title">
+            <i class="fas fa-truck"></i>
+            Kết quả tính phí vận chuyển
+          </h3>
+          <div class="result-content" id="fee">Chưa có thông tin</div>
+          <input type="hidden" name="cost" id="costDelivery" />
+          <input type="hidden" name="detailAddress" id="detailAddress" />
+        </div>
+
+        <button
+          class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
+        >
+          Thanh toán
+        </button>
+      </form:form>
     </div>
 
     <jsp:include page="../layout/footer.jsp" />
@@ -574,9 +581,24 @@ uri="http://www.springframework.org/tags/form" %>
     // Hàm tính phí vận chuyển qua API GHN
     function calculateShippingFee() {
       // Lấy thông tin quận/huyện và phường/xã đã chọn
+      const toProvinceId = document.getElementById("provinceSelect").value;
       const toDistrictId = document.getElementById("districtSelect").value;
       const toWardCode = document.getElementById("wardSelect").value;
       const address = document.getElementById("address").value;
+
+      const toProvinceId2 = document.getElementById("provinceSelect");
+      const provinceText =
+        toProvinceId2.options[toProvinceId2.selectedIndex].text;
+
+      const toDistrictId2 = document.getElementById("districtSelect");
+      const districtText =
+        toDistrictId2.options[toDistrictId2.selectedIndex].text;
+
+      const toWardCode2 = document.getElementById("wardSelect");
+      const wardText = toWardCode2.options[toWardCode2.selectedIndex].text;
+
+      document.getElementById("detailAddress").value =
+        address + ", " + wardText + ", " + districtText + ", " + provinceText;
       console.log(address);
       console.log("DistrictID: " + toDistrictId, "WardCode:" + toWardCode);
       // Kiểm tra đã chọn đủ thông tin chưa
@@ -631,7 +653,8 @@ uri="http://www.springframework.org/tags/form" %>
         .then((data) => {
           if (data.code === 200 && data.data) {
             // Format số tiền sang định dạng VND
-
+            document.getElementById("costDelivery").value =
+              data.data.total || 0;
             const formattedFee = FormatCurrency(data.data.total);
 
             // Hiển thị phí vận chuyển
