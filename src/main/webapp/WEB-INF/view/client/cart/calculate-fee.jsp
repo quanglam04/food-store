@@ -162,7 +162,10 @@ uri="http://www.springframework.org/tags/form" %>
         <p>Quận/Huyện</p>
         <select id="districtSelect" name="districtId"></select>
       </div>
-      <div><p>Phường xã</p></div>
+      <div>
+        <select id="wardSelect" name="wardCode"></select>
+        <p>Phường xã</p>
+      </div>
     </div>
     <jsp:include page="../layout/footer.jsp" />
     <jsp:include page="../layout/chat-bot.jsp" />
@@ -182,4 +185,94 @@ uri="http://www.springframework.org/tags/form" %>
 
     <script src="/client/js/main.js"></script>
   </body>
+
+  <script>
+    // Hàm gọi API để lấy danh sách quận/huyện dựa trên provinceID
+    function getDistricts(provinceId) {
+      // Kiểm tra nếu không có provinceId
+      if (!provinceId) {
+        console.error("Province ID is required");
+        return;
+      }
+
+      // Cấu hình request
+      const url =
+        "https://online-gateway.ghn.vn/shiip/public-api/master-data/district";
+      const token = "ed67dc49-2835-11f0-8c8d-faf19a0e6e5b";
+
+      // Sử dụng fetch API để gửi request
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Token: token,
+        },
+        body: JSON.stringify({
+          province_id: parseInt(provinceId),
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.code === 200 && data.data) {
+            // Cập nhật danh sách quận/huyện vào dropdown
+            updateDistrictDropdown(data.data);
+          } else {
+            console.error(
+              "Error getting districts:",
+              data.message || "Unknown error"
+            );
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching districts:", error);
+        });
+    }
+
+    // Hàm cập nhật danh sách quận/huyện vào dropdown
+    function updateDistrictDropdown(districts) {
+      const districtSelect = document.getElementById("districtSelect");
+
+      // Xóa tất cả options hiện tại
+      districtSelect.innerHTML = "";
+
+      // Thêm option mặc định
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = "Chọn quận/huyện";
+      districtSelect.appendChild(defaultOption);
+
+      // Thêm các options mới từ API
+      districts.forEach((district) => {
+        if (district.DistrictName.includes("Thành phố")) {
+          return;
+        }
+        const option = document.createElement("option");
+        option.value = district.DistrictID;
+        option.textContent = district.DistrictName;
+        districtSelect.appendChild(option);
+      });
+    }
+
+    // Thêm event listener cho dropdown tỉnh/thành phố
+    document.addEventListener("DOMContentLoaded", function () {
+      const provinceSelect = document.querySelector(
+        'select[name="provinceId"]'
+      );
+
+      if (provinceSelect) {
+        // Lấy danh sách quận/huyện khi trang được tải với giá trị provinceId ban đầu
+        getDistricts(provinceSelect.value);
+
+        // Thêm event listener cho sự kiện thay đổi tỉnh/thành phố
+        provinceSelect.addEventListener("change", function () {
+          getDistricts(this.value);
+        });
+      }
+    });
+  </script>
 </html>
