@@ -18,6 +18,159 @@ uri="http://www.springframework.org/tags/form" %>
         font-family: "Arial", "Helvetica", sans-serif;
         font-weight: 400;
       }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f7;
+        padding: 20px;
+      }
+
+      /* Main container styles */
+      .shipping-calculator {
+        max-width: 800px;
+        margin: 20px auto;
+      }
+
+      /* Card styles */
+      .card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+
+      /* Title styles */
+      .card-title {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 24px;
+      }
+
+      .card-title i {
+        color: #00a65a;
+        margin-right: 10px;
+        font-size: 22px;
+      }
+
+      /* Form layout */
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        gap: 20px;
+      }
+
+      .form-group {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      /* Label styles */
+      .form-label {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #00a65a;
+        margin-bottom: 8px;
+      }
+
+      .form-label i {
+        margin-right: 6px;
+      }
+
+      /* Select and input styles */
+      .form-select,
+      .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 15px;
+        color: #333;
+        background-color: white;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+      }
+
+      .form-input {
+        background-image: none;
+      }
+
+      .form-select:focus,
+      .form-input:focus {
+        outline: none;
+        border-color: #00a65a;
+        box-shadow: 0 0 0 2px rgba(0, 166, 90, 0.1);
+      }
+
+      /* Button styles */
+      .btn-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 24px;
+      }
+
+      .btn-calculate {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #00a65a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .btn-calculate:hover {
+        background-color: #008d4c;
+      }
+
+      .btn-calculate i {
+        margin-right: 8px;
+      }
+
+      /* Result styles */
+      .result-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 600;
+        color: #222;
+        margin-bottom: 16px;
+      }
+
+      .result-title i {
+        color: #00a65a;
+        margin-right: 8px;
+      }
+
+      .result-content {
+        text-align: center;
+        font-size: 18px;
+        color: #999;
+      }
+
+      /* Add Font Awesome for icons */
+      @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
     </style>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta content="" name="keywords" />
@@ -68,8 +221,8 @@ uri="http://www.springframework.org/tags/form" %>
     <jsp:include page="../layout/header.jsp" />
 
     <!-- Cart Page Start -->
-    <div class="container-fluid py-5">
-      <div class="container py-5">
+    <div class="container-fluid" style="padding-top: 50px">
+      <div class="container" style="padding-top: 50px">
         <div class="mb-3">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb" style="padding-top: 10px">
@@ -82,104 +235,139 @@ uri="http://www.springframework.org/tags/form" %>
         </div>
       </div>
     </div>
-    <div
-      style="
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 700px;
-        margin: auto;
-      "
-    >
-      <div>
-        <p>Tỉnh/Thành phố</p>
-        <select name="provinceId">
-          <option value="269">Lào Cai</option>
-          <option value="268">Hưng yên</option>
-          <option value="267">Hòa Bình</option>
-          <option value="266">Sơn La</option>
-          <option value="265">Điện Biên</option>
-          <option value="264">Lai Châu</option>
-          <option value="263">Yên Bái</option>
-          <option value="262">Bình Định</option>
-          <option value="261">Ninh Thuận</option>
-          <option value="260">Phú Yên</option>
-          <option value="259">Kon Tum</option>
-          <option value="258">Bình Thuận</option>
-          <option value="253">Bạc Liêu</option>
-          <option value="252">Cà Mau</option>
-          <option value="250">Hậu Giang</option>
-          <option value="249">Bắc Ninh</option>
-          <option value="248">Bắc Giang</option>
-          <option value="247">Lạng Sơn</option>
-          <option value="246">Cao Bằng</option>
-          <option value="245">Bắc Kạn</option>
-          <option value="244">Thái Nguyên</option>
-          <option value="243">Quảng Nam</option>
-          <option value="242">Quảng Ngãi</option>
-          <option value="241">Đắk Nông</option>
+    <div class="shipping-calculator">
+      <!-- Shipping Calculator Card -->
+      <div class="card">
+        <h2 class="card-title">
+          <i class="fas fa-truck"></i>
+          Tính phí vận chuyển
+        </h2>
 
-          <option value="240">Tây Ninh</option>
-          <option value="239">Bình Phước</option>
-          <option value="238">Quảng Trị</option>
-          <option value="237">Quảng Bình</option>
-          <option value="236">Hà Tĩnh</option>
-          <option value="235">Nghệ An</option>
-          <option value="234">Thanh Hóa</option>
-          <option value="233">Ninh Bình</option>
-          <option value="232">Hà Nam</option>
-          <option value="231">Nam Định</option>
-          <option value="230">Quảng Ninh</option>
-          <option value="229">Phú Thọ</option>
-          <option value="228">Tuyên Quang</option>
-          <option value="227">Hà Giang</option>
-          <option value="226">Thái Bình</option>
-          <option value="225">Hải Dương</option>
-          <option value="224">Hải Phòng</option>
-          <option value="223">Thừa Thiên Huế</option>
-          <option value="221">Vĩnh Phúc</option>
-          <option value="220">Cần Thơ</option>
-          <option value="219">Kiên Giang</option>
-          <option value="218">Sóc Trăng</option>
-          <option value="217">An Giang</option>
-          <option value="216">Đồng Tháp</option>
-          <option value="215">Vĩnh Long</option>
-          <option value="214">Trà Vinh</option>
-          <option value="213">Bến Tre</option>
-          <option value="212">Tiền Giang</option>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-map-marker-alt"></i>
+              Tỉnh/Thành phố
+            </label>
+            <select name="provinceId" class="form-select">
+              <option value="201">Hà Nội</option>
+              <option value="202">Hồ Chí Minh</option>
+              <option value="203">Đà Nẵng</option>
+              <option value="204">Đồng Nai</option>
+              <option value="205">Bình Dương</option>
+              <option value="206">Bà Rịa - Vũng Tàu</option>
+              <option value="207">Gia Lai</option>
+              <option value="208">Khánh Hòa</option>
+              <option value="209">Lâm Đồng</option>
+              <option value="210">Đắk Lắk</option>
+              <option value="211">Long An</option>
+              <option value="212">Tiền Giang</option>
+              <option value="213">Bến Tre</option>
+              <option value="214">Trà Vinh</option>
+              <option value="215">Vĩnh Long</option>
+              <option value="216">Đồng Tháp</option>
+              <option value="217">An Giang</option>
+              <option value="218">Sóc Trăng</option>
+              <option value="219">Kiên Giang</option>
+              <option value="220">Cần Thơ</option>
+              <option value="221">Vĩnh Phúc</option>
+              <option value="223">Thừa Thiên Huế</option>
+              <option value="224">Hải Phòng</option>
+              <option value="225">Hải Dương</option>
+              <option value="226">Thái Bình</option>
+              <option value="227">Hà Giang</option>
+              <option value="228">Tuyên Quang</option>
+              <option value="229">Phú Thọ</option>
+              <option value="230">Quảng Ninh</option>
+              <option value="231">Nam Định</option>
+              <option value="232">Hà Nam</option>
+              <option value="233">Ninh Bình</option>
+              <option value="234">Thanh Hóa</option>
+              <option value="235">Nghệ An</option>
+              <option value="236">Hà Tĩnh</option>
+              <option value="237">Quảng Bình</option>
+              <option value="238">Quảng Trị</option>
+              <option value="239">Bình Phước</option>
+              <option value="240">Tây Ninh</option>
+              <option value="241">Đắk Nông</option>
+              <option value="242">Quảng Ngãi</option>
+              <option value="243">Quảng Nam</option>
+              <option value="244">Thái Nguyên</option>
+              <option value="245">Bắc Kạn</option>
+              <option value="246">Cao Bằng</option>
+              <option value="247">Lạng Sơn</option>
+              <option value="248">Bắc Giang</option>
+              <option value="249">Bắc Ninh</option>
+              <option value="250">Hậu Giang</option>
+              <option value="252">Cà Mau</option>
+              <option value="253">Bạc Liêu</option>
+              <option value="258">Bình Thuận</option>
+              <option value="259">Kon Tum</option>
+              <option value="260">Phú Yên</option>
+              <option value="261">Ninh Thuận</option>
+              <option value="262">Bình Định</option>
+              <option value="263">Yên Bái</option>
+              <option value="264">Lai Châu</option>
+              <option value="265">Điện Biên</option>
+              <option value="266">Sơn La</option>
+              <option value="267">Hòa Bình</option>
+              <option value="268">Hưng yên</option>
+              <option value="269">Lào Cai</option>
+            </select>
+          </div>
 
-          <option value="211">Long An</option>
-          <option value="210">Đắk Lắk</option>
-          <option value="209">Lâm Đồng</option>
-          <option value="208">Khánh Hòa</option>
-          <option value="207">Gia Lai</option>
-          <option value="206">Bà Rịa - Vũng Tàu</option>
-          <option value="205">Bình Dương</option>
-          <option value="204">Đồng Nai</option>
-          <option value="203">Đà Nẵng</option>
-          <option value="202">Hồ Chí Minh</option>
-          <option value="201">Hà Nội</option>
-        </select>
-      </div>
-      <div>
-        <p>Quận/Huyện</p>
-        <select id="districtSelect" name="districtId"></select>
-      </div>
-      <div>
-        <p>Phường xã</p>
-        <select id="wardSelect" name="wardCode"></select>
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-map"></i>
+              Quận/Huyện
+            </label>
+            <select id="districtSelect" name="districtId" class="form-select">
+              <option value="">Chọn quận/huyện</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">
+              <i class="fas fa-map-pin"></i>
+              Phường/Xã
+            </label>
+            <select id="wardSelect" name="wardCode" class="form-select">
+              <option value="">Chọn phường/xã</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fas fa-home"></i>
+            Địa chỉ chi tiết
+          </label>
+          <input
+            id="address"
+            type="text"
+            placeholder="Nhập số nhà, tên đường..."
+            class="form-input"
+          />
+        </div>
+
+        <div class="btn-container">
+          <button type="button" id="calculateFee" class="btn-calculate">
+            <i class="fas fa-calculator"></i>
+            Tính phí vận chuyển
+          </button>
+        </div>
       </div>
 
-      <button type="button" id="calculateFee" class="btn btn-outline-success">
-        Tính toán
-      </button>
+      <!-- Result Card -->
+      <div class="card">
+        <h3 class="result-title">
+          <i class="fas fa-truck"></i>
+          Kết quả tính phí vận chuyển
+        </h3>
+        <div class="result-content" id="fee">Chưa có thông tin</div>
+      </div>
     </div>
-    <div style="margin-left: 45%; padding-top: 15px">
-      <input id="address" type="text" placeholder="Nhập địa chỉ" />
-    </div>
-    <div style="margin-left: 45%; padding-top: 50px; padding-bottom: 50px">
-      <h4 id="fee">Chi phí vận chuyển:</h4>
-    </div>
+
     <jsp:include page="../layout/footer.jsp" />
     <jsp:include page="../layout/chat-bot.jsp" />
 
@@ -485,4 +673,8 @@ uri="http://www.springframework.org/tags/form" %>
       }
     });
   </script>
+  <script
+    src="https://kit.fontawesome.com/a076d05399.js"
+    crossorigin="anonymous"
+  ></script>
 </html>
