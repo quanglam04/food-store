@@ -19,6 +19,10 @@
                     <link
                         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
                         rel="stylesheet">
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                        rel="stylesheet">
+
+
 
                     <!-- Icon Font Stylesheet -->
                     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
@@ -35,6 +39,11 @@
 
                     <!-- Template Stylesheet -->
                     <link href="/client/css/style.css" rel="stylesheet">
+                    <style>
+                        .jq-toast-single {
+                            font-size: 16px !important;  
+                        }
+                     </style>
                 </head>
 
                 <body>
@@ -131,15 +140,15 @@
                                                 <div class="row">
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Tên người nhận</label>
-                                                        <input class="form-control" name="receiverName" required />
+                                                        <input class="form-control" name="receiverName"   value="${fullName}"/>
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Địa chỉ người nhận</label>
-                                                        <input class="form-control" name="receiverAddress" required />
+                                                        <input class="form-control" name="receiverAddress"   value="${detailAddress}" />
                                                     </div>
                                                     <div class="col-12 form-group mb-3">
                                                         <label>Số điện thoại</label>
-                                                        <input class="form-control" name="receiverPhone" required />
+                                                        <input id="phoneNumber" class="form-control" name="receiverPhone" required />
                                                     </div>
 
                                                     <div class="col-12 form-group mb-3">
@@ -179,7 +188,10 @@
                                                     <div class="d-flex justify-content-between">
                                                         <h5 class="mb-0 me-4">Phí vận chuyển</h5>
                                                         <div class="">
-                                                            <p class="mb-0">0 đ</p>
+                                                            <p class="mb-0">
+
+                                                                <fmt:formatNumber type="number" value="${cost}" /> đ
+                                                            </p>
                                                         </div>
                                                     </div>
                                                     <div class="mt-3 d-flex justify-content-between">
@@ -197,7 +209,7 @@
                                                     </p>
                                                 </div>
 
-                                                <button
+                                                <button id="confirm"
                                                     class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4">
                                                     Xác nhận thanh toán
                                                 </button>
@@ -232,6 +244,34 @@
 
                     <!-- Template Javascript -->
                     <script src="/client/js/main.js"></script>
+                    <script>
+                    document.getElementById("confirm").addEventListener("click", function (event) {
+                        const phoneInput = document.getElementById("phoneNumber");
+                        const phone = phoneInput.value.trim();
+
+                        const isValid = /^\d{1,10}$/.test(phone);
+
+                        if (!isValid) {
+                           $.toast({
+                            text: "Số điện thoại không hợp lệ. Vui lòng thử lại!", 
+                            heading: 'Thông báo',  
+                            icon: 'info',  
+                            showHideTransition: 'fade',  
+                            allowToastClose: true,  
+                            hideAfter: 3000,  
+                            stack: 2,  
+                            position: 'bottom-left',  
+                            textAlign: 'left',   
+                            loader: true,  
+                            loaderBg: '#9EC600',  
+                    
+                        });
+                            event.preventDefault();  
+                        }
+                    });
+                    </script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
                 </body>
+                 
 
                 </html>
