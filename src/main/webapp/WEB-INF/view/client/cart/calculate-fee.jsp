@@ -27,6 +27,10 @@ uri="http://www.springframework.org/tags/form" %>
           Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       }
 
+      .jq-toast-single {
+        font-size: 16px !important;
+      }
+
       body {
         background-color: #f5f5f7;
         padding: 20px;
@@ -161,6 +165,36 @@ uri="http://www.springframework.org/tags/form" %>
         color: #999;
       }
 
+      .btn-checkout {
+        background-color: #00a65a; /* Màu xanh lá đậm giống nút tính phí vận chuyển */
+        color: white;
+        font-weight: 600;
+        border: none;
+        border-radius: 30px;
+        padding: 12px 30px;
+        font-size: 16px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: block;
+        margin: 20px auto;
+        box-shadow: 0 4px 8px rgba(0, 166, 90, 0.2);
+      }
+
+      .btn-checkout:hover {
+        background-color: #008d4c;
+        box-shadow: 0 6px 12px rgba(0, 166, 90, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .result-container {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
       /* Add Font Awesome for icons */
       @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
     </style>
@@ -173,6 +207,11 @@ uri="http://www.springframework.org/tags/form" %>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
       rel="stylesheet"
     />
 
@@ -367,11 +406,7 @@ uri="http://www.springframework.org/tags/form" %>
           <input type="hidden" name="detailAddress" id="detailAddress" />
         </div>
 
-        <button
-          class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-        >
-          Thanh toán
-        </button>
+        <button id="btnCheckout" class="btn-checkout">Thanh toán</button>
       </form:form>
     </div>
 
@@ -584,6 +619,7 @@ uri="http://www.springframework.org/tags/form" %>
       const toProvinceId = document.getElementById("provinceSelect").value;
       const toDistrictId = document.getElementById("districtSelect").value;
       const toWardCode = document.getElementById("wardSelect").value;
+      console.log(toProvinceId, toDistrictId, toWardCode);
       const address = document.getElementById("address").value;
 
       const toProvinceId2 = document.getElementById("provinceSelect");
@@ -658,10 +694,6 @@ uri="http://www.springframework.org/tags/form" %>
             const formattedFee = FormatCurrency(data.data.total);
 
             // Hiển thị phí vận chuyển
-            const a = 111;
-            const s = "s" + a;
-            console.log(s);
-            console.log(`s ${a}`);
 
             feeElement.textContent =
               "Chi phí vận chuyển: " + formattedFee + " đồng";
@@ -695,9 +727,40 @@ uri="http://www.springframework.org/tags/form" %>
         calculateButton.addEventListener("click", calculateShippingFee);
       }
     });
+
+    document
+      .getElementById("btnCheckout")
+      .addEventListener("click", function (event) {
+        const toDistrictIdValidate =
+          document.getElementById("districtSelect").value;
+        const toWardCodeValidate = document.getElementById("wardSelect").value;
+        const addressValidate = document.getElementById("address").value;
+        if (!toDistrictIdValidate || !toWardCodeValidate || !addressValidate) {
+          console.log(
+            toDistrictIdValidate,
+            toWardCodeValidate,
+            addressValidate
+          );
+          $.toast({
+            text: "Vui lòng điền đầy đủ thông tin trước khi thanh toán!",
+            heading: "Thông báo",
+            icon: "info",
+            showHideTransition: "fade",
+            allowToastClose: true,
+            hideAfter: 3000,
+            stack: 2,
+            position: "bottom-left",
+            textAlign: "left",
+            loader: true,
+            loaderBg: "#9EC600",
+          });
+          event.preventDefault();
+        }
+      });
   </script>
   <script
     src="https://kit.fontawesome.com/a076d05399.js"
     crossorigin="anonymous"
   ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
 </html>

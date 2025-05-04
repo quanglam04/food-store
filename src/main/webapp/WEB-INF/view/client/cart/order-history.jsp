@@ -33,8 +33,12 @@
 
                 <!-- Template Stylesheet -->
                 <link href="/client/css/style.css" rel="stylesheet">
+                
 
                 <style>
+                    .jq-toast-single {
+                            font-size: 16px !important;  
+                        }
                     /* Custom styling */
                     .order-history-title {
                         font-size: 1.5rem;

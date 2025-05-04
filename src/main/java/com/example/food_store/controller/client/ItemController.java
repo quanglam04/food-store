@@ -161,7 +161,7 @@ public class ItemController {
         final String uuid = UUID.randomUUID().toString().replace("-", "");
 
         this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone,
-                paymentMethod, uuid);
+                paymentMethod, uuid,Double.parseDouble(totalPrice));
         if (!paymentMethod.equals("COD")) {
             String ip = this.vnpayService.getIpAddress(request);
             String vnpUrl = this.vnpayService.generateVNPayURL(Double.parseDouble(totalPrice), uuid, ip);

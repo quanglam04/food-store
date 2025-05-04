@@ -34,6 +34,11 @@
 
                     <!-- Template Stylesheet -->
                     <link href="/client/css/style.css" rel="stylesheet">
+                    <style>
+                        .jq-toast-single {
+                            font-size: 16px !important;  
+                        }
+                     </style>
                 </head>
 
                 <body>

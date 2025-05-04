@@ -14,6 +14,11 @@
                     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
                     crossorigin="anonymous">
                 <link rel="stylesheet" type="text/css" href="/client/css/my-login.css">
+            <style>
+                        .jq-toast-single {
+                            font-size: 16px !important;  
+                        }
+                     </style>
             </head>
 
             <body class="my-login-page">

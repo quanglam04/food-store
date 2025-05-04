@@ -41,6 +41,9 @@
                     rel="stylesheet">
 
                 <style>
+                    .jq-toast-single {
+                            font-size: 16px !important;  
+                        }
                     .hidden {
                         display: none;
                     }

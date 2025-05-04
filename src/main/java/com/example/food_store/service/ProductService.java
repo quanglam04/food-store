@@ -243,7 +243,7 @@ public class ProductService {
 
     public void handlePlaceOrder(
             User user, HttpSession session,
-            String receiverName, String receiverAddress, String receiverPhone, String paymentMethod, String uuid) {
+            String receiverName, String receiverAddress, String receiverPhone, String paymentMethod, String uuid,double totalPrice) {
 
         // step 1: get cart by user
         Cart cart = this.cartRepository.findByUser(user);
@@ -261,15 +261,11 @@ public class ProductService {
                 order.setStatus("Chưa xử lý");
 
                 order.setPaymentMethod(paymentMethod);
-                order.setPaymentStatus("Chưa thanh toán");
+                order.setPaymentStatus("Thanh toán thành công");
                 order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : uuid);
-                double sum = 0;
-                for (CartDetail cd : cartDetails) {
-                    sum += cd.getPrice() * cd.getQuantity();
-                    System.out.println(cd.getPrice());
-                }
+                 
 
-                order.setTotalPrice(sum);
+                order.setTotalPrice(totalPrice);
                 order = this.orderRepository.save(order);
 
                 // create orderDetail

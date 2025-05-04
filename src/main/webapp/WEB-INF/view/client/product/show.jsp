@@ -49,7 +49,12 @@
                             pointer-events: none;
                             background-color: var(--bs-pagination-disabled-bg);
                         }
+                        .jq-toast-single {
+                            font-size: 16px !important;  
+                        }
                     </style>
+
+              
 
                 </head>
 

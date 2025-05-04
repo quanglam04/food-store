@@ -23,6 +23,7 @@
                         rel="stylesheet">
 
 
+
                     <!-- Icon Font Stylesheet -->
                     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
@@ -38,6 +39,11 @@
 
                     <!-- Template Stylesheet -->
                     <link href="/client/css/style.css" rel="stylesheet">
+                    <style>
+                        .jq-toast-single {
+                            font-size: 16px !important;  
+                        }
+                     </style>
                 </head>
 
                 <body>
