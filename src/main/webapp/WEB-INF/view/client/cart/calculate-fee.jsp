@@ -163,8 +163,8 @@ uri="http://www.springframework.org/tags/form" %>
         <select id="districtSelect" name="districtId"></select>
       </div>
       <div>
-        <select id="wardSelect" name="wardCode"></select>
         <p>Phường xã</p>
+        <select id="wardSelect" name="wardCode"></select>
       </div>
     </div>
     <jsp:include page="../layout/footer.jsp" />
@@ -187,6 +187,7 @@ uri="http://www.springframework.org/tags/form" %>
   </body>
 
   <script>
+    // --------------------Xử lý logic đoạn lấy thông tin quận huyện từ ProvinceID -------------------
     // Hàm gọi API để lấy danh sách quận/huyện dựa trên provinceID
     function getDistricts(provinceId) {
       // Kiểm tra nếu không có provinceId
@@ -194,12 +195,10 @@ uri="http://www.springframework.org/tags/form" %>
         console.error("Province ID is required");
         return;
       }
-
       // Cấu hình request
       const url =
         "https://online-gateway.ghn.vn/shiip/public-api/master-data/district";
       const token = "ed67dc49-2835-11f0-8c8d-faf19a0e6e5b";
-
       // Sử dụng fetch API để gửi request
       fetch(url, {
         method: "POST",
@@ -232,20 +231,16 @@ uri="http://www.springframework.org/tags/form" %>
           console.error("Error fetching districts:", error);
         });
     }
-
     // Hàm cập nhật danh sách quận/huyện vào dropdown
     function updateDistrictDropdown(districts) {
       const districtSelect = document.getElementById("districtSelect");
-
       // Xóa tất cả options hiện tại
       districtSelect.innerHTML = "";
-
       // Thêm option mặc định
       const defaultOption = document.createElement("option");
       defaultOption.value = "";
       defaultOption.textContent = "Chọn quận/huyện";
       districtSelect.appendChild(defaultOption);
-
       // Thêm các options mới từ API
       districts.forEach((district) => {
         if (district.DistrictName.includes("Thành phố")) {
@@ -257,20 +252,116 @@ uri="http://www.springframework.org/tags/form" %>
         districtSelect.appendChild(option);
       });
     }
-
     // Thêm event listener cho dropdown tỉnh/thành phố
     document.addEventListener("DOMContentLoaded", function () {
       const provinceSelect = document.querySelector(
         'select[name="provinceId"]'
       );
-
       if (provinceSelect) {
         // Lấy danh sách quận/huyện khi trang được tải với giá trị provinceId ban đầu
         getDistricts(provinceSelect.value);
-
         // Thêm event listener cho sự kiện thay đổi tỉnh/thành phố
         provinceSelect.addEventListener("change", function () {
           getDistricts(this.value);
+        });
+      }
+    });
+    // ---------------Xử lý Logic lấy thông tin phường xã từ Quận huyện-------------------------------
+    // Hàm gọi API để lấy danh sách phường/xã dựa trên districtID
+    function getWards(districtId) {
+      // Kiểm tra nếu không có districtId
+      if (!districtId) {
+        console.error("District ID is required");
+        return;
+      }
+
+      // Cấu hình request
+      const url =
+        "https://online-gateway.ghn.vn/shiip/public-api/master-data/ward";
+      const token = "ed67dc49-2835-11f0-8c8d-faf19a0e6e5b";
+
+      // Hiển thị trạng thái loading nếu cần
+      const wardSelect = document.getElementById("wardSelect");
+      wardSelect.innerHTML = '<option value="">Đang tải...</option>';
+
+      // Sử dụng fetch API để gửi request
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Token: token,
+        },
+        body: JSON.stringify({
+          district_id: parseInt(districtId),
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data.code === 200 && data.data) {
+            // Cập nhật danh sách phường/xã vào dropdown
+            updateWardDropdown(data.data);
+          } else {
+            console.error(
+              "Error getting wards:",
+              data.message || "Unknown error"
+            );
+            wardSelect.innerHTML =
+              '<option value="">Không thể tải phường/xã</option>';
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching wards:", error);
+          wardSelect.innerHTML =
+            '<option value="">Không thể tải phường/xã</option>';
+        });
+    }
+
+    // Hàm cập nhật danh sách phường/xã vào dropdown
+    function updateWardDropdown(wards) {
+      const wardSelect = document.getElementById("wardSelect");
+
+      // Xóa tất cả options hiện tại
+      wardSelect.innerHTML = "";
+
+      // Thêm option mặc định
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = "Chọn phường/xã";
+      wardSelect.appendChild(defaultOption);
+
+      // Thêm các options mới từ API
+      wards.forEach((ward) => {
+        // Bỏ qua các ward có tên đặc biệt nếu cần
+        if (ward.WardName.includes("Thị trấn")) {
+          return; // Skip this iteration
+        }
+
+        const option = document.createElement("option");
+        option.value = ward.WardCode; // Sử dụng WardCode thay vì WardID
+        option.textContent = ward.WardName;
+        wardSelect.appendChild(option);
+      });
+    }
+
+    // Thêm event listener cho dropdown quận/huyện
+    document.addEventListener("DOMContentLoaded", function () {
+      const districtSelect = document.getElementById("districtSelect");
+
+      if (districtSelect) {
+        // Thêm event listener cho sự kiện thay đổi quận/huyện
+        districtSelect.addEventListener("change", function () {
+          if (this.value) {
+            getWards(this.value);
+          } else {
+            // Reset danh sách phường xã khi không có quận/huyện được chọn
+            const wardSelect = document.getElementById("wardSelect");
+            wardSelect.innerHTML = '<option value="">Chọn phường/xã</option>';
+          }
         });
       }
     });
