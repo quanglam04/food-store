@@ -31,6 +31,7 @@ quanglam04-food-store/
 ## 3. Chức năng chính
 
 ### 👤 Người dùng
+
 - Đăng ký, đăng nhập, quên mật khẩu
 - Cập nhật thông tin cá nhân, đổi mật khẩu
 - Xem sản phẩm, chi tiết sản phẩm
@@ -38,6 +39,7 @@ quanglam04-food-store/
 - Đặt hàng và theo dõi lịch sử mua hàng
 
 ### 🛠️ Quản trị viên
+
 - Quản lý sản phẩm (thêm, sửa, xóa)
 - Quản lý đơn hàng
 - Quản lý người dùng
@@ -59,64 +61,75 @@ quanglam04-food-store/
 ### Cách 1: Dùng Docker Compose (khuyên dùng)
 
 #### Bước 1: Clone dự án
+
 ```
 git clone https://github.com/quanglam04/food-store.git
 ```
 
 #### Bước 2: Di chuyển vào thư mục dự án
+
 ```
 cd food-store
 ```
 
 #### Bước 3: Khởi tạo và chạy Docker
+
 ```
 docker-compose build
 docker-compose up -d
 ```
 
 #### Truy cập ứng dụng
-- Ứng dụng sẽ chạy tại:  
+
+- Ứng dụng sẽ chạy tại:
+
 ```
 http://localhost:8080
 ```
 
 #### Kết nối cơ sở dữ liệu (MySQL qua Docker)
-- **Host:** localhost  
-- **Port:** 3306 *(hoặc theo cấu hình trong `docker-compose.yml`)*  
-- **User:** root  
+
+- **Host:** localhost
+- **Port:** 3306 _(hoặc theo cấu hình trong `docker-compose.yml`)_
+- **User:** root
 - **Password:** root
 
 #### Dừng ứng dụng
+
 ```
 docker-compose down
 ```
 
 ### Cách 2: Dùng Maven & MySQL cài đặt sẵn
+
 Cấu hình database trong application.properties
 Chạy lệnh:
+
 ```bash
 ./mvnw spring-boot:run
 ```
 
-### Kết quả sau khi chạy thành công: 
+### Kết quả sau khi chạy thành công:
+
 ![Demo 4](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_4%20-%20Copy.png)
- <br></br>
+<br></br>
 ![Demo 3](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_3.png)
-  <br></br>
+<br></br>
 ![Demo 2](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_2.png)
-  <br></br>
+<br></br>
 
 ![Demo 6](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_6.png)
- <br></br>
+<br></br>
 ![Demo 7](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_7.png)
- <br></br>
- 
+<br></br>
+
 ![Demo 1](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_1.png)
 
 ---
 
 ## 6. Công nghệ sử dụng
-- Spring Boot 
+
+- Spring Boot
 - Spring Security (Form Login & OAuth2 Login)
 - Spring MVC
 - Spring Session
@@ -124,15 +137,19 @@ Chạy lệnh:
 - MySQL
 - Maven
 - Docker & Docker Compose
- 
+
 ### Yêu cầu về version
 
-- **Docker:** version `20.10+`  
-- **Docker Compose:** version `1.29+` 
+- **Docker:** version `20.10+`
+- **Docker Compose:** version `1.29+`
 - **Java:** version `17+`
-- **Maven:**  `3.6+`
+- **Spring Boot:** version `3.3.4+`
+- **Spring Security:** version `6.3.1+`
+- **Maven:** `3.6+`
 - **MySQL Server:** version `8.0+`
 
 ---
+
 ## 7. Thông tin khác
+
     Liên hệ: trinhquanglam2k4@gmail.com
