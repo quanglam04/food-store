@@ -42,7 +42,7 @@ public class FoodStoreApplication {
     return args -> {
         if (userRepository.count() == 0) {
             User adminUser = new User();
-            adminUser.setEmail("trinhquanglam2k4@gmail.com");
+            adminUser.setEmail("lam.trinhquang@vti.com");
             adminUser.setPassword(passwordEncoder.encode("123456"));
             adminUser.setFullName("TrinhQuangLam");
             adminUser.setRole(roleRepository.findById(1L).get()); // ADMIN role
