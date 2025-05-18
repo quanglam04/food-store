@@ -9,5 +9,6 @@ import com.example.food_store.domain.User;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
     Cart findByUser(User user);
-
+    Cart findById(long id);
+    Cart save(Cart cart);
 }

@@ -22,6 +22,7 @@ import com.example.food_store.domain.Product;
 import com.example.food_store.domain.Product_;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ProductCriteriaDTO;
+import com.example.food_store.service.CartService;
 import com.example.food_store.service.ProductService;
 import com.example.food_store.service.UserService;
 import com.example.food_store.service.VNPAYService;
@@ -39,13 +40,15 @@ public class ItemController {
     private final UserService userService;
     private final SendEmail sendEmail;
     private final VNPAYService vnpayService;
+    private final CartService cartService;
 
     public ItemController(ProductService productService, UserService userService,
-            SendEmail sendEmail, VNPAYService vnpayService) {
+            SendEmail sendEmail, VNPAYService vnpayService, CartService cartService) {
         this.productService = productService;
         this.userService = userService;
         this.sendEmail = sendEmail;
         this.vnpayService = vnpayService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/product/{id}")
@@ -134,7 +137,26 @@ public class ItemController {
     }
 
     @GetMapping("/user/order/calculate-fee")
-    public String calculateFee(@ModelAttribute("cart") Cart cart){
+    public String calculateFee(@ModelAttribute("cart") Cart cart, HttpServletRequest request){
+        // lưu cart detail theo thông tin hiện có của cart
+        // tìm thông tin của  cart có ID = id của cart được gửi lên
+        HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        User currentUser = new User();
+        currentUser.setId(id);
+        Cart currentCart = this.cartService.findByUser(currentUser);
+        List<CartDetail> currentListCartDetail = currentCart.getCartDetails();
+        List<CartDetail> listCartDetailFromView = cart.getCartDetails();
+        for(CartDetail cartDetail : currentListCartDetail){
+            // với mỗi cartDetail này số lượng phải bằng với cartDetail trong cart gửi từ view lên
+            for(CartDetail cartDetail2 : listCartDetailFromView)
+                if(Long.compare(cartDetail.getId(),cartDetail2.getId()) == 0)
+                    // cập nhật số lượng của cartDetail = số lượng cartDetail2
+                        cartDetail.setQuantity(cartDetail2.getQuantity());
+                
+        }
+        this.cartService.saveCart(currentCart);
+        // lặp qua tất cả cartDetail của cart này và cập nhật số lượng trong cartDetail bằng với số lượng cart gửi lên từ view
         return "client/cart/calculate-fee";
     }
 
