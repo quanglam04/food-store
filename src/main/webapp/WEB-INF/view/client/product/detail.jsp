@@ -50,6 +50,14 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
       rel="stylesheet"
     />
+    <style>
+      .custom-disabled:disabled {
+        background-color: white !important; /* bỏ màu xám nền */
+        color: black !important; /* đổi màu chữ nếu cần */
+        opacity: 1 !important; /* bỏ độ mờ */
+        -webkit-text-fill-color: black !important; /* cho Safari */
+      }
+    </style>
   </head>
 
   <body>
@@ -151,8 +159,9 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   </div>
                   <input
                     type="text"
-                    class="form-control form-control-sm text-center border-0"
+                    class="form-control form-control-sm text-center border-0 custom-disabled"
                     value="1"
+                    disabled="true"
                     data-cart-detail-index="0"
                   />
                   <div class="input-group-btn">
@@ -164,33 +173,37 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   </div>
                 </div>
 
-                <!-- <form action="/add-product-from-view-detail" method="post" modelAttribute="prd"> -->
-                <input
-                  type="hidden"
-                  name="${_csrf.parameterName}"
-                  value="${_csrf.token}"
-                />
-                <input
-                  class="form-control d-none"
-                  type="text"
-                  value="${prd.id}"
-                  name="id"
-                />
-
-                <input
-                  class="form-control d-none"
-                  type="text"
-                  name="quantity"
-                  id="cartDetails0.quantity"
-                />
-                <button
-                  data-product-id="${prd.id}"
-                  class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
+                <form
+                  action="/add-product-from-view-detail"
+                  method="post"
+                  modelAttribute="prd"
                 >
-                  <i class="fa fa-shopping-bag me-2 text-primary"></i>
-                  Thêm vào giỏ hàng
-                </button>
-                <!-- </form> -->
+                  <input
+                    type="hidden"
+                    name="${_csrf.parameterName}"
+                    value="${_csrf.token}"
+                  />
+                  <input
+                    class="form-control d-none"
+                    type="text"
+                    value="${prd.id}"
+                    name="id"
+                  />
+
+                  <input
+                    class="form-control d-none"
+                    type="text"
+                    name="quantity"
+                    id="cartDetails0.quantity"
+                  />
+                  <button
+                    data-product-id="${prd.id}"
+                    class="btnAddToCartDetail btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
+                  >
+                    <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                    Thêm vào giỏ hàng
+                  </button>
+                </form>
               </div>
               <div class="col-lg-12">
                 <nav>

@@ -49,7 +49,7 @@ public class CartAPI {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("email");
         this.productService.handleAddProductToCart(email, cartRequest.getProductId(), session,
-                cartRequest.getQuantity());
+                cartRequest.getQuantity() == 0?1:cartRequest.getQuantity());
 
         int sum = (int) session.getAttribute("sum");
 
