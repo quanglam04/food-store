@@ -327,28 +327,52 @@
                                             <c:if test="${totalPages>0}">
                                                 <div class="pagination d-flex justify-content-center mt-5">
                                                     <li class="page-item">
-                                                        <a class="${1 eq currentPage ? 'disabled page-link' : 'page-link'}"
-                                                            href="/products?page=${currentPage - 1}${queryString}"
-                                                            aria-label="Previous">
+                                                        <a class="${currentPage == 1 ? 'disabled page-link' : 'page-link'}"
+                                                           href="/products?page=${currentPage - 1}${queryString}" aria-label="Previous">
                                                             <span aria-hidden="true">&laquo;</span>
                                                         </a>
                                                     </li>
-                                                    <c:forEach begin="1" end="${totalPages }" varStatus="loop">
-                                                        <li class="page-item">
-                                                            <a class="${(loop.index ) eq currentPage ? 'active page-link' : 'page-link'}"
-                                                                href="/products?page=${loop.index}${queryString}">
-                                                                ${loop.index }
-                                                            </a>
-                                                        </li>
-                                                    </c:forEach>
+                                                
+                                                    <!-- Always show first page -->
                                                     <li class="page-item">
-                                                        <a class="${totalPages eq currentPage ? 'disabled page-link' : 'page-link'}"
-                                                            href="/products?page=${currentPage + 1}${queryString}"
-                                                            aria-label="Next">
+                                                        <a class="${currentPage == 1 ? 'active page-link' : 'page-link'}" href="/products?page=1${queryString}">1</a>
+                                                    </li>
+                                                
+                                                    <!-- Show second page only if currentPage > 4 -->
+                                                    <c:if test="${currentPage > 4}">
+                                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                                    </c:if>
+                                                
+                                                    <!-- Show pages around currentPage -->
+                                                    <c:forEach begin="${currentPage - 1}" end="${currentPage + 1}" var="i">
+                                                        <c:if test="${i > 1 && i < totalPages}">
+                                                            <li class="page-item">
+                                                                <a class="${i == currentPage ? 'active page-link' : 'page-link'}"
+                                                                   href="/products?page=${i}${queryString}">${i}</a>
+                                                            </li>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                
+                                                    <!-- Show ... before last pages if needed -->
+                                                    <c:if test="${currentPage < totalPages - 3}">
+                                                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                                                    </c:if>
+                                                
+                                                    <!-- Show last page only if more than 1 -->
+                                                    <c:if test="${totalPages > 1}">
+                                                        <li class="page-item">
+                                                            <a class="${currentPage == totalPages ? 'active page-link' : 'page-link'}"
+                                                               href="/products?page=${totalPages}${queryString}">${totalPages}</a>
+                                                        </li>
+                                                    </c:if>
+                                                
+                                                    <!-- Next button -->
+                                                    <li class="page-item">
+                                                        <a class="${currentPage == totalPages ? 'disabled page-link' : 'page-link'}"
+                                                           href="/products?page=${currentPage + 1}${queryString}" aria-label="Next">
                                                             <span aria-hidden="true">&raquo;</span>
                                                         </a>
                                                     </li>
-
                                                 </div>
 
                                             </c:if>
