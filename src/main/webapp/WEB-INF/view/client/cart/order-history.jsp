@@ -135,23 +135,43 @@
                                             <td colspan="6">Không có đơn hàng nào được tạo</td>
                                         </tr>
                                     </c:if>
-                                    <c:forEach var="order" items="${orders}">
+                                    <c:forEach var="order" varStatus="loop" items="${orders}">
                                         <tr>
-                                            <td colspan="2" class="order-id">Số thứ tự :
-                                                <c:choose>
-                                                    <c:when test="${order.id < 10}">
-                                                        0${order.id}
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        ${order.id}
-                                                    </c:otherwise>
-                                                </c:choose>
+                                            <td colspan="2" class="order-id">Số thứ tự : ${loop.index + 1}
                                             </td>
                                             <td colspan="1" class="price-text">
                                                 <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
                                             </td>
                                             <td colspan="2"></td>
-                                            <td colspan="1">${order.status}</td>
+                                            <td colspan="1">
+                                                <c:choose>
+                                                    <c:when test="${order.status == 'Hủy'}">
+                                                        Đã hủy
+                                                    </c:when>
+                                            
+                                                    <c:when test="${order.status == 'Hoàn thành'}">
+                                                        Hoàn thành - Đã thanh toán
+                                                    </c:when>
+                                            
+                                                    <c:otherwise>
+                                                        <c:choose>
+                                                            <c:when test="${order.paymentMethod == 'COD'}">
+                                                                ${order.status} - Chưa thanh toán
+                                                            </c:when>
+                                            
+                                                            <c:when test="${order.paymentMethod == 'BANKING'}">
+                                                                ${order.status} - Đã thanh toán
+                                                            </c:when>
+                                            
+                                                            <c:otherwise>
+                                                                ${order.status}
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+
+
                                         </tr>
                                         <c:forEach var="orderDetail" items="${order.orderDetails}">
                                             <tr>

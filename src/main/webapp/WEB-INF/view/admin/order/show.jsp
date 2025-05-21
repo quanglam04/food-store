@@ -48,6 +48,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                   <th>ID</th>
                   <th>Tổng</th>
                   <th>Người dùng</th>
+                  <th>Địa chỉ</th>
+                  <th>Số điện thoại</th>
                   <th>Trạng thái</th>
                   <th>Thông tin giao dịch</th>
                   <th>Thao tác</th>
@@ -66,6 +68,8 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
                       </p>
                     </td>
                     <td>${order.receiverName}</td>
+                    <td>${order.receiverAddress}</td>
+                    <td>${order.receiverPhone}</td>
                     <td>${order.status}</td>
                     <td>
                       <div>Trạng thái: ${order.paymentStatus}</div>
