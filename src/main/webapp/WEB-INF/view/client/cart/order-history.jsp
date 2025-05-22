@@ -126,6 +126,7 @@
                                         <th>Giá cả</th>
                                         <th>Số lượng</th>
                                         <th>Thành tiền</th>
+                                        <th>Địa chỉ</th>
                                         <th>Trạng thái</th>
                                     </tr>
                                 </thead>
@@ -143,6 +144,7 @@
                                                 <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
                                             </td>
                                             <td colspan="2"></td>
+                                            <td colspan="1">${order.receiverAddress}</td>
                                             <td colspan="1">
                                                 <c:choose>
                                                     <c:when test="${order.status == 'Hủy'}">
@@ -192,6 +194,7 @@
                                                     <fmt:formatNumber type="number"
                                                         value="${orderDetail.price * orderDetail.quantity}" /> đ
                                                 </td>
+                                                <td></td>
                                                 <td></td>
                                             </tr>
                                         </c:forEach>
