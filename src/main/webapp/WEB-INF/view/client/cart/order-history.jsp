@@ -127,13 +127,14 @@
                                         <th>Số lượng</th>
                                         <th>Thành tiền</th>
                                         <th>Địa chỉ</th>
+                                        <th>Số điện thoại</th>
                                         <th>Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <c:if test="${ empty orders}">
                                         <tr>
-                                            <td colspan="6">Không có đơn hàng nào được tạo</td>
+                                            <td colspan="8">Không có đơn hàng nào được tạo</td>
                                         </tr>
                                     </c:if>
                                     <c:forEach var="order" varStatus="loop" items="${orders}">
@@ -145,6 +146,7 @@
                                             </td>
                                             <td colspan="2"></td>
                                             <td colspan="1">${order.receiverAddress}</td>
+                                            <td colspan="1">${order.receiverPhone}</td>
                                             <td colspan="1">
                                                 <c:choose>
                                                     <c:when test="${order.status == 'Hủy'}">
@@ -194,6 +196,7 @@
                                                     <fmt:formatNumber type="number"
                                                         value="${orderDetail.price * orderDetail.quantity}" /> đ
                                                 </td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                             </tr>
