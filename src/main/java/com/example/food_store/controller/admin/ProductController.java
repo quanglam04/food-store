@@ -48,19 +48,21 @@ public class ProductController {
             } else {
                 // page = 1
             }
+            Pageable pageable = PageRequest.of(page - 1, 5);
+            Page<Product> prs = this.productService.fetchProducts(pageable);
+            List<Product> listProducts = prs.getContent();
+            model.addAttribute("products", listProducts);
+
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", prs.getTotalPages());
+
+            return "admin/product/show";
         } catch (Exception e) {
-            page = 1;
+            model.addAttribute("errorMessage", "Không tìm thấy trang .");
+            return "not-match";
         }
 
-        Pageable pageable = PageRequest.of(page - 1, 5);
-        Page<Product> prs = this.productService.fetchProducts(pageable);
-        List<Product> listProducts = prs.getContent();
-        model.addAttribute("products", listProducts);
-
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", prs.getTotalPages());
-
-        return "admin/product/show";
+         
     }
 
     @GetMapping("/admin/product/create")

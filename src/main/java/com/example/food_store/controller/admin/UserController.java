@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import java.util.UUID;
 
-import org.eclipse.tags.shaded.org.apache.regexp.RE;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,20 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.food_store.domain.Token;
 import com.example.food_store.domain.User;
-import com.example.food_store.domain.dto.ChangePasswordDTO;
 import com.example.food_store.domain.dto.ResetPasswordDTO;
 import com.example.food_store.service.TokenService;
 import com.example.food_store.service.UploadService;
 import com.example.food_store.service.UserService;
 import com.example.food_store.service.sendEmail.SendEmail;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class UserController {
@@ -68,19 +64,19 @@ public class UserController {
             } else {
                 // page = 1
             }
+            Pageable pageable = PageRequest.of(page - 1, 4);
+            Page<User> usersPage = this.userService.getAllUsers(pageable);
+            List<User> users = usersPage.getContent();
+            model.addAttribute("listUser", users);
+    
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", usersPage.getTotalPages());
+            return "admin/user/show";
         } catch (Exception e) {
-            // page = 1
-            // TODO: handle exception
+            model.addAttribute("errorMessage", "Không tìm thấy trang .");
+            return "not-match";
         }
 
-        Pageable pageable = PageRequest.of(page - 1, 4);
-        Page<User> usersPage = this.userService.getAllUsers(pageable);
-        List<User> users = usersPage.getContent();
-        model.addAttribute("listUser", users);
-
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", usersPage.getTotalPages());
-        return "admin/user/show";
     }
 
     @RequestMapping("/admin/user/create")

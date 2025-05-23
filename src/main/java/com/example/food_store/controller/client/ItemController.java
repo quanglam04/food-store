@@ -240,11 +240,8 @@ public class ItemController {
             } else {
                 // page = 1
             }
-        } catch (Exception e) {
-            // page = 1
-            // TODO: handle exception
-        }
-        Pageable pageable = PageRequest.of(page - 1, 6);
+
+            Pageable pageable = PageRequest.of(page - 1, 6);
         if (productCriteriaDTO.getSort() != null && productCriteriaDTO.getSort().isPresent()) {
             String sort = productCriteriaDTO.getSort().get();
             if (sort.equals("gia-tang-dan")) {
@@ -270,6 +267,11 @@ public class ItemController {
         model.addAttribute("totalPages", prs.getTotalPages());
         model.addAttribute("queryString", qs);
         return "client/product/show";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Không tìm thấy trang .");
+            return "not-match";
+        }
+         
     }
 
      

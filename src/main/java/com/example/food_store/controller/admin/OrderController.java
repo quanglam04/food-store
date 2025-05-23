@@ -41,19 +41,19 @@ public class OrderController {
             } else {
                 // page = 1
             }
+            Pageable pageable = PageRequest.of(page - 1, 4);
+            Page<Order> ordersPage = this.orderService.fetchAllOrders(pageable);
+            List<Order> orders = ordersPage.getContent();
+    
+            model.addAttribute("orders", orders);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", ordersPage.getTotalPages());
+            return "admin/order/show";
         } catch (Exception e) {
-            // page = 1
-            // TODO: handle exception
+            model.addAttribute("errorMessage", "Không tìm thấy trang .");
+            return "not-match";
         }
 
-        Pageable pageable = PageRequest.of(page - 1, 4);
-        Page<Order> ordersPage = this.orderService.fetchAllOrders(pageable);
-        List<Order> orders = ordersPage.getContent();
-
-        model.addAttribute("orders", orders);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", ordersPage.getTotalPages());
-        return "admin/order/show";
     }
 
     @GetMapping("/admin/order/{id}")
