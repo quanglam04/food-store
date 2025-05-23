@@ -233,12 +233,14 @@ public class ItemController {
     public String getProductPage(Model model, ProductCriteriaDTO productCriteriaDTO,
             HttpServletRequest request) {
         int page = 1;
+        productCriteriaDTO.setPage(Optional.ofNullable(request.getParameter("page")));
+        productCriteriaDTO.setSort(Optional.ofNullable(request.getParameter("sort")));
         try {
             if (productCriteriaDTO.getPage().isPresent()) {
                 // convert from String to int
                 page = Integer.parseInt(productCriteriaDTO.getPage().get());
             } else {
-                // page = 1
+                page = 1;
             }
 
             Pageable pageable = PageRequest.of(page - 1, 6);
@@ -254,7 +256,6 @@ public class ItemController {
         }
 
         Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, productCriteriaDTO);
-
         List<Product> products = prs.getContent().size() > 0 ? prs.getContent() : new ArrayList<Product>();
         String qs = request.getQueryString();
 
@@ -267,7 +268,8 @@ public class ItemController {
         model.addAttribute("totalPages", prs.getTotalPages());
         model.addAttribute("queryString", qs);
         return "client/product/show";
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             model.addAttribute("errorMessage", "Không tìm thấy trang .");
             return "not-match";
         }

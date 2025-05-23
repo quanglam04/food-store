@@ -168,12 +168,16 @@ public class HomePageController {
     }
 
     @GetMapping("/update-profile/{id}")
-    public String getProfileUpdate(Model model, @PathVariable long id) {
-        User currentUser = this.userService.getUserById(id);
-        model.addAttribute("id", id);
-        model.addAttribute("newUser", currentUser);
-        return "client/homepage/updateProfile";
+    public String getProfileUpdate(HttpSession session, Model model, @PathVariable long id) {
+    Long sessionUserId = (Long) session.getAttribute("id");
+    if (sessionUserId == null || sessionUserId != id) {
+        return "not-match"; 
     }
+    User currentUser = this.userService.getUserById(id);
+    model.addAttribute("id", id);
+    model.addAttribute("newUser", currentUser);
+    return "client/homepage/updateProfile";
+}
 
     @PostMapping("/update-profile")
     public String postMethodName(Model model, @ModelAttribute("newUser") User trinhlam,
@@ -188,7 +192,7 @@ public class HomePageController {
         }
 
         if (newBindingResult.hasErrors())
-            return "/";
+            return "not-match";
 
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
         currentUser.setAvatar(avatar);
