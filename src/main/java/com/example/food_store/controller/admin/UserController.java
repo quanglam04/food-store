@@ -188,7 +188,7 @@ public class UserController {
         tokenService.saveToken(token);
         String resetLink = "http://localhost:8080/reset-password?token=" + tokenEmail;
         sendEmail.sendEmail(email, "Xác nhận khôi phục mật khẩu", "Nhấn vào đây để lấy lại mật khẩu: " + resetLink);
-        return "redirect:/password";
+        return "redirect:/login";
     }
 
     @PostMapping("/process-reset-password")
