@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ResetPasswordRequestMatcher implements RequestMatcher {
 
     @Override
-    public boolean matches(HttpServletRequest request) {
+      public boolean matches(HttpServletRequest request) {
 
         String requestURI = request.getRequestURI();
 
