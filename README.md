@@ -113,20 +113,41 @@ Chạy lệnh:
 
 ### Kết quả sau khi chạy thành công:
 
+
+![Demo 4](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/image.png)
+<p align="center">
+  Báo cáo chất lượng code từ SonarQube
+</p>
+
 ![Demo 4](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_4%20-%20Copy.png)
-<br></br>
+<p align="center">
+  Đăng nhập
+</p>
+
 ![Demo 3](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_3.png)
-<br></br>
+<p align="center">
+  Trang chủ
+</p>
+
 ![Demo 2](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_2.png)
-<br></br>
+<p align="center">
+  Sản phẩm
+</p>
 
 ![Demo 6](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_6.png)
-<br></br>
+<p align="center">
+  Tính phí vận chuyển dựa trên khoảng cách thực tế
+</p>
+
 ![Demo 7](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_7.png)
-<br></br>
+<p align="center">
+  Thanh toán
+</p>
 
 ![Demo 1](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_1.png)
-
+<p align="center">
+  Dashboard phía ADMIN
+</p>
 ---
 
 ## 6. Công nghệ sử dụng
