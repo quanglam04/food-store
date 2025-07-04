@@ -139,6 +139,7 @@ Chạy lệnh:
 - MySQL
 - Maven
 - Docker & Docker Compose
+- SonarQube
 
 ### Yêu cầu về version
 
@@ -149,6 +150,7 @@ Chạy lệnh:
 - **Spring Security:** version `6.3.1+`
 - **Maven:** `3.6+`
 - **MySQL Server:** version `8.0+`
+- **SonarQube:** version 10.x Community Edition
 
 ---
 
