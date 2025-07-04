@@ -150,7 +150,7 @@ Chạy lệnh:
 - **Spring Security:** version `6.3.1+`
 - **Maven:** `3.6+`
 - **MySQL Server:** version `8.0+`
-- **SonarQube:** version 10.x Community Edition
+- **SonarQube:** `version 10.x Community Edition`
 
 ---
 
