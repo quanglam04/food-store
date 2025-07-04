@@ -53,6 +53,8 @@ quanglam04-food-store/
 - 🚚 **Giao Hàng Nhanh API**: Tính phí vận chuyển theo địa chỉ thực tế
 - 💳 **Thanh toán VNPAY**: Hỗ trợ thanh toán online
 - 🔐 **OAuth2 Login**: Đăng nhập bằng Google và GitHub
+- 📲 **Xác thực OTP qua Twilio**: Gửi mã OTP qua SMS để bảo mật tài khoản
+- 🧪 **SonarQube Quality Gate**: Phân tích, kiểm tra chất lượng và bảo mật mã nguồn tự động
 
 ---
 
