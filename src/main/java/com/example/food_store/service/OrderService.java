@@ -16,7 +16,6 @@ import com.example.food_store.repository.OrderRepository;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
-
     public OrderService(OrderRepository orderRepository, OrderDetailRepository orderDetailRepository) {
         this.orderDetailRepository = orderDetailRepository;
         this.orderRepository = orderRepository;

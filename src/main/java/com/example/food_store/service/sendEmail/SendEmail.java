@@ -23,7 +23,6 @@ public class SendEmail {
         message.setTo(toEmail);
         message.setText(body);
         message.setSubject(subject);
-
         mailSender.send(message);
 
     }
@@ -32,7 +31,6 @@ public class SendEmail {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
             helper.setFrom("foodstore247official@gmail.com");
             helper.setTo(toEmail);
             helper.setSubject(subject);
@@ -46,7 +44,6 @@ public class SendEmail {
             }
             mailSender.send(message);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 

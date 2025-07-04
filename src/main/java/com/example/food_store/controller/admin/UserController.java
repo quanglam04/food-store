@@ -106,14 +106,9 @@ public class UserController {
         String hashPassword = this.passwordEncoder.encode(trinhlam.getPassword());
         trinhlam.setAvatar(avatar);
         trinhlam.setPassword(hashPassword);
-
         trinhlam.setRole(this.userService.getRoleByName(trinhlam.getRole().getName()));
-        System.out.println(trinhlam.getRole());
 
         this.userService.handleSaveUser(trinhlam);
-        System.out.println(trinhlam.getEmail());
-        // System.out.println(trinhlam);
-
         return "redirect:/admin/user";
     }
 
@@ -149,8 +144,6 @@ public class UserController {
 
     @GetMapping("/admin/user/delete/{id}")
     public String getDeleteUserPage(Model model, @PathVariable long id) {
-        // User user = new User();
-        // user.setId(id);
         model.addAttribute("id", id);
         model.addAttribute("newUser", new User());
 

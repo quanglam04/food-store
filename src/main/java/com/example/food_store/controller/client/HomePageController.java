@@ -153,7 +153,6 @@ public class HomePageController {
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
         List<Order> orders = this.orderService.fetchOrderByUser(currentUser);
-
         model.addAttribute("orders", orders);
         return "client/cart/order-history";
     }
@@ -186,11 +185,6 @@ public class HomePageController {
             HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         User currentUser = this.userService.getUserById(trinhlam.getId());
-        List<FieldError> errors = newBindingResult.getFieldErrors();
-        for (FieldError error : errors) {
-            System.out.println(error.getField() + " - " + error.getDefaultMessage());
-        }
-
         if (newBindingResult.hasErrors())
             return "not-match";
 
@@ -221,8 +215,6 @@ public class HomePageController {
             BindingResult bindingResult,
             Model model) {
         if (bindingResult.hasErrors()) {
-            System.out.println(">>>>>>>>>>>" + bindingResult.getFieldError());
-            System.out.println(">>>>>>>>>>>>>" + bindingResult.getFieldError().getDefaultMessage());
             String error = bindingResult.getFieldError().getDefaultMessage();
             model.addAttribute("errorNewpassword", error);
             return "client/homepage/changePassword";

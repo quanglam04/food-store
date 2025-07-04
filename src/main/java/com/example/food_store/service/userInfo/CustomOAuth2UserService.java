@@ -49,11 +49,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 oldUser.setRole(userRole);
                 this.userService.saveUser(oldUser);
             } else if (!user.getProvider().equalsIgnoreCase(registrationeId)) {
-                System.out.println("????????User với email: " + email + " đã tồn tại");
                 throw new CustomOAuth2Exception("Tài khoản đã tồn tại");
             }
         }
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>User email: " + email);
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority("ROLE_" + userRole.getName())),
                 oAuth2User.getAttributes(), "email");
 
