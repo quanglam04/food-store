@@ -4,11 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.food_store.controller.BaseController;
 import com.example.food_store.service.ProductService;
 import com.example.food_store.service.UserService;
 
 @Controller
-public class DashBoardController {
+public class DashBoardController extends BaseController {
     private final UserService userService;
     private final ProductService productService;
 
@@ -19,6 +20,7 @@ public class DashBoardController {
 
     @GetMapping("/admin")
     public String getDashBoard(Model model) {
+        log.info("Request to /admin");
         long countUser = this.userService.countUser();
         long countOrder = this.userService.countOrder();
         long countProduct = this.productService.countProduct();

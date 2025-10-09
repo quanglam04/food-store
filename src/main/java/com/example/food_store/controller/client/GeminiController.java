@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 
 import java.io.*;
@@ -14,10 +15,11 @@ import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/gemini-proxy")
 public class GeminiController {
+    @Value("${api-gemini}")
+    private static String apiUrl; 
     
     @PostMapping
     public ResponseEntity<String> proxyToGemini(@RequestBody String requestBody) throws IOException {
-        String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAqegyPvRERJaG3SZiBsC46ZXQ0jDYcdTQ";
         URL url = new URL(apiUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");

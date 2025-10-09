@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Order;
 import com.example.food_store.domain.OrderDetail;
 import com.example.food_store.service.OrderService;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class OrderController {
+public class OrderController extends BaseController {
 
     private final OrderService orderService;
 
@@ -32,7 +33,7 @@ public class OrderController {
     @GetMapping("/admin/order")
     public String getDashboard(Model model,
             @RequestParam("page") Optional<String> pageOptional) {
-
+        log.info("Request to /admin/order");
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -58,6 +59,7 @@ public class OrderController {
 
     @GetMapping("/admin/order/{id}")
     public String getMethodName(@PathVariable long id, Model model) {
+        log.info("Request to /admin/order/{id}");
         Order order = this.orderService.fetchOrderById(id).get();
         List<OrderDetail> orderDetails = order.getOrderDetails();
         model.addAttribute("id", id);
@@ -68,6 +70,7 @@ public class OrderController {
 
     @GetMapping("/admin/order/delete/{id}")
     public String getDeleteOrderPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/order/delete/{id}");
         model.addAttribute("id", id);
         model.addAttribute("newOrder", new Order());
         return "admin/order/delete";
@@ -75,6 +78,7 @@ public class OrderController {
 
     @PostMapping("/admin/order/delete")
     public String postDeleteOrder(@ModelAttribute("newOrder") Order order) {
+        log.info("Request to /admin/order/delete");
         this.orderService.deleteById(order.getId());
         return "redirect:/admin/order";
 
@@ -82,6 +86,7 @@ public class OrderController {
 
     @GetMapping("/admin/order/update/{id}")
     public String getUpdateOrderPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/order/update/{id}");
         Optional<Order> currentOrder = this.orderService.fetchOrderById(id);
         model.addAttribute("newOrder", currentOrder.get());
         return "admin/order/update";
@@ -89,6 +94,7 @@ public class OrderController {
 
     @PostMapping("/admin/order/update")
     public String handleUpdateOrder(@ModelAttribute("newOrder") Order order) {
+        log.info("Request to /admin/order/update");
         this.orderService.updateOrder(order);
         return "redirect:/admin/order";
     }
