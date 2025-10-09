@@ -1,0 +1,86 @@
+spring:
+  application:
+    name: food-store
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+#    show-sql: true
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/foodstore
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  session:
+    store-type: jdbc
+    timeout: 30m
+    jdbc:
+      initialize-schema: always
+#      table-name: SPRING_SESSION
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: foodstore247official@gmail.com
+    password: utbwyqfrkhxlpxjn
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 693853600642-a6i3m8sina578kahk5lnbv0taoufuuvg.apps.googleusercontent.com
+            client-secret: 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
+            scope: email,profile
+          github:
+            client-id: Ov23liYmE7tGzukbkBtF
+            client-secret: 3de5cfdd0c2cf3603b8de9f4d476f2337bbf6ca9
+
+#  security:
+#    user:
+#      name: trinhlam
+#      password: 123456
+
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/view/
+#      suffix: .jsp
+
+  web:
+    resources:
+      add-mappings: false
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+# server:
+#   port: 8084
+#   servlet:
+#     session:
+#       timeout:
+
+trinhlam:
+  vnpay:
+    tmn-code: FXMFV63I
+    hash-secret: 4Y6I99D2FCHG2PLC1JJ18TN4VVWZYHB8
+    vnp-url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    vnp-return-url: http://localhost:8080/afterOrder
+
+api-gemini: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAqegyPvRERJaG3SZiBsC46ZXQ0jDYcdTQ
