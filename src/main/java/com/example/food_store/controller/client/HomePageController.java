@@ -12,7 +12,9 @@ import com.example.food_store.domain.Order;
 import com.example.food_store.domain.Product;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ChangePasswordDTO;
+import com.example.food_store.domain.dto.EmailRequest;
 import com.example.food_store.domain.dto.RegisterDTO;
+import com.example.food_store.producer.EmailProducer;
 import com.example.food_store.service.OrderService;
 import com.example.food_store.service.ProductService;
 import com.example.food_store.service.UploadService;
@@ -38,15 +40,17 @@ public class HomePageController {
     private final OrderService orderService;
     private final UploadService uploadService;
     private final SendEmail sendEmail;
+    private final EmailProducer emailProducer;
 
     public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            OrderService orderService, UploadService uploadService, SendEmail sendEmail) {
+            OrderService orderService, UploadService uploadService, SendEmail sendEmail, EmailProducer emailProducer) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.orderService = orderService;
         this.uploadService = uploadService;
         this.sendEmail = sendEmail;
+        this.emailProducer = emailProducer;
     }
 
     @RequestMapping("/")
@@ -121,7 +125,9 @@ public class HomePageController {
         }
 
         String OTP = this.sendEmail.getRandom();
-        this.sendEmail.sendEmail(email, "Xác nhận đăng ký", "Mã xác nhận đăng ký của bạn là: " + OTP);
+
+        EmailRequest emailRequest = new EmailRequest(email,"Xác nhận đăng ký","Mã xác nhận đăng ký của bạn là: " + OTP);
+        emailProducer.sendEmailToQueue(emailRequest);
         userDTO.setOTP(OTP);
         model.addAttribute("userDTO", userDTO);
         return "client/auth/verifyEmail";
