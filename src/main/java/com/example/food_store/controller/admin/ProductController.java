@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Product;
 
 import com.example.food_store.service.ProductService;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class ProductController {
+public class ProductController extends BaseController {
 
     private final UploadService uploadService;
     private final ProductService productService;
@@ -40,6 +41,7 @@ public class ProductController {
     public String getProduct(
             Model model,
             @RequestParam("page") Optional<String> pageOptional) {
+            log.info("Request to /admin/product");
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -67,6 +69,7 @@ public class ProductController {
 
     @GetMapping("/admin/product/create")
     public String getCreateProductPage(Model model) {
+        log.info("Request to /admin/product/create");
         model.addAttribute("newPrd", new Product());
         return "admin/product/create";
     }
@@ -75,11 +78,11 @@ public class ProductController {
     public String createProduct(@ModelAttribute("newPrd") @Valid Product prd,
             BindingResult newBindingResult,
             @RequestParam("productFile") MultipartFile file) {
-
+        log.info("Request to /admin/product/create");
         if (newBindingResult.hasErrors()) {
             return "admin/product/create";
         }
-
+        
         String img = this.uploadService.handleSaveUploadFile(file, "product");
         prd.setImage(img);
         this.productService.createProduct(prd);
@@ -89,6 +92,7 @@ public class ProductController {
 
     @GetMapping("/admin/product/delete/{id}")
     public String getDeleteProductPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/product/delete/{id}");
         model.addAttribute("id", id);
         model.addAttribute("newProduct", new Product());
         return "admin/product/delete";
@@ -96,13 +100,14 @@ public class ProductController {
 
     @PostMapping("/admin/product/delete")
     public String postDeleteProduct(Model model, @ModelAttribute("newProduct") Product prd) {
+        log.info("Request to /admin/product/delete");
         this.productService.deleteProductById(prd.getId());
-
         return "redirect:/admin/product";
     }
 
     @GetMapping("/admin/product/{id}")
     public String getProductDetailPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/product/{id}");
         Product pr = this.productService.fetchProductById(id).get();
         model.addAttribute("product", pr);
         model.addAttribute("id", id);
@@ -112,6 +117,7 @@ public class ProductController {
 
     @GetMapping("/admin/product/update/{id}")
     public String getUpdateProductPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/product/update/{id}");
         Optional<Product> currentProduct = this.productService.fetchProductById(id);
         model.addAttribute("newProduct", currentProduct.get());
         return "admin/product/update";
@@ -120,6 +126,7 @@ public class ProductController {
     @PostMapping("/admin/product/update")
     public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product prd,
             BindingResult newProducBindingResult, @RequestParam("productFile") MultipartFile file) {
+                log.info("Request to /admin/product/update");
         if (newProducBindingResult.hasErrors()) {
             return "admin/product/update";
         }

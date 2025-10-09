@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Token;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ResetPasswordDTO;
@@ -30,12 +30,11 @@ import com.example.food_store.service.sendEmail.SendEmail;
 
 import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class UserController {
+public class UserController extends BaseController {
 
     private final UserService userService;
     private final UploadService uploadService;
@@ -53,9 +52,10 @@ public class UserController {
 
     }
 
-    @RequestMapping("/admin/user")
+    @GetMapping("/admin/user")
     public String getUserPage(Model model,
             @RequestParam("page") Optional<String> pageOptional) {
+        log.info("Request to /admin/user");
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -79,17 +79,18 @@ public class UserController {
 
     }
 
-    @RequestMapping("/admin/user/create")
+    @GetMapping("/admin/user/create")
     public String getCreateUserPage(Model model) {
+        log.info("Request to /admin/user/create");
         model.addAttribute("newUser", new User());
         return "admin/user/create";
     }
 
-    @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
+    @PostMapping(value = "/admin/user/create")
     public String createUser(Model model, @ModelAttribute("newUser") @Valid User trinhlam,
             BindingResult newBindingResult,
             @RequestParam("avatarFile") MultipartFile file) {
-
+        log.info("Request to /admin/user/create");
         List<FieldError> errors = newBindingResult.getFieldErrors();
         for (FieldError error : errors) {
             System.out.println(error.getField() + " - " + error.getDefaultMessage());
@@ -112,8 +113,9 @@ public class UserController {
         return "redirect:/admin/user";
     }
 
-    @RequestMapping("/admin/user/{id}")
+    @GetMapping("/admin/user/{id}")
     public String getUserDetailPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/{id}");
         User user = this.userService.getUserById(id);
         model.addAttribute("id", id);
         model.addAttribute("user", user);
@@ -121,8 +123,9 @@ public class UserController {
         return "admin/user/detail";
     }
 
-    @RequestMapping("/admin/user/update/{id}")
+    @GetMapping("/admin/user/update/{id}")
     public String getUpdateUserPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/update/{id}");
         User currentUser = this.userService.getUserById(id);
         model.addAttribute("id", id);
         model.addAttribute("newUser", currentUser);
@@ -131,6 +134,7 @@ public class UserController {
 
     @PostMapping("/admin/user/update")
     public String postUpdateUser(Model model, @ModelAttribute("newUser") User trinhlam) {
+        log.info("Request to /admin/user/update");
         User currentUser = this.userService.getUserById(trinhlam.getId());
         if (currentUser != null) {
             currentUser.setAddress(trinhlam.getAddress());
@@ -144,6 +148,7 @@ public class UserController {
 
     @GetMapping("/admin/user/delete/{id}")
     public String getDeleteUserPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/delete/{id}");
         model.addAttribute("id", id);
         model.addAttribute("newUser", new User());
 
@@ -152,13 +157,14 @@ public class UserController {
 
     @PostMapping("/admin/user/delete")
     public String postDeleteUser(Model model, @ModelAttribute("newUser") User trinhlam) {
+        log.info("Request to /admin/user/delete");
         this.userService.deleteUserById(trinhlam.getId());
-
         return "redirect:/admin/user";
     }
 
     @GetMapping("/reset-password")
     public String getResetPasswordPage(@RequestParam("token") String token, Model model) {
+        log.info("Request to /reset-password");
         String email = tokenService.getEmailByToken(token);
         User user = this.userService.getUserByEmail(email);
         Long id = user.getId();
@@ -170,6 +176,7 @@ public class UserController {
 
     @PostMapping("/send-request-to-mail")
     public String sendRequestToMail(@RequestParam("email") String email) {
+        log.info("Request to /send-request-to-mail");
         String tokenEmail = UUID.randomUUID().toString();
         Token token = new Token();
         token.setEmail(email);
@@ -184,6 +191,7 @@ public class UserController {
     public String getProcessResetPassword(@ModelAttribute("ResetPasswordDTO") @Valid ResetPasswordDTO ResetPasswordDTO,
             BindingResult bindingResult,
             Model model) {
+        log.info("Request to /process-reset-password");
         if (bindingResult.hasErrors()) {
 
             String error = bindingResult.getFieldError().getDefaultMessage();

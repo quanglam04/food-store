@@ -1,27 +1,25 @@
 package com.example.food_store.controller.client;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Order;
 import com.example.food_store.domain.Product;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ChangePasswordDTO;
+import com.example.food_store.domain.dto.EmailRequest;
 import com.example.food_store.domain.dto.RegisterDTO;
+import com.example.food_store.producer.EmailProducer;
 import com.example.food_store.service.OrderService;
 import com.example.food_store.service.ProductService;
 import com.example.food_store.service.UploadService;
 import com.example.food_store.service.UserService;
 import com.example.food_store.service.sendEmail.SendEmail;
-import com.example.food_store.service.sendEmail.SendEmailToVerify;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -34,27 +32,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class HomePageController {
+public class HomePageController extends BaseController {
 
     private final ProductService productService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
     private final UploadService uploadService;
-    private final SendEmailToVerify sendEmailToVerify;
+    private final SendEmail sendEmail;
+    private final EmailProducer emailProducer;
 
     public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            OrderService orderService, UploadService uploadService, SendEmailToVerify sendEmailToVerify) {
+            OrderService orderService, UploadService uploadService, SendEmail sendEmail, EmailProducer emailProducer) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.orderService = orderService;
         this.uploadService = uploadService;
-        this.sendEmailToVerify = sendEmailToVerify;
+        this.sendEmail = sendEmail;
+        this.emailProducer = emailProducer;
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String getHomePage(Model model) {
+        log.info("Request to /");
         List<Product> products = this.productService.fetchAllProductsToHomePage();
         List<Product> productsTypeRauCu = this.productService.fetchProductByType("rau");
         productsTypeRauCu.addAll(this.productService.fetchProductByType("cu"));
@@ -76,6 +77,7 @@ public class HomePageController {
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
+        log.info("Request to /register");
         model.addAttribute("registerUser", new RegisterDTO());
         return "client/auth/register";
     }
@@ -85,7 +87,7 @@ public class HomePageController {
             BindingResult bindingResult,
             @RequestParam("OTP_check") String OTP,
             Model model) {
-
+        log.info("Request to /register");
         String OTP_real = userDTO.getOTP();
         if (!OTP.equals(OTP_real)) {
             model.addAttribute("errorVerifyEmail", "Mã OTP không chính xác. Vui lòng nhập lại.");
@@ -103,7 +105,7 @@ public class HomePageController {
     @PostMapping("/verify")
     public String getVerifyPage(@ModelAttribute("registerUser") @Valid RegisterDTO userDTO, BindingResult bindingResult,
             Model model) {
-
+        log.info("Request to /verify");
         String email = userDTO.getEmail();
         if (bindingResult.hasErrors()) {
             System.out.println(">>>>>>>>>>>>>" + bindingResult.getFieldError().getDefaultMessage());
@@ -124,8 +126,10 @@ public class HomePageController {
             return "client/auth/register";
         }
 
-        String OTP = this.sendEmailToVerify.getRandom();
-        this.sendEmailToVerify.sendEmail(email, "Xác nhận đăng ký", "Mã xác nhận đăng ký của bạn là: " + OTP);
+        String OTP = this.sendEmail.getRandom();
+
+        EmailRequest emailRequest = new EmailRequest(email,"Xác nhận đăng ký","Mã xác nhận đăng ký của bạn là: " + OTP);
+        emailProducer.sendEmailToQueue(emailRequest);
         userDTO.setOTP(OTP);
         model.addAttribute("userDTO", userDTO);
         return "client/auth/verifyEmail";
@@ -133,21 +137,25 @@ public class HomePageController {
 
     @GetMapping("/login")
     public String getLoginPage() {
+        log.info("Request to /login");
         return "client/auth/login";
     }
 
     @GetMapping("/password")
     public String getForgotPasswordPage() {
+        log.info("Request to /password");
         return "client/auth/password";
     }
 
     @GetMapping("/access-deny")
     public String getDenyPage(Model model) {
+        log.info("Request to /access-deny");
         return "client/auth/deny";
     }
 
     @GetMapping("/order-history")
     public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        log.info("Request to /order-history");
         User currentUser = new User();
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
@@ -159,6 +167,7 @@ public class HomePageController {
 
     @GetMapping("/view-profile")
     public String getProfileView(HttpServletRequest request, Model model) {
+        log.info("Request to /view-profile");
         HttpSession session = request.getSession(false);
         Long id = (Long) session.getAttribute("id");
         User user = this.userService.getUserById(id);
@@ -168,6 +177,7 @@ public class HomePageController {
 
     @GetMapping("/update-profile/{id}")
     public String getProfileUpdate(HttpSession session, Model model, @PathVariable long id) {
+        log.info("Request to /update-profile/{id}");
     Long sessionUserId = (Long) session.getAttribute("id");
     if (sessionUserId == null || sessionUserId != id) {
         return "not-match"; 
@@ -183,6 +193,7 @@ public class HomePageController {
             BindingResult newBindingResult,
             @RequestParam("avatarFile") MultipartFile file,
             HttpServletRequest request) {
+                log.info("Request to /update-profile");
         HttpSession session = request.getSession(false);
         User currentUser = this.userService.getUserById(trinhlam.getId());
         if (newBindingResult.hasErrors())
@@ -199,12 +210,15 @@ public class HomePageController {
 
     @GetMapping("/change-password")
     public String getChangePasswordPage(HttpServletRequest request, Model model) {
+        log.info("Request to /change-password");
         HttpSession session = request.getSession();
         Long id = (long) session.getAttribute("id");
         User user = this.userService.getUserById(id);
 
-        ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO();
-        changePasswordDTO.setUserId(user.getId());
+        ChangePasswordDTO changePasswordDTO = 
+                                            ChangePasswordDTO.builder().
+                                            userId(user.getId()).
+                                            build();
 
         model.addAttribute("changePasswordDTO", changePasswordDTO);
         return "client/homepage/changePassword";
@@ -214,6 +228,7 @@ public class HomePageController {
     public String changePassword(@ModelAttribute("changePasswordDTO") @Valid ChangePasswordDTO changePasswordDTO,
             BindingResult bindingResult,
             Model model) {
+        log.info("Request to /change-password");
         if (bindingResult.hasErrors()) {
             String error = bindingResult.getFieldError().getDefaultMessage();
             model.addAttribute("errorNewpassword", error);
@@ -229,7 +244,7 @@ public class HomePageController {
             this.userService.handleSaveUser(user);
 
             model.addAttribute("message", "Đổi mật khẩu thành công");
-            return "redirect:/success-page"; // Đổi trang redirect tùy thuộc vào luồng ứng dụng
+            return "redirect:/success-page";
         } else {
             model.addAttribute("error", "Mật khẩu không chính xác");
             return "client/homepage/changePassword";
@@ -238,6 +253,7 @@ public class HomePageController {
 
     @GetMapping("success-page")
     public String getSuccessPage() {
+        log.info("Request to /success-page");
         return "client/homepage/changePasswordSuccess";
     }
 
