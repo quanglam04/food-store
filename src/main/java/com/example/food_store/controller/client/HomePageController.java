@@ -1,11 +1,9 @@
 package com.example.food_store.controller.client;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +18,6 @@ import com.example.food_store.service.ProductService;
 import com.example.food_store.service.UploadService;
 import com.example.food_store.service.UserService;
 import com.example.food_store.service.sendEmail.SendEmail;
-import com.example.food_store.service.sendEmail.SendEmailToVerify;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -41,16 +37,16 @@ public class HomePageController {
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
     private final UploadService uploadService;
-    private final SendEmailToVerify sendEmailToVerify;
+    private final SendEmail sendEmail;
 
     public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            OrderService orderService, UploadService uploadService, SendEmailToVerify sendEmailToVerify) {
+            OrderService orderService, UploadService uploadService, SendEmail sendEmail) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.orderService = orderService;
         this.uploadService = uploadService;
-        this.sendEmailToVerify = sendEmailToVerify;
+        this.sendEmail = sendEmail;
     }
 
     @RequestMapping("/")
@@ -124,8 +120,8 @@ public class HomePageController {
             return "client/auth/register";
         }
 
-        String OTP = this.sendEmailToVerify.getRandom();
-        this.sendEmailToVerify.sendEmail(email, "Xác nhận đăng ký", "Mã xác nhận đăng ký của bạn là: " + OTP);
+        String OTP = this.sendEmail.getRandom();
+        this.sendEmail.sendEmail(email, "Xác nhận đăng ký", "Mã xác nhận đăng ký của bạn là: " + OTP);
         userDTO.setOTP(OTP);
         model.addAttribute("userDTO", userDTO);
         return "client/auth/verifyEmail";

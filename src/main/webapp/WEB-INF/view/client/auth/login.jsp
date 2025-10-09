@@ -74,7 +74,7 @@ uri="http://www.springframework.org/tags/form" %>
                   <div class="form-group">
                     <label for="password"
                       >Mật khẩu
-                      <a href="/password" class="float-right">
+                      <a href="/password" tabindex="-1" class="float-right">
                         Quên mật khẩu?
                       </a>
                     </label>

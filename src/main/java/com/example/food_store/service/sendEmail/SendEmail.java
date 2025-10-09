@@ -1,18 +1,21 @@
 package com.example.food_store.service.sendEmail;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class SendEmail {
+
+    public String getRandom() {
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        return String.format("%06d", number);
+    }
 
     @Autowired
     private JavaMailSender mailSender;
@@ -27,24 +30,5 @@ public class SendEmail {
 
     }
 
-    public void sendEmailWithHTML(String toEmail, String subject) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("foodstore247official@gmail.com");
-            helper.setTo(toEmail);
-            helper.setSubject(subject);
-            try (var inputStream = Objects
-                    .requireNonNull(SendEmail.class.getResourceAsStream("/mail/resetPass.html"))) {
-                helper.setText(
-                        new String(inputStream.readAllBytes(), StandardCharsets.UTF_8), true
-
-                );
-
-            }
-            mailSender.send(message);
-        } catch (Exception e) {
-        }
-    }
 
 }
