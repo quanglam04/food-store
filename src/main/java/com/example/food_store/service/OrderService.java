@@ -34,7 +34,7 @@ public class OrderService {
     }
 
     public void deleteById(long id) {
-        // delete order detail
+        // xóa order detail
         Optional<Order> orderOptional = this.fetchOrderById(id);
         if (orderOptional.isPresent()) {
             Order order = orderOptional.get();

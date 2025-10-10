@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.food_store.constant.AppConstant;
 import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Token;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ResetPasswordDTO;
-import com.example.food_store.service.SendEmailService;
+import com.example.food_store.messaging.message.EmailRequest;
+import com.example.food_store.messaging.producer.EmailProducer;
 import com.example.food_store.service.TokenService;
 import com.example.food_store.service.UploadService;
 import com.example.food_store.service.UserService;
@@ -39,16 +41,16 @@ public class UserController extends BaseController {
     private final UserService userService;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
-    private final SendEmailService sendEmail;
     private final TokenService tokenService;
+    private final EmailProducer emailProducer;
 
     public UserController(UserService userService, UploadService uploadService, PasswordEncoder passwordEncoder,
-            SendEmailService sendEmail, TokenService tokenService) {
+           TokenService tokenService,EmailProducer emailProducer) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.passwordEncoder = passwordEncoder;
-        this.sendEmail = sendEmail;
         this.tokenService = tokenService;
+        this.emailProducer = emailProducer;
 
     }
 
@@ -175,8 +177,6 @@ public class UserController extends BaseController {
         return "redirect:/admin/user";
     }
 
-
-
     @PostMapping("/send-request-to-mail")
     public String sendRequestToMail(@RequestParam("email") String email) {
         log.info("Request to /send-request-to-mail");
@@ -185,8 +185,9 @@ public class UserController extends BaseController {
         token.setEmail(email);
         token.setToken(tokenEmail);
         tokenService.saveToken(token);
-        String resetLink = "http://localhost:8080/reset-password?token=" + tokenEmail;
-        sendEmail.sendEmail(email, "Xác nhận khôi phục mật khẩu", "Nhấn vào đây để lấy lại mật khẩu: " + resetLink);
+        String resetLink = AppConstant.RESET_LINK + tokenEmail;
+        EmailRequest emailRequest = new EmailRequest(email,"Xác nhận khôi phục mật khẩu","Nhấn vào đây để lấy lại mật khẩu: " + resetLink);
+        emailProducer.sendEmailToQueue(emailRequest);
         return "redirect:/login";
     }
 

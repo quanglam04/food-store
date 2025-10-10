@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
+import com.example.food_store.constant.AppConstant;
 import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Order;
 import com.example.food_store.domain.Product;
@@ -17,9 +18,9 @@ import com.example.food_store.messaging.message.EmailRequest;
 import com.example.food_store.messaging.producer.EmailProducer;
 import com.example.food_store.service.OrderService;
 import com.example.food_store.service.ProductService;
-import com.example.food_store.service.SendEmailService;
 import com.example.food_store.service.UploadService;
 import com.example.food_store.service.UserService;
+import com.example.food_store.utils.AppUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -39,17 +40,15 @@ public class HomePageController extends BaseController {
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
     private final UploadService uploadService;
-    private final SendEmailService sendEmail;
     private final EmailProducer emailProducer;
 
     public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            OrderService orderService, UploadService uploadService, SendEmailService sendEmail, EmailProducer emailProducer) {
+            OrderService orderService, UploadService uploadService, EmailProducer emailProducer) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.orderService = orderService;
         this.uploadService = uploadService;
-        this.sendEmail = sendEmail;
         this.emailProducer = emailProducer;
     }
 
@@ -185,7 +184,7 @@ public class HomePageController extends BaseController {
         if (bindingResult.hasErrors()) {
             String password = userDTO.getPassword();
             String confirmPassword = userDTO.getConfirmPassword();
-            String regexp = "^[a-zA-Z0-9!#$%&*/=?`{|}]+@[a-zA-Z0-9.-]+$";
+            String regexp = AppConstant.REGEX_EMAIL;
             String name = userDTO.getFullName();
             if (name.length() < 3)
                 model.addAttribute("errorFullname", "Họ tên phải có tối thiểu 3 ký tự");
@@ -200,7 +199,7 @@ public class HomePageController extends BaseController {
             return "client/auth/register";
         }
 
-        String OTP = this.sendEmail.getRandom();
+        String OTP = AppUtil.getRandomOTP();
         EmailRequest emailRequest = new EmailRequest(email,"Xác nhận đăng ký","Mã xác nhận đăng ký của bạn là: " + OTP);
         emailProducer.sendEmailToQueue(emailRequest);
         userDTO.setOTP(OTP);

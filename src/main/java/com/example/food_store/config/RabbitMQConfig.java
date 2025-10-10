@@ -10,28 +10,29 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.example.food_store.constant.AppConstant;
+
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 
 @Configuration
 public class RabbitMQConfig {
     
-    public static final String EXCHANGE = "email_exchange";
-    public static final String ROUTING_KEY = "email_routingkey";
-    public static final String QUEUE = "email_queue";
+
 
     @Bean
     public Queue queue(){
-        return new Queue(QUEUE, true);
+        return new Queue(AppConstant.QUEUE, true);
     }
 
     @Bean
     public TopicExchange exchange(){
-        return new TopicExchange(EXCHANGE);
+        return new TopicExchange(AppConstant.EXCHANGE);
     }
 
     @Bean
     public Binding binding(Queue queue, TopicExchange exchange){
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+        return BindingBuilder.bind(queue).to(exchange).with(AppConstant.ROUTING_KEY);
     }
 
     @Bean

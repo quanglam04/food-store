@@ -98,7 +98,7 @@ public class ItemController extends BaseController {
     public String getCheckOutPage(Model model, HttpServletRequest request,@RequestParam("cost") int cost, @RequestParam("detailAddress") String detailAddress) {
         log.info("Request to /checkout");
         double totalPrice = 0;
-        User currentUser = new User();// null
+        User currentUser = new User();
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
@@ -274,7 +274,7 @@ public class ItemController extends BaseController {
             @RequestParam("id") long id,
             @RequestParam(value = "quantity", defaultValue = "1") long quantity,
             HttpServletRequest request) {
-                log.info("Request to /add-product-from-view-detail");
+        log.info("Request to /add-product-from-view-detail");
         HttpSession session = request.getSession(false);
 
         String email = (String) session.getAttribute("email");

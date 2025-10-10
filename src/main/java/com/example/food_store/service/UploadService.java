@@ -8,6 +8,8 @@ import java.io.IOException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.food_store.constant.AppConstant;
+
 import jakarta.servlet.ServletContext;
 
 @Service
@@ -26,7 +28,7 @@ public class UploadService {
             return "";
         try {
             byte[] bytes = file.getBytes();
-            String rootPath = this.servletContext.getRealPath("/resources/images");
+            String rootPath = this.servletContext.getRealPath(AppConstant.LOCAL_PATH);
             File dir = new File(rootPath + File.separator + targetFolder);
             if (!dir.exists())
                 dir.mkdirs();
@@ -35,8 +37,7 @@ public class UploadService {
             finalName = System.currentTimeMillis() + "-" + file.getOriginalFilename();
             File serverFile = new File(dir.getAbsolutePath() + File.separator + finalName);
 
-            BufferedOutputStream stream = new BufferedOutputStream(
-                    new FileOutputStream(serverFile));
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
             stream.write(bytes);
             stream.close();
 

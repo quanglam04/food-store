@@ -4,7 +4,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.food_store.config.RabbitMQConfig;
+import com.example.food_store.constant.AppConstant;
 import com.example.food_store.messaging.message.EmailRequest;
 
 @Service
@@ -15,8 +15,8 @@ public class EmailProducer {
 
     public void sendEmailToQueue(EmailRequest emailRequest) {
         rabbitTemplate.convertAndSend(
-            RabbitMQConfig.EXCHANGE,
-            RabbitMQConfig.ROUTING_KEY,
+            AppConstant.EXCHANGE,
+            AppConstant.ROUTING_KEY,
             emailRequest
         );
     }
