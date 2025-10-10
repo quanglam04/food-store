@@ -76,6 +76,14 @@ public class OrderController extends BaseController {
         return "admin/order/delete";
     }
 
+    @GetMapping("/admin/order/update/{id}")
+    public String getUpdateOrderPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/order/update/{id}");
+        Optional<Order> currentOrder = this.orderService.fetchOrderById(id);
+        model.addAttribute("newOrder", currentOrder.get());
+        return "admin/order/update";
+    }
+    
     @PostMapping("/admin/order/delete")
     public String postDeleteOrder(@ModelAttribute("newOrder") Order order) {
         log.info("Request to /admin/order/delete");
@@ -84,13 +92,6 @@ public class OrderController extends BaseController {
 
     }
 
-    @GetMapping("/admin/order/update/{id}")
-    public String getUpdateOrderPage(Model model, @PathVariable long id) {
-        log.info("Request to /admin/order/update/{id}");
-        Optional<Order> currentOrder = this.orderService.fetchOrderById(id);
-        model.addAttribute("newOrder", currentOrder.get());
-        return "admin/order/update";
-    }
 
     @PostMapping("/admin/order/update")
     public String handleUpdateOrder(@ModelAttribute("newOrder") Order order) {

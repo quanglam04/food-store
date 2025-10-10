@@ -1,4 +1,4 @@
-package com.example.food_store.service.userInfo;
+package com.example.food_store.service;
 
 import java.util.Collections;
 import java.util.Map;
@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.food_store.domain.Role;
 import com.example.food_store.domain.User;
-import com.example.food_store.service.UserService;
-import com.example.food_store.service.exception.CustomOAuth2Exception;
+import com.example.food_store.exception.CustomOAuth2Exception;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {

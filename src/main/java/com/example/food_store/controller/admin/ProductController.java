@@ -73,36 +73,13 @@ public class ProductController extends BaseController {
         model.addAttribute("newPrd", new Product());
         return "admin/product/create";
     }
-
-    @PostMapping("/admin/product/create")
-    public String createProduct(@ModelAttribute("newPrd") @Valid Product prd,
-            BindingResult newBindingResult,
-            @RequestParam("productFile") MultipartFile file) {
-        log.info("Request to /admin/product/create");
-        if (newBindingResult.hasErrors()) {
-            return "admin/product/create";
-        }
-        
-        String img = this.uploadService.handleSaveUploadFile(file, "product");
-        prd.setImage(img);
-        this.productService.createProduct(prd);
-        return "redirect:/admin/product";
-
-    }
-
+    
     @GetMapping("/admin/product/delete/{id}")
     public String getDeleteProductPage(Model model, @PathVariable long id) {
         log.info("Request to /admin/product/delete/{id}");
         model.addAttribute("id", id);
         model.addAttribute("newProduct", new Product());
         return "admin/product/delete";
-    }
-
-    @PostMapping("/admin/product/delete")
-    public String postDeleteProduct(Model model, @ModelAttribute("newProduct") Product prd) {
-        log.info("Request to /admin/product/delete");
-        this.productService.deleteProductById(prd.getId());
-        return "redirect:/admin/product";
     }
 
     @GetMapping("/admin/product/{id}")
@@ -122,6 +99,32 @@ public class ProductController extends BaseController {
         model.addAttribute("newProduct", currentProduct.get());
         return "admin/product/update";
     }
+    
+    @PostMapping("/admin/product/create")
+    public String createProduct(@ModelAttribute("newPrd") @Valid Product prd,
+            BindingResult newBindingResult,
+            @RequestParam("productFile") MultipartFile file) {
+        log.info("Request to /admin/product/create");
+        if (newBindingResult.hasErrors()) {
+            return "admin/product/create";
+        }
+        
+        String img = this.uploadService.handleSaveUploadFile(file, "product");
+        prd.setImage(img);
+        this.productService.createProduct(prd);
+        return "redirect:/admin/product";
+
+    }
+
+
+    @PostMapping("/admin/product/delete")
+    public String postDeleteProduct(Model model, @ModelAttribute("newProduct") Product prd) {
+        log.info("Request to /admin/product/delete");
+        this.productService.deleteProductById(prd.getId());
+        return "redirect:/admin/product";
+    }
+
+
 
     @PostMapping("/admin/product/update")
     public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product prd,

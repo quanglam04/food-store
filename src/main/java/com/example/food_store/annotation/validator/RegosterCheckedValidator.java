@@ -1,19 +1,20 @@
-package com.example.food_store.service.validator;
+package com.example.food_store.annotation.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import org.springframework.stereotype.Service;
 
+import com.example.food_store.annotation.RegisterChecked;
 import com.example.food_store.domain.dto.RegisterDTO;
 import com.example.food_store.service.UserService;
 
 @Service
-public class RegisterValidator implements ConstraintValidator<RegisterChecked, RegisterDTO> {
+public class RegosterCheckedValidator implements ConstraintValidator<RegisterChecked, RegisterDTO> {
 
     private final UserService userService;
 
-    public RegisterValidator(UserService userService) {
+    public RegosterCheckedValidator(UserService userService) {
         this.userService = userService;
     }
 

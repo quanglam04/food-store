@@ -1,11 +1,11 @@
-package com.example.food_store.producer;
+package com.example.food_store.messaging.producer;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.food_store.config.RabbitMQConfig;
-import com.example.food_store.domain.dto.EmailRequest;
+import com.example.food_store.messaging.message.EmailRequest;
 
 @Service
 public class EmailProducer {

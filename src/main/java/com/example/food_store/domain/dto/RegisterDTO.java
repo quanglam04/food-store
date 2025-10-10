@@ -1,6 +1,6 @@
 package com.example.food_store.domain.dto;
 
-import com.example.food_store.service.validator.RegisterChecked;
+import com.example.food_store.annotation.RegisterChecked;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

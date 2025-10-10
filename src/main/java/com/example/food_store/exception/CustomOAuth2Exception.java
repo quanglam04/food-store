@@ -1,4 +1,4 @@
-package com.example.food_store.service.exception;
+package com.example.food_store.exception;
 
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;

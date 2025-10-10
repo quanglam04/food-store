@@ -1,4 +1,4 @@
-package com.example.food_store.service.sendEmail;
+package com.example.food_store.service;
 
 import java.util.Random;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class SendEmail {
+public class SendEmailService {
 
     public String getRandom() {
         Random rnd = new Random();

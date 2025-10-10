@@ -23,10 +23,10 @@ import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Token;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ResetPasswordDTO;
+import com.example.food_store.service.SendEmailService;
 import com.example.food_store.service.TokenService;
 import com.example.food_store.service.UploadService;
 import com.example.food_store.service.UserService;
-import com.example.food_store.service.sendEmail.SendEmail;
 
 import jakarta.validation.Valid;
 
@@ -39,11 +39,11 @@ public class UserController extends BaseController {
     private final UserService userService;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
-    private final SendEmail sendEmail;
+    private final SendEmailService sendEmail;
     private final TokenService tokenService;
 
     public UserController(UserService userService, UploadService uploadService, PasswordEncoder passwordEncoder,
-            SendEmail sendEmail, TokenService tokenService) {
+            SendEmailService sendEmail, TokenService tokenService) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.passwordEncoder = passwordEncoder;
@@ -86,6 +86,25 @@ public class UserController extends BaseController {
         return "admin/user/create";
     }
 
+    @GetMapping("/admin/user/{id}")
+    public String getUserDetailPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/{id}");
+        User user = this.userService.getUserById(id);
+        model.addAttribute("id", id);
+        model.addAttribute("user", user);
+
+        return "admin/user/detail";
+    }
+
+    @GetMapping("/admin/user/update/{id}")
+    public String getUpdateUserPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/update/{id}");
+        User currentUser = this.userService.getUserById(id);
+        model.addAttribute("id", id);
+        model.addAttribute("newUser", currentUser);
+        return "admin/user/update";
+    }
+
     @PostMapping(value = "/admin/user/create")
     public String createUser(Model model, @ModelAttribute("newUser") @Valid User trinhlam,
             BindingResult newBindingResult,
@@ -113,23 +132,25 @@ public class UserController extends BaseController {
         return "redirect:/admin/user";
     }
 
-    @GetMapping("/admin/user/{id}")
-    public String getUserDetailPage(Model model, @PathVariable long id) {
-        log.info("Request to /admin/user/{id}");
-        User user = this.userService.getUserById(id);
+    @GetMapping("/admin/user/delete/{id}")
+    public String getDeleteUserPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/delete/{id}");
         model.addAttribute("id", id);
-        model.addAttribute("user", user);
+        model.addAttribute("newUser", new User());
 
-        return "admin/user/detail";
+        return "admin/user/delete";
     }
 
-    @GetMapping("/admin/user/update/{id}")
-    public String getUpdateUserPage(Model model, @PathVariable long id) {
-        log.info("Request to /admin/user/update/{id}");
-        User currentUser = this.userService.getUserById(id);
-        model.addAttribute("id", id);
-        model.addAttribute("newUser", currentUser);
-        return "admin/user/update";
+    @GetMapping("/reset-password")
+    public String getResetPasswordPage(@RequestParam("token") String token, Model model) {
+        log.info("Request to /reset-password");
+        String email = tokenService.getEmailByToken(token);
+        User user = this.userService.getUserByEmail(email);
+        Long id = user.getId();
+        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTO();
+        resetPasswordDTO.setUserID(id);
+        model.addAttribute("ResetPasswordDTO", resetPasswordDTO);
+        return "client/homepage/resetPassword";
     }
 
     @PostMapping("/admin/user/update")
@@ -146,14 +167,6 @@ public class UserController extends BaseController {
         return "redirect:/admin/user";
     }
 
-    @GetMapping("/admin/user/delete/{id}")
-    public String getDeleteUserPage(Model model, @PathVariable long id) {
-        log.info("Request to /admin/user/delete/{id}");
-        model.addAttribute("id", id);
-        model.addAttribute("newUser", new User());
-
-        return "admin/user/delete";
-    }
 
     @PostMapping("/admin/user/delete")
     public String postDeleteUser(Model model, @ModelAttribute("newUser") User trinhlam) {
@@ -162,17 +175,7 @@ public class UserController extends BaseController {
         return "redirect:/admin/user";
     }
 
-    @GetMapping("/reset-password")
-    public String getResetPasswordPage(@RequestParam("token") String token, Model model) {
-        log.info("Request to /reset-password");
-        String email = tokenService.getEmailByToken(token);
-        User user = this.userService.getUserByEmail(email);
-        Long id = user.getId();
-        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTO();
-        resetPasswordDTO.setUserID(id);
-        model.addAttribute("ResetPasswordDTO", resetPasswordDTO);
-        return "client/homepage/resetPassword";
-    }
+
 
     @PostMapping("/send-request-to-mail")
     public String sendRequestToMail(@RequestParam("email") String email) {
