@@ -1,21 +1,21 @@
-package com.example.food_store.consumer;
+package com.example.food_store.messaging.consumer;
 
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.example.food_store.service.sendEmail.SendEmail;
-import com.example.food_store.config.RabbitMQConfig;
-import com.example.food_store.domain.dto.EmailRequest;
+import com.example.food_store.constant.AppConstant;
+import com.example.food_store.messaging.message.EmailRequest;
+import com.example.food_store.service.SendEmailService;
 
 @Component
 public class EmailConsumer {
 
     @Autowired
-    private SendEmail sendEmail;
+    private SendEmailService sendEmail;
 
-    @RabbitListener(queues = RabbitMQConfig.QUEUE)
+    @RabbitListener(queues = AppConstant.QUEUE)
     public void receiveEmailMessage(EmailRequest emailRequest) {
         sendEmail.sendEmail(emailRequest.getToEmail(),
                             emailRequest.getSubject(),

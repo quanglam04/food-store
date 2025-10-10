@@ -1,4 +1,4 @@
-package com.example.food_store.service.userInfo;
+package com.example.food_store.service;
 
 import java.util.Collections;
 import java.util.Map;
@@ -11,10 +11,10 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.example.food_store.constant.OAuth2ProviderConstant;
 import com.example.food_store.domain.Role;
 import com.example.food_store.domain.User;
-import com.example.food_store.service.UserService;
-import com.example.food_store.service.exception.CustomOAuth2Exception;
+import com.example.food_store.exception.CustomOAuth2Exception;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -44,7 +44,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 oldUser.setAvatar(
                         registrationeId.equalsIgnoreCase("github") ? "default-github.png" : "default-google.png");
                 oldUser.setFullName(fullName);
-                oldUser.setProvider(registrationeId.equalsIgnoreCase("github") ? "GITHUB" : "GOOGLE");
+                oldUser.setProvider(registrationeId.equalsIgnoreCase("github") ? OAuth2ProviderConstant.GITHUB : OAuth2ProviderConstant.GOOGLE);
                 oldUser.setPassword("trinhlam");
                 oldUser.setRole(userRole);
                 this.userService.saveUser(oldUser);

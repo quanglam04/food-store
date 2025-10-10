@@ -2,6 +2,7 @@ package com.example.food_store.controller.client;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.food_store.controller.BaseController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,12 +15,13 @@ import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping("/gemini-proxy")
-public class GeminiController {
+public class GeminiController extends BaseController {
     @Value("${api-gemini}")
     private static String apiUrl; 
     
     @PostMapping
     public ResponseEntity<String> proxyToGemini(@RequestBody String requestBody) throws IOException {
+        log.info("Request to /gemini-proxy");
         URL url = new URL(apiUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");

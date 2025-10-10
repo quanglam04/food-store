@@ -1,4 +1,4 @@
-package com.example.food_store.service.sendEmail;
+package com.example.food_store.service;
 
 import java.util.Random;
 
@@ -7,22 +7,19 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.example.food_store.constant.AppConstant;
+
 
 @Service
-public class SendEmail {
+public class SendEmailService {
 
-    public String getRandom() {
-        Random rnd = new Random();
-        int number = rnd.nextInt(999999);
-        return String.format("%06d", number);
-    }
 
     @Autowired
     private JavaMailSender mailSender;
 
     public void sendEmail(String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("foodstore247official@gmail.com");
+        message.setFrom(AppConstant.SYSTEM_EMAIL_SENDER);
         message.setTo(toEmail);
         message.setText(body);
         message.setSubject(subject);

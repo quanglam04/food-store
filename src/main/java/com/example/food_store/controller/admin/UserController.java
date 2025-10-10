@@ -19,14 +19,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.food_store.constant.AppConstant;
 import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Token;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ResetPasswordDTO;
+import com.example.food_store.messaging.message.EmailRequest;
+import com.example.food_store.messaging.producer.EmailProducer;
 import com.example.food_store.service.TokenService;
 import com.example.food_store.service.UploadService;
 import com.example.food_store.service.UserService;
-import com.example.food_store.service.sendEmail.SendEmail;
 
 import jakarta.validation.Valid;
 
@@ -39,16 +41,16 @@ public class UserController extends BaseController {
     private final UserService userService;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
-    private final SendEmail sendEmail;
     private final TokenService tokenService;
+    private final EmailProducer emailProducer;
 
     public UserController(UserService userService, UploadService uploadService, PasswordEncoder passwordEncoder,
-            SendEmail sendEmail, TokenService tokenService) {
+           TokenService tokenService,EmailProducer emailProducer) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.passwordEncoder = passwordEncoder;
-        this.sendEmail = sendEmail;
         this.tokenService = tokenService;
+        this.emailProducer = emailProducer;
 
     }
 
@@ -86,6 +88,25 @@ public class UserController extends BaseController {
         return "admin/user/create";
     }
 
+    @GetMapping("/admin/user/{id}")
+    public String getUserDetailPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/{id}");
+        User user = this.userService.getUserById(id);
+        model.addAttribute("id", id);
+        model.addAttribute("user", user);
+
+        return "admin/user/detail";
+    }
+
+    @GetMapping("/admin/user/update/{id}")
+    public String getUpdateUserPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/update/{id}");
+        User currentUser = this.userService.getUserById(id);
+        model.addAttribute("id", id);
+        model.addAttribute("newUser", currentUser);
+        return "admin/user/update";
+    }
+
     @PostMapping(value = "/admin/user/create")
     public String createUser(Model model, @ModelAttribute("newUser") @Valid User trinhlam,
             BindingResult newBindingResult,
@@ -113,23 +134,25 @@ public class UserController extends BaseController {
         return "redirect:/admin/user";
     }
 
-    @GetMapping("/admin/user/{id}")
-    public String getUserDetailPage(Model model, @PathVariable long id) {
-        log.info("Request to /admin/user/{id}");
-        User user = this.userService.getUserById(id);
+    @GetMapping("/admin/user/delete/{id}")
+    public String getDeleteUserPage(Model model, @PathVariable long id) {
+        log.info("Request to /admin/user/delete/{id}");
         model.addAttribute("id", id);
-        model.addAttribute("user", user);
+        model.addAttribute("newUser", new User());
 
-        return "admin/user/detail";
+        return "admin/user/delete";
     }
 
-    @GetMapping("/admin/user/update/{id}")
-    public String getUpdateUserPage(Model model, @PathVariable long id) {
-        log.info("Request to /admin/user/update/{id}");
-        User currentUser = this.userService.getUserById(id);
-        model.addAttribute("id", id);
-        model.addAttribute("newUser", currentUser);
-        return "admin/user/update";
+    @GetMapping("/reset-password")
+    public String getResetPasswordPage(@RequestParam("token") String token, Model model) {
+        log.info("Request to /reset-password");
+        String email = tokenService.getEmailByToken(token);
+        User user = this.userService.getUserByEmail(email);
+        Long id = user.getId();
+        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTO();
+        resetPasswordDTO.setUserID(id);
+        model.addAttribute("ResetPasswordDTO", resetPasswordDTO);
+        return "client/homepage/resetPassword";
     }
 
     @PostMapping("/admin/user/update")
@@ -146,32 +169,12 @@ public class UserController extends BaseController {
         return "redirect:/admin/user";
     }
 
-    @GetMapping("/admin/user/delete/{id}")
-    public String getDeleteUserPage(Model model, @PathVariable long id) {
-        log.info("Request to /admin/user/delete/{id}");
-        model.addAttribute("id", id);
-        model.addAttribute("newUser", new User());
-
-        return "admin/user/delete";
-    }
 
     @PostMapping("/admin/user/delete")
     public String postDeleteUser(Model model, @ModelAttribute("newUser") User trinhlam) {
         log.info("Request to /admin/user/delete");
         this.userService.deleteUserById(trinhlam.getId());
         return "redirect:/admin/user";
-    }
-
-    @GetMapping("/reset-password")
-    public String getResetPasswordPage(@RequestParam("token") String token, Model model) {
-        log.info("Request to /reset-password");
-        String email = tokenService.getEmailByToken(token);
-        User user = this.userService.getUserByEmail(email);
-        Long id = user.getId();
-        ResetPasswordDTO resetPasswordDTO = new ResetPasswordDTO();
-        resetPasswordDTO.setUserID(id);
-        model.addAttribute("ResetPasswordDTO", resetPasswordDTO);
-        return "client/homepage/resetPassword";
     }
 
     @PostMapping("/send-request-to-mail")
@@ -182,8 +185,9 @@ public class UserController extends BaseController {
         token.setEmail(email);
         token.setToken(tokenEmail);
         tokenService.saveToken(token);
-        String resetLink = "http://localhost:8080/reset-password?token=" + tokenEmail;
-        sendEmail.sendEmail(email, "Xác nhận khôi phục mật khẩu", "Nhấn vào đây để lấy lại mật khẩu: " + resetLink);
+        String resetLink = AppConstant.RESET_LINK + tokenEmail;
+        EmailRequest emailRequest = new EmailRequest(email,"Xác nhận khôi phục mật khẩu","Nhấn vào đây để lấy lại mật khẩu: " + resetLink);
+        emailProducer.sendEmailToQueue(emailRequest);
         return "redirect:/login";
     }
 

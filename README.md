@@ -8,23 +8,42 @@
 
 ## 2. Cấu trúc dự án
 
-<pre>
-quanglam04-food-store/
-├── mysql-init/                   # File SQL khởi tạo CSDL
+```
+food_store/
+│
 ├── src/
 │   ├── main/
 │   │   ├── java/com/example/food_store/
-│   │   │   ├── config/           # Cấu hình Spring Security & Web
-│   │   │   ├── controller/       # Controller cho admin & client
-│   │   │   ├── domain/           # Entity & DTO
-│   │   │   ├── repository/       # Repository JPA
-│   │   │   └── service/          # Business logic
-│   ├── resources/                # application.properties, template mail
-│   └── webapp/                   # View JSP, tài nguyên tĩnh (JS/CSS/IMG)
-├── docker-compose.yml            # Cấu hình Docker Compose
-├── Dockerfile                    # Docker build app
-├── pom.xml                       # Cấu hình Maven
-</pre>
+│   │   │   ├── annotation/          # Custom annotations
+│   │   │   ├── config/              # Configuration classes
+│   │   │   ├── constant/            # Constants and enums
+│   │   │   ├── controller/          # MVC Controllers
+│   │   │   ├── domain/              # Entity/Model classes
+│   │   │   ├── exception/           # Exception handlers
+│   │   │   ├── messaging/           # RabbitMQ messaging
+│   │   │   ├── repository/          # JPA repositories
+│   │   │   ├── service/             # Business logic
+│   │   │   ├── utils/               # Utility classes
+│   │   │   └── FoodStoreApplication.java
+│   │   │
+│   │   ├── resources/
+│   │   │   ├── mail/                # Email templates
+│   │   │   ├── application.yml      # Application config
+│   │   │   └── logback-spring.xml   # Logging config
+│   │   │
+│   │   └── webapp/
+│   │       ├── resources/           # Static resources (CSS, JS, images)
+│   │       └── WEB-INF/             # JSP views and web config
+│   │
+│   └── test/                        # Test classes
+│       └── target/                  # Test build output
+│
+├── .gitignore                       # Git ignore file
+├── docker-compose.yml               # Docker Compose configuration
+├── Dockerfile                       # Docker image configuration
+├── Document.pdf                     # Project documentation
+└── README.md                        # Project README
+```
 
 ---
 
@@ -113,38 +132,50 @@ Chạy lệnh:
 
 ### Kết quả sau khi chạy thành công:
 
+![Demo 4](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_8.png)
+
+<p align="center">
+  Giao diện quản lý RabbitMQ hiển thị overview của hệ thống
+</p>
 
 ![Demo 4](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/image.png)
+
 <p align="center">
   Báo cáo chất lượng code từ SonarQube
 </p>
 
 ![Demo 4](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_4%20-%20Copy.png)
+
 <p align="center">
   Đăng nhập
 </p>
 
 ![Demo 3](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_3.png)
+
 <p align="center">
   Trang chủ
 </p>
 
 ![Demo 2](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_2.png)
+
 <p align="center">
   Sản phẩm
 </p>
 
 ![Demo 6](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_6.png)
+
 <p align="center">
   Tính phí vận chuyển dựa trên khoảng cách thực tế
 </p>
 
 ![Demo 7](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_7.png)
+
 <p align="center">
   Thanh toán
 </p>
 
 ![Demo 1](https://github.com/quanglam04/food-store/blob/master/src/main/webapp/resources/client/img/demo_1.png)
+
 <p align="center">
   Dashboard phía ADMIN
 </p>
@@ -161,6 +192,7 @@ Chạy lệnh:
 - MySQL
 - Maven
 - Docker & Docker Compose
+- Message Broker (RabbitMQ)
 - SonarQube
 
 ### Yêu cầu về version
@@ -178,4 +210,4 @@ Chạy lệnh:
 
 ## 7. Thông tin khác
 
-    Liên hệ: trinhquanglam2k4@gmail.com
+Liên hệ: trinhquanglam2k4@gmail.com

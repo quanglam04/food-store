@@ -1,4 +1,4 @@
-package com.example.food_store.domain.dto;
+package com.example.food_store.messaging.message;
 
 import java.io.Serializable;
 

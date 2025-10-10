@@ -3,7 +3,6 @@ package com.example.food_store.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -72,7 +71,6 @@ public class ProductService {
 
     public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
         if (productCriteriaDTO.getTarget() == null
-
                 && productCriteriaDTO.getPrice() == null
                 && productCriteriaDTO.getType() == null
                 && productCriteriaDTO.getCustomertarget() == null
@@ -117,7 +115,6 @@ public class ProductService {
         for (String p : price) {
             int min = 0;
             int max = 0;
-
             switch (p) {
                 case "duoi-100-nghin":
                     min = 0;
@@ -173,10 +170,8 @@ public class ProductService {
 
                 cart = this.cartRepository.save(otherCart);
             }
-
             // save cart_detail
             // tìm product by id
-
             Optional<Product> productOptional = this.productRepository.findById(productId);
             if (productOptional.isPresent()) {
                 Product realProduct = productOptional.get();

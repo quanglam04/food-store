@@ -7,19 +7,20 @@ import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
+import com.example.food_store.constant.AppConstant;
 import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Order;
 import com.example.food_store.domain.Product;
 import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ChangePasswordDTO;
-import com.example.food_store.domain.dto.EmailRequest;
 import com.example.food_store.domain.dto.RegisterDTO;
-import com.example.food_store.producer.EmailProducer;
+import com.example.food_store.messaging.message.EmailRequest;
+import com.example.food_store.messaging.producer.EmailProducer;
 import com.example.food_store.service.OrderService;
 import com.example.food_store.service.ProductService;
 import com.example.food_store.service.UploadService;
 import com.example.food_store.service.UserService;
-import com.example.food_store.service.sendEmail.SendEmail;
+import com.example.food_store.utils.AppUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -39,17 +40,15 @@ public class HomePageController extends BaseController {
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
     private final UploadService uploadService;
-    private final SendEmail sendEmail;
     private final EmailProducer emailProducer;
 
     public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            OrderService orderService, UploadService uploadService, SendEmail sendEmail, EmailProducer emailProducer) {
+            OrderService orderService, UploadService uploadService, EmailProducer emailProducer) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.orderService = orderService;
         this.uploadService = uploadService;
-        this.sendEmail = sendEmail;
         this.emailProducer = emailProducer;
     }
 
@@ -82,60 +81,7 @@ public class HomePageController extends BaseController {
         return "client/auth/register";
     }
 
-    @PostMapping("/register")
-    public String handleRegister(@ModelAttribute("userDTO") @Valid RegisterDTO userDTO,
-            BindingResult bindingResult,
-            @RequestParam("OTP_check") String OTP,
-            Model model) {
-        log.info("Request to /register");
-        String OTP_real = userDTO.getOTP();
-        if (!OTP.equals(OTP_real)) {
-            model.addAttribute("errorVerifyEmail", "Mã OTP không chính xác. Vui lòng nhập lại.");
-            return "client/auth/verifyEmail";
-        }
-
-        User user = this.userService.registerDTOtoUser(userDTO);
-        String hashPassword = this.passwordEncoder.encode(userDTO.getPassword());
-        user.setPassword(hashPassword);
-        user.setRole(this.userService.getRoleByName("USER"));
-        this.userService.handleSaveUser(user);
-        return "client/homepage/registerSuccess";
-    }
-
-    @PostMapping("/verify")
-    public String getVerifyPage(@ModelAttribute("registerUser") @Valid RegisterDTO userDTO, BindingResult bindingResult,
-            Model model) {
-        log.info("Request to /verify");
-        String email = userDTO.getEmail();
-        if (bindingResult.hasErrors()) {
-            System.out.println(">>>>>>>>>>>>>" + bindingResult.getFieldError().getDefaultMessage());
-            String password = userDTO.getPassword();
-            String confirmPassword = userDTO.getConfirmPassword();
-            String regexp = "^[a-zA-Z0-9!#$%&*/=?`{|}]+@[a-zA-Z0-9.-]+$";
-            String name = userDTO.getFullName();
-            if (name.length() < 3)
-                model.addAttribute("errorFullname", "Họ tên phải có tối thiểu 3 ký tự");
-            if (this.userService.checkEmailExist(email))
-                model.addAttribute("errorEmail", "Email đã tồn tại. Vui lòng sử dụng Email khác");
-            if (!email.matches(regexp))
-                model.addAttribute("errorEmail_2", "Email không hợp lệ");
-            if (password.length() < 6)
-                model.addAttribute("errorPassword", "Mật khẩu phải có tối thiểu 6 ký tự");
-            else if (!confirmPassword.equals(password))
-                model.addAttribute("errorConfirmPassword", "Mật khẩu nhập không chính xác");
-            return "client/auth/register";
-        }
-
-        String OTP = this.sendEmail.getRandom();
-
-        EmailRequest emailRequest = new EmailRequest(email,"Xác nhận đăng ký","Mã xác nhận đăng ký của bạn là: " + OTP);
-        emailProducer.sendEmailToQueue(emailRequest);
-        userDTO.setOTP(OTP);
-        model.addAttribute("userDTO", userDTO);
-        return "client/auth/verifyEmail";
-    }
-
-    @GetMapping("/login")
+        @GetMapping("/login")
     public String getLoginPage() {
         log.info("Request to /login");
         return "client/auth/login";
@@ -178,34 +124,14 @@ public class HomePageController extends BaseController {
     @GetMapping("/update-profile/{id}")
     public String getProfileUpdate(HttpSession session, Model model, @PathVariable long id) {
         log.info("Request to /update-profile/{id}");
-    Long sessionUserId = (Long) session.getAttribute("id");
-    if (sessionUserId == null || sessionUserId != id) {
+        Long sessionUserId = (Long) session.getAttribute("id");
+        if (sessionUserId == null || sessionUserId != id) {
         return "not-match"; 
-    }
-    User currentUser = this.userService.getUserById(id);
-    model.addAttribute("id", id);
-    model.addAttribute("newUser", currentUser);
-    return "client/homepage/updateProfile";
-}
-
-    @PostMapping("/update-profile")
-    public String postMethodName(Model model, @ModelAttribute("newUser") User trinhlam,
-            BindingResult newBindingResult,
-            @RequestParam("avatarFile") MultipartFile file,
-            HttpServletRequest request) {
-                log.info("Request to /update-profile");
-        HttpSession session = request.getSession(false);
-        User currentUser = this.userService.getUserById(trinhlam.getId());
-        if (newBindingResult.hasErrors())
-            return "not-match";
-
-        String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
-        currentUser.setAvatar(avatar);
-        currentUser.setPhone(trinhlam.getPhone());
-        currentUser.setAddress(trinhlam.getAddress());
-        this.userService.handleSaveUser(currentUser);
-        session.setAttribute("avatar", avatar);
-        return "redirect:/view-profile";
+     }
+        User currentUser = this.userService.getUserById(id);
+        model.addAttribute("id", id);
+        model.addAttribute("newUser", currentUser);
+        return "client/homepage/updateProfile";
     }
 
     @GetMapping("/change-password")
@@ -223,6 +149,87 @@ public class HomePageController extends BaseController {
         model.addAttribute("changePasswordDTO", changePasswordDTO);
         return "client/homepage/changePassword";
     }
+
+    @GetMapping("success-page")
+    public String getSuccessPage() {
+        log.info("Request to /success-page");
+        return "client/homepage/changePasswordSuccess";
+    }
+
+    @PostMapping("/register")
+    public String handleRegister(@ModelAttribute("userDTO") @Valid RegisterDTO userDTO,
+            BindingResult bindingResult,
+            @RequestParam("OTP_check") String OTP,
+            Model model) {
+        log.info("Request to /register");
+        String OTP_real = userDTO.getOTP();
+        if (!OTP.equals(OTP_real)) {
+            model.addAttribute("errorVerifyEmail", "Mã OTP không chính xác. Vui lòng nhập lại.");
+            return "client/auth/verifyEmail";
+        }
+
+        User user = this.userService.registerDTOtoUser(userDTO);
+        String hashPassword = this.passwordEncoder.encode(userDTO.getPassword());
+        user.setPassword(hashPassword);
+        user.setRole(this.userService.getRoleByName("USER"));
+        this.userService.handleSaveUser(user);
+        return "client/homepage/registerSuccess";
+    }
+
+    @PostMapping("/verify")
+    public String getVerifyPage(@ModelAttribute("registerUser") @Valid RegisterDTO userDTO, BindingResult bindingResult,
+            Model model) {
+        log.info("Request to /verify");
+        String email = userDTO.getEmail();
+        if (bindingResult.hasErrors()) {
+            String password = userDTO.getPassword();
+            String confirmPassword = userDTO.getConfirmPassword();
+            String regexp = AppConstant.REGEX_EMAIL;
+            String name = userDTO.getFullName();
+            if (name.length() < 3)
+                model.addAttribute("errorFullname", "Họ tên phải có tối thiểu 3 ký tự");
+            if (this.userService.checkEmailExist(email))
+                model.addAttribute("errorEmail", "Email đã tồn tại. Vui lòng sử dụng Email khác");
+            if (!email.matches(regexp))
+                model.addAttribute("errorEmail_2", "Email không hợp lệ");
+            if (password.length() < 6)
+                model.addAttribute("errorPassword", "Mật khẩu phải có tối thiểu 6 ký tự");
+            else if (!confirmPassword.equals(password))
+                model.addAttribute("errorConfirmPassword", "Mật khẩu nhập không chính xác");
+            return "client/auth/register";
+        }
+
+        String OTP = AppUtil.getRandomOTP();
+        EmailRequest emailRequest = new EmailRequest(email,"Xác nhận đăng ký","Mã xác nhận đăng ký của bạn là: " + OTP);
+        emailProducer.sendEmailToQueue(emailRequest);
+        userDTO.setOTP(OTP);
+        model.addAttribute("userDTO", userDTO);
+        return "client/auth/verifyEmail";
+    }
+
+
+
+    @PostMapping("/update-profile")
+    public String postMethodName(Model model, @ModelAttribute("newUser") User trinhlam,
+            BindingResult newBindingResult,
+            @RequestParam("avatarFile") MultipartFile file,
+            HttpServletRequest request) {
+        log.info("Request to /update-profile");
+        HttpSession session = request.getSession(false);
+        User currentUser = this.userService.getUserById(trinhlam.getId());
+        if (newBindingResult.hasErrors())
+            return "not-match";
+
+        String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+        currentUser.setAvatar(avatar);
+        currentUser.setPhone(trinhlam.getPhone());
+        currentUser.setAddress(trinhlam.getAddress());
+        this.userService.handleSaveUser(currentUser);
+        session.setAttribute("avatar", avatar);
+        return "redirect:/view-profile";
+    }
+
+    
 
     @PostMapping("/change-password")
     public String changePassword(@ModelAttribute("changePasswordDTO") @Valid ChangePasswordDTO changePasswordDTO,
@@ -242,7 +249,6 @@ public class HomePageController extends BaseController {
         if (passwordEncoder.matches(lastPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));
             this.userService.handleSaveUser(user);
-
             model.addAttribute("message", "Đổi mật khẩu thành công");
             return "redirect:/success-page";
         } else {
@@ -251,10 +257,6 @@ public class HomePageController extends BaseController {
         }
     }
 
-    @GetMapping("success-page")
-    public String getSuccessPage() {
-        log.info("Request to /success-page");
-        return "client/homepage/changePasswordSuccess";
-    }
+
 
 }

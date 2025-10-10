@@ -1,9 +1,11 @@
-package com.example.food_store.service.validator;
+package com.example.food_store.annotation.validator;
+
+import com.example.food_store.annotation.StrongPassword;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class StrongPasswordValidator implements ConstraintValidator<StrongPassword, String> {
+public class StrnogPasswordValidator implements ConstraintValidator<StrongPassword, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
