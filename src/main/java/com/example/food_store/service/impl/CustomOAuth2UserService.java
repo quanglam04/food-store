@@ -1,4 +1,4 @@
-package com.example.food_store.service;
+package com.example.food_store.service.impl;
 
 import java.util.Collections;
 import java.util.Map;
@@ -15,14 +15,14 @@ import com.example.food_store.constant.OAuth2ProviderConstant;
 import com.example.food_store.domain.Role;
 import com.example.food_store.domain.User;
 import com.example.food_store.exception.CustomOAuth2Exception;
+import com.example.food_store.service.ICustomOAuth2UserService;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+@RequiredArgsConstructor
+public class CustomOAuth2UserService extends DefaultOAuth2UserService implements ICustomOAuth2UserService{
     private final UserService userService;
-
-    public CustomOAuth2UserService(UserService userService) {
-        this.userService = userService;
-    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {

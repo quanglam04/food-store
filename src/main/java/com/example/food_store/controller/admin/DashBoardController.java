@@ -5,18 +5,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.food_store.controller.BaseController;
-import com.example.food_store.service.ProductService;
-import com.example.food_store.service.UserService;
+import com.example.food_store.service.impl.ProductService;
+import com.example.food_store.service.impl.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class DashBoardController extends BaseController {
     private final UserService userService;
     private final ProductService productService;
-
-    public DashBoardController(UserService userService, ProductService productService) {
-        this.userService = userService;
-        this.productService = productService;
-    }
 
     @GetMapping("/admin")
     public String getDashBoard(Model model) {

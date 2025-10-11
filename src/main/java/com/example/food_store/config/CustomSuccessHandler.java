@@ -15,7 +15,7 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.example.food_store.domain.User;
-import com.example.food_store.service.UserService;
+import com.example.food_store.service.impl.UserService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

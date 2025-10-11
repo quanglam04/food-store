@@ -1,4 +1,4 @@
-package com.example.food_store.service;
+package com.example.food_store.service.impl;
 
 import java.io.File;
 import java.io.BufferedOutputStream;
@@ -9,19 +9,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.food_store.constant.AppConstant;
+import com.example.food_store.service.IUploadService;
 
 import jakarta.servlet.ServletContext;
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class UploadService {
+@RequiredArgsConstructor
+public class UploadService implements IUploadService {
     private final ServletContext servletContext;
-
-    public UploadService(ServletContext servletContext) {
-        this.servletContext = servletContext;
-    }
 
     String finalName = "";
 
+    @Override
     public String handleSaveUploadFile(MultipartFile file, String targetFolder) {
 
         if (file.isEmpty())

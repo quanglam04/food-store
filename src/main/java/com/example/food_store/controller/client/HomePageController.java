@@ -16,15 +16,17 @@ import com.example.food_store.domain.dto.ChangePasswordDTO;
 import com.example.food_store.domain.dto.RegisterDTO;
 import com.example.food_store.messaging.message.EmailRequest;
 import com.example.food_store.messaging.producer.EmailProducer;
-import com.example.food_store.service.OrderService;
-import com.example.food_store.service.ProductService;
-import com.example.food_store.service.UploadService;
-import com.example.food_store.service.UserService;
+import com.example.food_store.service.impl.OrderService;
+import com.example.food_store.service.impl.ProductService;
+import com.example.food_store.service.impl.UploadService;
+import com.example.food_store.service.impl.UserService;
 import com.example.food_store.utils.AppUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,24 +35,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequiredArgsConstructor
 public class HomePageController extends BaseController {
-
     private final ProductService productService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
     private final UploadService uploadService;
     private final EmailProducer emailProducer;
-
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
-            OrderService orderService, UploadService uploadService, EmailProducer emailProducer) {
-        this.productService = productService;
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.orderService = orderService;
-        this.uploadService = uploadService;
-        this.emailProducer = emailProducer;
-    }
 
     @GetMapping("/")
     public String getHomePage(Model model) {

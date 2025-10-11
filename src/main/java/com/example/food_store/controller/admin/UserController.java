@@ -26,33 +26,24 @@ import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ResetPasswordDTO;
 import com.example.food_store.messaging.message.EmailRequest;
 import com.example.food_store.messaging.producer.EmailProducer;
-import com.example.food_store.service.TokenService;
-import com.example.food_store.service.UploadService;
-import com.example.food_store.service.UserService;
+import com.example.food_store.service.impl.TokenService;
+import com.example.food_store.service.impl.UploadService;
+import com.example.food_store.service.impl.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController extends BaseController {
-
     private final UserService userService;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
     private final EmailProducer emailProducer;
-
-    public UserController(UserService userService, UploadService uploadService, PasswordEncoder passwordEncoder,
-           TokenService tokenService,EmailProducer emailProducer) {
-        this.userService = userService;
-        this.uploadService = uploadService;
-        this.passwordEncoder = passwordEncoder;
-        this.tokenService = tokenService;
-        this.emailProducer = emailProducer;
-
-    }
 
     @GetMapping("/admin/user")
     public String getUserPage(Model model,

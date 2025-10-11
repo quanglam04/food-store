@@ -16,26 +16,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Product;
-
-import com.example.food_store.service.ProductService;
-import com.example.food_store.service.UploadService;
+import com.example.food_store.service.impl.ProductService;
+import com.example.food_store.service.impl.UploadService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequiredArgsConstructor
 public class ProductController extends BaseController {
-
     private final UploadService uploadService;
     private final ProductService productService;
-
-    public ProductController(UploadService uploadService, ProductService productService) {
-        this.uploadService = uploadService;
-        this.productService = productService;
-    }
 
     @GetMapping("/admin/product")
     public String getProduct(

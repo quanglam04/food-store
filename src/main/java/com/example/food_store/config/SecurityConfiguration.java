@@ -15,9 +15,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
-import com.example.food_store.service.CustomOAuth2UserService;
-import com.example.food_store.service.CustomUserDetailsService;
-import com.example.food_store.service.UserService;
+import com.example.food_store.service.impl.CustomOAuth2UserService;
+import com.example.food_store.service.impl.CustomUserDetailsService;
+import com.example.food_store.service.impl.UserService;
 
 import jakarta.servlet.DispatcherType;
 

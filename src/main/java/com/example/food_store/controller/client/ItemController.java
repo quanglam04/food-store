@@ -25,33 +25,26 @@ import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ProductCriteriaDTO;
 import com.example.food_store.messaging.message.EmailRequest;
 import com.example.food_store.messaging.producer.EmailProducer;
-import com.example.food_store.service.CartService;
-import com.example.food_store.service.ProductService;
-import com.example.food_store.service.UserService;
-import com.example.food_store.service.VNPAYService;
+import com.example.food_store.service.impl.CartService;
+import com.example.food_store.service.impl.ProductService;
+import com.example.food_store.service.impl.UserService;
+import com.example.food_store.service.impl.VNPAYService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 public class ItemController extends BaseController {
     private final ProductService productService;
     private final UserService userService;
     private final VNPAYService vnpayService;
     private final CartService cartService;
     private final EmailProducer emailProducer;
-
-    public ItemController(ProductService productService, UserService userService,
-            VNPAYService vnpayService, CartService cartService, EmailProducer emailProducer) {
-        this.productService = productService;
-        this.userService = userService;
-        this.vnpayService = vnpayService;
-        this.cartService = cartService;
-        this.emailProducer = emailProducer;
-    }
 
     @GetMapping("/product/{id}")
     public String getProductPage(Model model, @PathVariable long id) {

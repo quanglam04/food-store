@@ -15,20 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Order;
 import com.example.food_store.domain.OrderDetail;
-import com.example.food_store.service.OrderService;
+import com.example.food_store.service.impl.OrderService;
+
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 public class OrderController extends BaseController {
-
     private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-
-        this.orderService = orderService;
-    }
 
     @GetMapping("/admin/order")
     public String getDashboard(Model model,

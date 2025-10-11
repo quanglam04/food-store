@@ -5,6 +5,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BaseController {
-
   protected final Logger log = LoggerFactory.getLogger(getClass());
 }

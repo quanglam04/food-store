@@ -2,10 +2,11 @@ package com.example.food_store.controller.client;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.food_store.service.ProductService;
+import com.example.food_store.service.impl.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,13 +34,9 @@ class CartRequest {
 }
 
 @RestController
+@RequiredArgsConstructor
 public class CartAPI {
-
     private final ProductService productService;
-
-    public CartAPI(ProductService productService) {
-        this.productService = productService;
-    }
 
     @PostMapping("/api/add-product-to-cart")
     public ResponseEntity<Integer> addProductToCart(
