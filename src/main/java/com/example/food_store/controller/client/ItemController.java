@@ -156,6 +156,7 @@ public class ItemController extends BaseController {
 
         EmailRequest emailRequest = new EmailRequest(email,"Xác nhận đơn hàng","FoodStore chân thành cảm ơn bạn vì đã sử dụng sản phẩm của chúng tôi!");
         emailProducer.sendEmailToQueue(emailRequest);
+        log.info("Send email success after order");
 
         if (vnpayResponseOptional.isPresent() && paymentRef.isPresent()) {
             // cap nhat trang thai order

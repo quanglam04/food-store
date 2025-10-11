@@ -1,86 +1,73 @@
 spring:
   application:
-    name: food-store
+    name: ${SPRING_APPLICATION_NAME:food-store}
 
   jpa:
     hibernate:
-      ddl-auto: update
-#    show-sql: true
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+  #    show-sql: true
 
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/foodstore
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:com.mysql.cj.jdbc.Driver}
 
   servlet:
     multipart:
-      enabled: true
-      max-file-size: 50MB
-      max-request-size: 50MB
+      enabled: ${SPRING_SERVLET_MULTIPART_ENABLED:true}
+      max-file-size: ${SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE:50MB}
+      max-request-size: ${SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE:50MB}
 
   session:
-    store-type: jdbc
-    timeout: 30m
+    store-type: ${SPRING_SESSION_STORE_TYPE:jdbc}
+    timeout: ${SPRING_SESSION_TIMEOUT:30m}
     jdbc:
-      initialize-schema: always
-#      table-name: SPRING_SESSION
+      initialize-schema: ${SPRING_SESSION_JDBC_INITIALIZE_SCHEMA:always}
+  #      table-name: SPRING_SESSION
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: foodstore247official@gmail.com
-    password: utbwyqfrkhxlpxjn
+    host: ${SPRING_MAIL_HOST}
+    port: ${SPRING_MAIL_PORT}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
     properties:
       mail:
         smtp:
-          auth: true
+          auth: ${SPRING_MAIL_SMTP_AUTH:true}
           starttls:
-            enable: true
+            enable: ${SPRING_MAIL_SMTP_STARTTLS_ENABLE:true}
 
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: 693853600642-a6i3m8sina578kahk5lnbv0taoufuuvg.apps.googleusercontent.com
-            client-secret: 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
-            scope: email,profile
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope: ${GOOGLE_SCOPE:email,profile}
           github:
-            client-id: Ov23liYmE7tGzukbkBtF
-            client-secret: 3de5cfdd0c2cf3603b8de9f4d476f2337bbf6ca9
-
-#  security:
-#    user:
-#      name: trinhlam
-#      password: 123456
-
-#  mvc:
-#    view:
-#      prefix: /WEB-INF/view/
-#      suffix: .jsp
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
 
   web:
     resources:
-      add-mappings: false
+      add-mappings: ${SPRING_WEB_RESOURCES_ADD_MAPPINGS:false}
 
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
 
 # server:
-#   port: 8084
-#   servlet:
-#     session:
-#       timeout:
+#   port: ${SERVER_PORT:8080}
 
 trinhlam:
   vnpay:
-    tmn-code: FXMFV63I
-    hash-secret: 4Y6I99D2FCHG2PLC1JJ18TN4VVWZYHB8
-    vnp-url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
-    vnp-return-url: http://localhost:8080/afterOrder
+    tmn-code: ${VNPAY_TMN_CODE}
+    hash-secret: ${VNPAY_HASH_SECRET}
+    vnp-url: ${VNPAY_URL}
+    vnp-return-url: ${VNPAY_RETURN_URL}
 
-api-gemini: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyAqegyPvRERJaG3SZiBsC46ZXQ0jDYcdTQ
+api-gemini: ${API_GEMINI_URL}
