@@ -16,32 +16,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Product;
-
-import com.example.food_store.service.ProductService;
-import com.example.food_store.service.UploadService;
+import com.example.food_store.service.impl.ProductService;
+import com.example.food_store.service.impl.UploadService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequiredArgsConstructor
 public class ProductController extends BaseController {
-
     private final UploadService uploadService;
     private final ProductService productService;
 
-    public ProductController(UploadService uploadService, ProductService productService) {
-        this.uploadService = uploadService;
-        this.productService = productService;
-    }
-
     @GetMapping("/admin/product")
-    public String getProduct(
-            Model model,
-            @RequestParam("page") Optional<String> pageOptional) {
-            log.info("Request to /admin/product");
+    public String getProduct(Model model, @RequestParam("page") Optional<String> pageOptional) {
+        log.info("Request to /admin/product");
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -54,17 +47,13 @@ public class ProductController extends BaseController {
             Page<Product> prs = this.productService.fetchProducts(pageable);
             List<Product> listProducts = prs.getContent();
             model.addAttribute("products", listProducts);
-
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", prs.getTotalPages());
-
             return "admin/product/show";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Không tìm thấy trang .");
             return "not-match";
         }
-
-         
     }
 
     @GetMapping("/admin/product/create")
@@ -101,14 +90,11 @@ public class ProductController extends BaseController {
     }
     
     @PostMapping("/admin/product/create")
-    public String createProduct(@ModelAttribute("newPrd") @Valid Product prd,
-            BindingResult newBindingResult,
-            @RequestParam("productFile") MultipartFile file) {
+    public String createProduct(@ModelAttribute("newPrd") @Valid Product prd, BindingResult newBindingResult, @RequestParam("productFile") MultipartFile file) {
         log.info("Request to /admin/product/create");
         if (newBindingResult.hasErrors()) {
             return "admin/product/create";
         }
-        
         String img = this.uploadService.handleSaveUploadFile(file, "product");
         prd.setImage(img);
         this.productService.createProduct(prd);
@@ -124,12 +110,9 @@ public class ProductController extends BaseController {
         return "redirect:/admin/product";
     }
 
-
-
     @PostMapping("/admin/product/update")
-    public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product prd,
-            BindingResult newProducBindingResult, @RequestParam("productFile") MultipartFile file) {
-                log.info("Request to /admin/product/update");
+    public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product prd, BindingResult newProducBindingResult, @RequestParam("productFile") MultipartFile file) {
+        log.info("Request to /admin/product/update");
         if (newProducBindingResult.hasErrors()) {
             return "admin/product/update";
         }
@@ -149,9 +132,7 @@ public class ProductController extends BaseController {
             currentProduct.setCustomerTarget(prd.getCustomerTarget());
             currentProduct.setShortDesc(prd.getShortDesc());
             currentProduct.setTarget(prd.getTarget());
-
             this.productService.createProduct(currentProduct);
-
         }
         return "redirect:/admin/product";
 

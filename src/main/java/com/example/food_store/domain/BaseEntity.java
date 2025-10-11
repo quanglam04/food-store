@@ -23,7 +23,6 @@ public class BaseEntity {
   @Column(name = "UPDATE_DAY_TIME")
   private String updateDayTime;
 
-
   @PrePersist
   public void prePersist() {
     this.createDayTime = LocalDateTime.now().format(AppConstant.formatter);

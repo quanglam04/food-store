@@ -1,4 +1,4 @@
-package com.example.food_store.service;
+package com.example.food_store.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,28 +11,32 @@ import com.example.food_store.domain.OrderDetail;
 import com.example.food_store.domain.User;
 import com.example.food_store.repository.OrderDetailRepository;
 import com.example.food_store.repository.OrderRepository;
+import com.example.food_store.service.IOrderService;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class OrderService {
+@RequiredArgsConstructor
+public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
-    public OrderService(OrderRepository orderRepository, OrderDetailRepository orderDetailRepository) {
-        this.orderDetailRepository = orderDetailRepository;
-        this.orderRepository = orderRepository;
-    }
 
+    @Override
     public Page<Order> fetchAllOrders(Pageable pageable) {
         return this.orderRepository.findAll(pageable);
     }
 
+    @Override
     public Optional<Order> fetchOrderById(long id) {
         return this.orderRepository.findById(id);
     }
 
+    @Override
     public List<Order> fetchOrderByUser(User user) {
         return this.orderRepository.findByUser(user);
     }
 
+    @Override
     public void deleteById(long id) {
         // xóa order detail
         Optional<Order> orderOptional = this.fetchOrderById(id);
@@ -46,6 +50,7 @@ public class OrderService {
         this.orderRepository.deleteById(id);
     }
 
+    @Override
     public void updateOrder(Order order) {
         Optional<Order> orderOptional = this.fetchOrderById(order.getId());
         if (orderOptional.isPresent()) {

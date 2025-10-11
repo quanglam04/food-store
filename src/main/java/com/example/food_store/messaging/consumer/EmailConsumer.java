@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.food_store.constant.AppConstant;
 import com.example.food_store.messaging.message.EmailRequest;
-import com.example.food_store.service.SendEmailService;
+import com.example.food_store.service.impl.SendEmailService;
 
 @Component
 public class EmailConsumer {

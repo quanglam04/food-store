@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.food_store.annotation.RegisterChecked;
 import com.example.food_store.domain.dto.RegisterDTO;
-import com.example.food_store.service.UserService;
+import com.example.food_store.service.impl.UserService;
 
 @Service
 public class RegosterCheckedValidator implements ConstraintValidator<RegisterChecked, RegisterDTO> {

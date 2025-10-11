@@ -15,24 +15,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.food_store.controller.BaseController;
 import com.example.food_store.domain.Order;
 import com.example.food_store.domain.OrderDetail;
-import com.example.food_store.service.OrderService;
+import com.example.food_store.service.impl.OrderService;
+
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 public class OrderController extends BaseController {
-
     private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
-
-        this.orderService = orderService;
-    }
-
     @GetMapping("/admin/order")
-    public String getDashboard(Model model,
-            @RequestParam("page") Optional<String> pageOptional) {
+    public String getDashboard(Model model, @RequestParam("page") Optional<String> pageOptional) {
         log.info("Request to /admin/order");
         int page = 1;
         try {
@@ -45,7 +41,6 @@ public class OrderController extends BaseController {
             Pageable pageable = PageRequest.of(page - 1, 4);
             Page<Order> ordersPage = this.orderService.fetchAllOrders(pageable);
             List<Order> orders = ordersPage.getContent();
-    
             model.addAttribute("orders", orders);
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", ordersPage.getTotalPages());
@@ -91,7 +86,6 @@ public class OrderController extends BaseController {
         return "redirect:/admin/order";
 
     }
-
 
     @PostMapping("/admin/order/update")
     public String handleUpdateOrder(@ModelAttribute("newOrder") Order order) {

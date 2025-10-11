@@ -23,6 +23,7 @@ food_store/
 │   │   │   ├── messaging/           # RabbitMQ messaging
 │   │   │   ├── repository/          # JPA repositories
 │   │   │   ├── service/             # Business logic
+│   │   │   │     └── impl           # Implement business logic
 │   │   │   ├── utils/               # Utility classes
 │   │   │   └── FoodStoreApplication.java
 │   │   │

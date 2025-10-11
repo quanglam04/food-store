@@ -22,25 +22,21 @@ public class GeminiController extends BaseController {
     @PostMapping
     public ResponseEntity<String> proxyToGemini(@RequestBody String requestBody) throws IOException {
         log.info("Request to /gemini-proxy");
+        String line;
         URL url = new URL(apiUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
-
         try (OutputStream os = conn.getOutputStream()) {
             os.write(requestBody.toString().getBytes(StandardCharsets.UTF_8));
         }
-
         BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
         StringBuilder responseStr = new StringBuilder();
-        String line;
         while ((line = reader.readLine()) != null) {
             responseStr.append(line);
         }
         reader.close();
-        
-         
         return ResponseEntity.ok()
         .contentType(new MediaType("text", "plain", StandardCharsets.UTF_8))
         .body(extractTextFromResponse(responseStr.toString()));
@@ -50,7 +46,6 @@ public class GeminiController extends BaseController {
     try {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(jsonResponse);
-
         // Trích xuất phần "text" từ JSON
         return rootNode.path("candidates")
                        .path(0)

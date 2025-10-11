@@ -1,4 +1,4 @@
-package com.example.food_store.service;
+package com.example.food_store.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +21,15 @@ import com.example.food_store.repository.CartRepository;
 import com.example.food_store.repository.OrderDetailRepository;
 import com.example.food_store.repository.OrderRepository;
 import com.example.food_store.repository.ProductRepository;
-import com.example.food_store.service.specification.ProductSpecification;
+import com.example.food_store.repository.specification.ProductSpecification;
+import com.example.food_store.service.IProductService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @Service
-public class ProductService {
+@RequiredArgsConstructor
+public class ProductService implements IProductService {
     private final CartRepository cartRepository;
     private final CartDetailRepository cartDetailRepository;
     private final ProductRepository productRepository;
@@ -34,41 +37,33 @@ public class ProductService {
     private final OrderDetailRepository orderDetailRepository;
     private final OrderRepository orderRepository;
 
-    public ProductService(ProductRepository productRepository, CartRepository cartRepository,
-            CartDetailRepository cartDetailRepository, UserService userService,
-
-            OrderDetailRepository orderDetailRepository, OrderRepository orderRepository)
-
-    {
-        this.productRepository = productRepository;
-        this.cartDetailRepository = cartDetailRepository;
-        this.cartRepository = cartRepository;
-        this.userService = userService;
-        this.orderDetailRepository = orderDetailRepository;
-        this.orderRepository = orderRepository;
-    }
-
+    @Override
     public long getQuantitybyType(String type) {
         return this.productRepository.countByType(type);
     }
 
+    @Override
     public Product createProduct(Product prd) {
         return this.productRepository.save(prd);
     }
 
+    @Override
     public void updatePaymentStatus(String paymentRef, String paymentStatus) {
         Order order = this.orderRepository.findByPaymentRef(paymentRef);
         order.setPaymentStatus(paymentStatus);
     }
 
+    @Override
     public Page<Product> fetchProducts(Pageable pageable) {
         return this.productRepository.findAll(pageable);
     }
 
+    @Override
     public List<Product> fetchProductByType(String type) {
         return this.productRepository.findByType(type);
     }
 
+    @Override
     public Page<Product> fetchProductsWithSpec(Pageable page, ProductCriteriaDTO productCriteriaDTO) {
         if (productCriteriaDTO.getTarget() == null
                 && productCriteriaDTO.getPrice() == null
@@ -110,6 +105,7 @@ public class ProductService {
         return this.productRepository.findAll(combinedSpec, page);
     }
 
+    @Override
     public Specification<Product> buildPriceSpecification(List<String> price) {
         Specification<Product> combinedSpec = Specification.where(null);
         for (String p : price) {
@@ -143,18 +139,22 @@ public class ProductService {
         return combinedSpec;
     }
 
+    @Override
     public List<Product> fetchAllProductsToHomePage() {
         return this.productRepository.findAll();
     }
 
+    @Override
     public void deleteProductById(long id) {
         this.productRepository.deleteById(id);
     }
 
+    @Override
     public Optional<Product> fetchProductById(long id) {
         return this.productRepository.findById(id);
     }
 
+    @Override
     public void handleAddProductToCart(String email, long productId, HttpSession session, long quantity) {
 
         User user = this.userService.getUserByEmail(email);
@@ -202,10 +202,12 @@ public class ProductService {
         }
     }
 
+    @Override
     public Cart fetchByUser(User user) {
         return this.cartRepository.findByUser(user);
     }
 
+    @Override
     public void handleRemoveCartDetail(long cartDetailId, HttpSession session) {
         Optional<CartDetail> cartDetaiOptional = this.cartDetailRepository.findById(cartDetailId);
         if (cartDetaiOptional.isPresent()) {
@@ -225,6 +227,7 @@ public class ProductService {
         }
     }
 
+    @Override
     public void handleUpdateCartBeforeCheckout(List<CartDetail> cartDetails) {
         for (CartDetail cartDetail : cartDetails) {
             Optional<CartDetail> cdOptional = this.cartDetailRepository.findById(cartDetail.getId());
@@ -236,6 +239,7 @@ public class ProductService {
         }
     }
 
+    @Override
     public void handlePlaceOrder(
             User user, HttpSession session,
             String receiverName, String receiverAddress, String receiverPhone, String paymentMethod, String uuid,double totalPrice) {
@@ -289,14 +293,17 @@ public class ProductService {
 
     }
 
+    @Override
     public List<Order> fetchOrders() {
         return this.orderRepository.findAll();
     }
 
+    @Override
     public long countProduct() {
         return this.productRepository.count();
     }
 
+    @Override
     public List<String> getAllNames() {
         List<Product> products = this.productRepository.findAll();
         List<String> names = new ArrayList<String>();

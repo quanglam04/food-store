@@ -1,4 +1,4 @@
-package com.example.food_store.service.specification;
+package com.example.food_store.repository.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.food_store.service;
+package com.example.food_store.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -19,10 +19,12 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.example.food_store.service.IVNPAYService;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
-public class VNPAYService {
+public class VNPAYService implements IVNPAYService {
 
     @Value("${trinhlam.vnpay.tmn-code}")
     private String vnp_TmnCode;
@@ -36,15 +38,13 @@ public class VNPAYService {
     @Value("${trinhlam.vnpay.vnp-url}")
     private String vnp_PayUrl;
 
-    public String generateVNPayURL(double amountDouble, String paymentRef, String ip)
-            throws UnsupportedEncodingException {
-
+    
+    @Override
+    public String generateVNPayURL(double amountDouble, String paymentRef, String ip) throws UnsupportedEncodingException {
+        long amount = (long) amountDouble * 100;
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String orderType = "other";
-
-        long amount = (long) amountDouble * 100;
-
         String vnp_TxnRef = paymentRef;
         String vnp_IpAddr = ip;
 
@@ -54,14 +54,9 @@ public class VNPAYService {
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
         vnp_Params.put("vnp_Amount", String.valueOf(amount));
         vnp_Params.put("vnp_CurrCode", "VND");
-
-        // if (bankCode != null && !bankCode.isEmpty()) {
-        // vnp_Params.put("vnp_BankCode", bankCode);
-        // }
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
         vnp_Params.put("vnp_OrderType", orderType);
-
         vnp_Params.put("vnp_Locale", "vn");
         vnp_Params.put("vnp_ReturnUrl", vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
@@ -107,6 +102,7 @@ public class VNPAYService {
         return paymentUrl;
     }
 
+    @Override
     public String hmacSHA512(final String key, final String data) {
         try {
 
@@ -130,6 +126,7 @@ public class VNPAYService {
         }
     }
 
+    @Override
     public String getIpAddress(HttpServletRequest request) {
         String ipAddress;
         try {

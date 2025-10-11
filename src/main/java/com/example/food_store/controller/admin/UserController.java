@@ -26,37 +26,27 @@ import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.ResetPasswordDTO;
 import com.example.food_store.messaging.message.EmailRequest;
 import com.example.food_store.messaging.producer.EmailProducer;
-import com.example.food_store.service.TokenService;
-import com.example.food_store.service.UploadService;
-import com.example.food_store.service.UserService;
+import com.example.food_store.service.impl.TokenService;
+import com.example.food_store.service.impl.UploadService;
+import com.example.food_store.service.impl.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController extends BaseController {
-
     private final UserService userService;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
     private final EmailProducer emailProducer;
 
-    public UserController(UserService userService, UploadService uploadService, PasswordEncoder passwordEncoder,
-           TokenService tokenService,EmailProducer emailProducer) {
-        this.userService = userService;
-        this.uploadService = uploadService;
-        this.passwordEncoder = passwordEncoder;
-        this.tokenService = tokenService;
-        this.emailProducer = emailProducer;
-
-    }
-
     @GetMapping("/admin/user")
-    public String getUserPage(Model model,
-            @RequestParam("page") Optional<String> pageOptional) {
+    public String getUserPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
         log.info("Request to /admin/user");
         int page = 1;
         try {
@@ -70,7 +60,6 @@ public class UserController extends BaseController {
             Page<User> usersPage = this.userService.getAllUsers(pageable);
             List<User> users = usersPage.getContent();
             model.addAttribute("listUser", users);
-    
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", usersPage.getTotalPages());
             return "admin/user/show";
@@ -108,9 +97,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping(value = "/admin/user/create")
-    public String createUser(Model model, @ModelAttribute("newUser") @Valid User trinhlam,
-            BindingResult newBindingResult,
-            @RequestParam("avatarFile") MultipartFile file) {
+    public String createUser(Model model, @ModelAttribute("newUser") @Valid User trinhlam, BindingResult newBindingResult, @RequestParam("avatarFile") MultipartFile file) {
         log.info("Request to /admin/user/create");
         List<FieldError> errors = newBindingResult.getFieldErrors();
         for (FieldError error : errors) {
@@ -118,7 +105,6 @@ public class UserController extends BaseController {
         }
 
         if (newBindingResult.hasErrors() || this.userService.checkEmailExist(trinhlam.getEmail())) {
-
             if (this.userService.checkEmailExist(trinhlam.getEmail()))
                 model.addAttribute("errorEmail", "Email đã tồn tại.");
             return "admin/user/create";
@@ -129,7 +115,6 @@ public class UserController extends BaseController {
         trinhlam.setAvatar(avatar);
         trinhlam.setPassword(hashPassword);
         trinhlam.setRole(this.userService.getRoleByName(trinhlam.getRole().getName()));
-
         this.userService.handleSaveUser(trinhlam);
         return "redirect:/admin/user";
     }
@@ -139,7 +124,6 @@ public class UserController extends BaseController {
         log.info("Request to /admin/user/delete/{id}");
         model.addAttribute("id", id);
         model.addAttribute("newUser", new User());
-
         return "admin/user/delete";
     }
 
@@ -163,7 +147,6 @@ public class UserController extends BaseController {
             currentUser.setAddress(trinhlam.getAddress());
             currentUser.setFullName(trinhlam.getFullName());
             currentUser.setPhone(trinhlam.getPhone());
-
             this.userService.handleSaveUser(currentUser);
         }
         return "redirect:/admin/user";
@@ -181,23 +164,18 @@ public class UserController extends BaseController {
     public String sendRequestToMail(@RequestParam("email") String email) {
         log.info("Request to /send-request-to-mail");
         String tokenEmail = UUID.randomUUID().toString();
-        Token token = new Token();
-        token.setEmail(email);
-        token.setToken(tokenEmail);
-        tokenService.saveToken(token);
         String resetLink = AppConstant.RESET_LINK + tokenEmail;
+        Token token = Token.builder().email(email).token(tokenEmail).build();
+        tokenService.saveToken(token);
         EmailRequest emailRequest = new EmailRequest(email,"Xác nhận khôi phục mật khẩu","Nhấn vào đây để lấy lại mật khẩu: " + resetLink);
         emailProducer.sendEmailToQueue(emailRequest);
         return "redirect:/login";
     }
 
     @PostMapping("/process-reset-password")
-    public String getProcessResetPassword(@ModelAttribute("ResetPasswordDTO") @Valid ResetPasswordDTO ResetPasswordDTO,
-            BindingResult bindingResult,
-            Model model) {
+    public String getProcessResetPassword(@ModelAttribute("ResetPasswordDTO") @Valid ResetPasswordDTO ResetPasswordDTO, BindingResult bindingResult, Model model) {
         log.info("Request to /process-reset-password");
         if (bindingResult.hasErrors()) {
-
             String error = bindingResult.getFieldError().getDefaultMessage();
             model.addAttribute("errorNewpassword", error);
             return "client/homepage/resetPassword";
@@ -205,7 +183,6 @@ public class UserController extends BaseController {
         String currentPassword = ResetPasswordDTO.getNewPassword();
         String confirmPassword = ResetPasswordDTO.getConfirmPassword();
         User user = this.userService.getUserById(ResetPasswordDTO.getUserID());
-
         if (!currentPassword.equals(confirmPassword)) {
             model.addAttribute("errorConfirmPassword", "Mật khẩu không khớp");
             return "client/homepage/resetPassword";

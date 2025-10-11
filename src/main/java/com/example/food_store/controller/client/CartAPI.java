@@ -2,10 +2,11 @@ package com.example.food_store.controller.client;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.food_store.service.ProductService;
+import com.example.food_store.service.impl.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,26 +34,16 @@ class CartRequest {
 }
 
 @RestController
+@RequiredArgsConstructor
 public class CartAPI {
-
     private final ProductService productService;
 
-    public CartAPI(ProductService productService) {
-        this.productService = productService;
-    }
-
     @PostMapping("/api/add-product-to-cart")
-    public ResponseEntity<Integer> addProductToCart(
-            @RequestBody() CartRequest cartRequest,
-            HttpServletRequest request) {
-
+    public ResponseEntity<Integer> addProductToCart(@RequestBody() CartRequest cartRequest, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String email = (String) session.getAttribute("email");
-        this.productService.handleAddProductToCart(email, cartRequest.getProductId(), session,
-                cartRequest.getQuantity() == 0?1:cartRequest.getQuantity());
-
+        this.productService.handleAddProductToCart(email, cartRequest.getProductId(), session, cartRequest.getQuantity() == 0?1:cartRequest.getQuantity());
         int sum = (int) session.getAttribute("sum");
-
         return ResponseEntity.ok().body(sum);
     }
 

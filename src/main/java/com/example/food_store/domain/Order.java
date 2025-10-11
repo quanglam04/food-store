@@ -21,9 +21,7 @@ public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private double totalPrice;
-
     private String receiverName;
     private String receiverAddress;
     private String receiverPhone;
