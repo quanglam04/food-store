@@ -33,10 +33,8 @@ public class ProductController extends BaseController {
     private final ProductService productService;
 
     @GetMapping("/admin/product")
-    public String getProduct(
-            Model model,
-            @RequestParam("page") Optional<String> pageOptional) {
-            log.info("Request to /admin/product");
+    public String getProduct(Model model, @RequestParam("page") Optional<String> pageOptional) {
+        log.info("Request to /admin/product");
         int page = 1;
         try {
             if (pageOptional.isPresent()) {
@@ -49,10 +47,8 @@ public class ProductController extends BaseController {
             Page<Product> prs = this.productService.fetchProducts(pageable);
             List<Product> listProducts = prs.getContent();
             model.addAttribute("products", listProducts);
-
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", prs.getTotalPages());
-
             return "admin/product/show";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Không tìm thấy trang .");
@@ -96,14 +92,11 @@ public class ProductController extends BaseController {
     }
     
     @PostMapping("/admin/product/create")
-    public String createProduct(@ModelAttribute("newPrd") @Valid Product prd,
-            BindingResult newBindingResult,
-            @RequestParam("productFile") MultipartFile file) {
+    public String createProduct(@ModelAttribute("newPrd") @Valid Product prd, BindingResult newBindingResult, @RequestParam("productFile") MultipartFile file) {
         log.info("Request to /admin/product/create");
         if (newBindingResult.hasErrors()) {
             return "admin/product/create";
         }
-        
         String img = this.uploadService.handleSaveUploadFile(file, "product");
         prd.setImage(img);
         this.productService.createProduct(prd);
@@ -119,12 +112,9 @@ public class ProductController extends BaseController {
         return "redirect:/admin/product";
     }
 
-
-
     @PostMapping("/admin/product/update")
-    public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product prd,
-            BindingResult newProducBindingResult, @RequestParam("productFile") MultipartFile file) {
-                log.info("Request to /admin/product/update");
+    public String handleUpdateProduct(@ModelAttribute("newProduct") @Valid Product prd, BindingResult newProducBindingResult, @RequestParam("productFile") MultipartFile file) {
+        log.info("Request to /admin/product/update");
         if (newProducBindingResult.hasErrors()) {
             return "admin/product/update";
         }
@@ -144,9 +134,7 @@ public class ProductController extends BaseController {
             currentProduct.setCustomerTarget(prd.getCustomerTarget());
             currentProduct.setShortDesc(prd.getShortDesc());
             currentProduct.setTarget(prd.getTarget());
-
             this.productService.createProduct(currentProduct);
-
         }
         return "redirect:/admin/product";
 

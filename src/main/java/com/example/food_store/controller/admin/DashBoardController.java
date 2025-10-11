@@ -25,7 +25,6 @@ public class DashBoardController extends BaseController {
         model.addAttribute("countUser", countUser);
         model.addAttribute("countOrder", countOrder);
         model.addAttribute("countProduct", countProduct);
-
         return "admin/dashboard/show";
     }
 

@@ -9,7 +9,6 @@ import lombok.Data;
 public class ChangePasswordDTO {
     private Long userId;
     private String lastPassword;
-
     @Size(min = 6, message = "Mật khẩu mới phải có tối thiểu 6 ký tự")
     private String newPassword;
 

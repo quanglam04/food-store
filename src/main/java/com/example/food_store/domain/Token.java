@@ -18,6 +18,4 @@ public class Token extends BaseEntity {
     private Long id;
     private String token;
     private String email;
-
-
 }

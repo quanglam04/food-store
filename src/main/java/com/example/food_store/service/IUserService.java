@@ -8,16 +8,16 @@ import com.example.food_store.domain.User;
 import com.example.food_store.domain.dto.RegisterDTO;
 
 public interface IUserService {
-    User handleSaveUser(User user);
-    Page<User> getAllUsers(Pageable pageable);
-    User getUserById(long id);
     void saveUser(User user);
     void deleteUserById(long id);
-    Role getRoleByName(String name);
-    User registerDTOtoUser(RegisterDTO registerDTO);
-    boolean checkEmailExist(String email);
-    User getUserByEmail(String email);
     long countUser();
     long countOrder();
+    boolean checkEmailExist(String email);
+    Role getRoleByName(String name);
+    User registerDTOtoUser(RegisterDTO registerDTO);
+    User handleSaveUser(User user);
+    User getUserById(long id);
+    User getUserByEmail(String email);
+    Page<User> getAllUsers(Pageable pageable);
 
 }

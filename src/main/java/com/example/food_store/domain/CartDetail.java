@@ -19,9 +19,7 @@ public class CartDetail extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private long quantity;
-
     private double price;
 
     // cart_id: long

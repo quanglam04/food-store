@@ -56,7 +56,6 @@ public class ItemController extends BaseController {
         long number_4 = this.productService.getQuantitybyType("thuc-pham-giau-protein");
         long number_5 = this.productService.getQuantitybyType("thuc-uong");
         Long number_6 = this.productService.getQuantitybyType("thuc-pham-chua-tinh-bot");
-
         model.addAttribute("number_1", number_1);
         model.addAttribute("number_2", number_2);
         model.addAttribute("number_3", number_3);
@@ -102,7 +101,6 @@ public class ItemController extends BaseController {
             totalPrice += cd.getPrice() * cd.getQuantity();
         }
         totalPrice += cost;
-
         model.addAttribute("cartDetails", cartDetails);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("cost", cost);
@@ -138,32 +136,25 @@ public class ItemController extends BaseController {
     }
 
     @GetMapping("/afterOrder")
-    public String getAfterOrderPage(HttpServletRequest request,
-            @RequestParam("vnp_ResponseCode") Optional<String> vnpayResponseOptional,
-            @RequestParam("vnp_TxnRef") Optional<String> paymentRef) {
+    public String getAfterOrderPage(HttpServletRequest request,@RequestParam("vnp_ResponseCode") Optional<String> vnpayResponseOptional,@RequestParam("vnp_TxnRef") Optional<String> paymentRef) {
         log.info("Request to /afterOrder");
         HttpSession session = request.getSession(false);
         Long id = (long) session.getAttribute("id");
         User user = this.userService.getUserById(id);
         String email = user.getEmail();
-
         EmailRequest emailRequest = new EmailRequest(email,"Xác nhận đơn hàng","FoodStore chân thành cảm ơn bạn vì đã sử dụng sản phẩm của chúng tôi!");
         emailProducer.sendEmailToQueue(emailRequest);
         log.info("Send email success after order");
-
         if (vnpayResponseOptional.isPresent() && paymentRef.isPresent()) {
             // cap nhat trang thai order
-            String paymentStatus = vnpayResponseOptional.get().equals("00") ? "Thanh toán thành công"
-                    : "Thanh toán thất bại";
+            String paymentStatus = vnpayResponseOptional.get().equals("00") ? "Thanh toán thành công" : "Thanh toán thất bại";
             this.productService.updatePaymentStatus(paymentRef.get(), paymentStatus);
         }
-
         return "client/cart/after-order";
     }
 
     @GetMapping("/products")
-    public String getProductPage(Model model, ProductCriteriaDTO productCriteriaDTO,
-            HttpServletRequest request) {
+    public String getProductPage(Model model, ProductCriteriaDTO productCriteriaDTO, HttpServletRequest request) {
         log.info("Request to /products");
         productCriteriaDTO.setPage(Optional.ofNullable(request.getParameter("page")));
         int page = 1;
@@ -191,10 +182,8 @@ public class ItemController extends BaseController {
         }
 
         Page<Product> prs = this.productService.fetchProductsWithSpec(pageable, productCriteriaDTO);
-
         List<Product> products = prs.getContent().size() > 0 ? prs.getContent() : new ArrayList<Product>();
         String qs = request.getQueryString();
-
         if (qs != null && !qs.isBlank()) {
             qs = qs.replace("page=" + page, "");
         }
@@ -205,7 +194,6 @@ public class ItemController extends BaseController {
         model.addAttribute("queryString", qs);
         return "client/product/show";
     }
-         
 
     @PostMapping("/add-product-to-cart/{id}")
     public String addProductToCart(@PathVariable long id, HttpServletRequest request) {
@@ -235,45 +223,28 @@ public class ItemController extends BaseController {
     }
 
     @PostMapping("/place-order")
-    public String handlePlaceOrder(
-            HttpServletRequest request,
-            @RequestParam("receiverName") String receiverName,
-            @RequestParam("receiverAddress") String receiverAddress,
-            @RequestParam("receiverPhone") String receiverPhone,
-            @RequestParam("paymentMethod") String paymentMethod,
-            @RequestParam("totalPrice") String totalPrice) throws UnsupportedEncodingException {
-                log.info("Request to /place-order");
-        User currentUser = new User();// null
+    public String handlePlaceOrder(HttpServletRequest request, @RequestParam("receiverName") String receiverName, @RequestParam("receiverAddress") String receiverAddress, @RequestParam("receiverPhone") String receiverPhone, @RequestParam("paymentMethod") String paymentMethod, @RequestParam("totalPrice") String totalPrice) throws UnsupportedEncodingException {
+        log.info("Request to /place-order");
+        User currentUser = new User();
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
-
-        final String uuid = UUID.randomUUID().toString().replace("-", "");
-
-        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone,
-                paymentMethod, uuid,Double.parseDouble(totalPrice));
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        this.productService.handlePlaceOrder(currentUser, session, receiverName, receiverAddress, receiverPhone, paymentMethod, uuid,Double.parseDouble(totalPrice));
         if (!paymentMethod.equals("COD")) {
             String ip = this.vnpayService.getIpAddress(request);
             String vnpUrl = this.vnpayService.generateVNPayURL(Double.parseDouble(totalPrice), uuid, ip);
-
             return "redirect:" + vnpUrl;
         }
         return "redirect:/afterOrder";
     }
 
-    
-
     @PostMapping("/add-product-from-view-detail")
-    public String handleAddProductFromViewDetail(
-            @RequestParam("id") long id,
-            @RequestParam(value = "quantity", defaultValue = "1") long quantity,
-            HttpServletRequest request) {
+    public String handleAddProductFromViewDetail(@RequestParam("id") long id,@RequestParam(value = "quantity", defaultValue = "1") long quantity,HttpServletRequest request) {
         log.info("Request to /add-product-from-view-detail");
         HttpSession session = request.getSession(false);
-
         String email = (String) session.getAttribute("email");
         this.productService.handleAddProductToCart(email, id, session, quantity);
-
         return "redirect:/product/" + id;
     }
 

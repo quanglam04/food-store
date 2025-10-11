@@ -10,9 +10,9 @@ import com.example.food_store.domain.Order;
 import com.example.food_store.domain.User;
 
 public interface IOrderService {
-    Page<Order> fetchAllOrders(Pageable pageable);
-    Optional<Order> fetchOrderById(long id);
-    List<Order> fetchOrderByUser(User user);
     void deleteById(long id);
     void updateOrder(Order order);
+    Page<Order> fetchAllOrders(Pageable pageable);
+    List<Order> fetchOrderByUser(User user);
+    Optional<Order> fetchOrderById(long id);
 }

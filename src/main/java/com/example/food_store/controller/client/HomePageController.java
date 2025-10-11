@@ -50,7 +50,6 @@ public class HomePageController extends BaseController {
         List<Product> products = this.productService.fetchAllProductsToHomePage();
         List<Product> productsTypeRauCu = this.productService.fetchProductByType("rau");
         productsTypeRauCu.addAll(this.productService.fetchProductByType("cu"));
-
         List<Product> productsTypeTraiCay = this.productService.fetchProductByType("trai-cay");
         List<Product> productsTypeThit = this.productService.fetchProductByType("thuc-pham-giau-protein");
         List<Product> productsTypeThucUong = this.productService.fetchProductByType("thuc-uong");
@@ -62,7 +61,6 @@ public class HomePageController extends BaseController {
         model.addAttribute("productsTypeTraiCays", productsTypeTraiCay);
         model.addAttribute("productsTypeThits", productsTypeThit);
         model.addAttribute("productsTypeTinhBots", productsTypeTinhBot);
-
         return "client/homepage/show";
     }
 
@@ -73,7 +71,7 @@ public class HomePageController extends BaseController {
         return "client/auth/register";
     }
 
-        @GetMapping("/login")
+    @GetMapping("/login")
     public String getLoginPage() {
         log.info("Request to /login");
         return "client/auth/login";
@@ -132,12 +130,7 @@ public class HomePageController extends BaseController {
         HttpSession session = request.getSession();
         Long id = (long) session.getAttribute("id");
         User user = this.userService.getUserById(id);
-
-        ChangePasswordDTO changePasswordDTO = 
-                                            ChangePasswordDTO.builder().
-                                            userId(user.getId()).
-                                            build();
-
+        ChangePasswordDTO changePasswordDTO = ChangePasswordDTO.builder().userId(user.getId()).build();
         model.addAttribute("changePasswordDTO", changePasswordDTO);
         return "client/homepage/changePassword";
     }
@@ -149,17 +142,13 @@ public class HomePageController extends BaseController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(@ModelAttribute("userDTO") @Valid RegisterDTO userDTO,
-            BindingResult bindingResult,
-            @RequestParam("OTP_check") String OTP,
-            Model model) {
+    public String handleRegister(@ModelAttribute("userDTO") @Valid RegisterDTO userDTO,BindingResult bindingResult,@RequestParam("OTP_check") String OTP, Model model) {
         log.info("Request to /register");
         String OTP_real = userDTO.getOTP();
         if (!OTP.equals(OTP_real)) {
             model.addAttribute("errorVerifyEmail", "Mã OTP không chính xác. Vui lòng nhập lại.");
             return "client/auth/verifyEmail";
         }
-
         User user = this.userService.registerDTOtoUser(userDTO);
         String hashPassword = this.passwordEncoder.encode(userDTO.getPassword());
         user.setPassword(hashPassword);
@@ -169,8 +158,7 @@ public class HomePageController extends BaseController {
     }
 
     @PostMapping("/verify")
-    public String getVerifyPage(@ModelAttribute("registerUser") @Valid RegisterDTO userDTO, BindingResult bindingResult,
-            Model model) {
+    public String getVerifyPage(@ModelAttribute("registerUser") @Valid RegisterDTO userDTO, BindingResult bindingResult, Model model) {
         log.info("Request to /verify");
         String email = userDTO.getEmail();
         if (bindingResult.hasErrors()) {
@@ -190,7 +178,6 @@ public class HomePageController extends BaseController {
                 model.addAttribute("errorConfirmPassword", "Mật khẩu nhập không chính xác");
             return "client/auth/register";
         }
-
         String OTP = AppUtil.getRandomOTP();
         EmailRequest emailRequest = new EmailRequest(email,"Xác nhận đăng ký","Mã xác nhận đăng ký của bạn là: " + OTP);
         emailProducer.sendEmailToQueue(emailRequest);
@@ -199,19 +186,13 @@ public class HomePageController extends BaseController {
         return "client/auth/verifyEmail";
     }
 
-
-
     @PostMapping("/update-profile")
-    public String postMethodName(Model model, @ModelAttribute("newUser") User trinhlam,
-            BindingResult newBindingResult,
-            @RequestParam("avatarFile") MultipartFile file,
-            HttpServletRequest request) {
+    public String postMethodName(Model model, @ModelAttribute("newUser") User trinhlam,BindingResult newBindingResult,@RequestParam("avatarFile") MultipartFile file,HttpServletRequest request) {
         log.info("Request to /update-profile");
         HttpSession session = request.getSession(false);
         User currentUser = this.userService.getUserById(trinhlam.getId());
         if (newBindingResult.hasErrors())
             return "not-match";
-
         String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
         currentUser.setAvatar(avatar);
         currentUser.setPhone(trinhlam.getPhone());
@@ -221,12 +202,8 @@ public class HomePageController extends BaseController {
         return "redirect:/view-profile";
     }
 
-    
-
     @PostMapping("/change-password")
-    public String changePassword(@ModelAttribute("changePasswordDTO") @Valid ChangePasswordDTO changePasswordDTO,
-            BindingResult bindingResult,
-            Model model) {
+    public String changePassword(@ModelAttribute("changePasswordDTO") @Valid ChangePasswordDTO changePasswordDTO,BindingResult bindingResult,Model model) {
         log.info("Request to /change-password");
         if (bindingResult.hasErrors()) {
             String error = bindingResult.getFieldError().getDefaultMessage();
@@ -236,7 +213,6 @@ public class HomePageController extends BaseController {
         Long userId = changePasswordDTO.getUserId();
         String lastPassword = changePasswordDTO.getLastPassword();
         String newPassword = changePasswordDTO.getNewPassword();
-
         User user = this.userService.getUserById(userId);
         if (passwordEncoder.matches(lastPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));

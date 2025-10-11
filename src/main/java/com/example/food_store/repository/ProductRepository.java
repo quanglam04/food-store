@@ -13,8 +13,8 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     long count();
+    long countByType(String type);
     Page<Product> findAll(Pageable page);
     Page<Product> findAll(Specification<Product> spec, Pageable page);
-    long countByType(String type);
     List<Product> findByType(String type);
 }

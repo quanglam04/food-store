@@ -46,8 +46,7 @@ public class UserController extends BaseController {
     private final EmailProducer emailProducer;
 
     @GetMapping("/admin/user")
-    public String getUserPage(Model model,
-            @RequestParam("page") Optional<String> pageOptional) {
+    public String getUserPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
         log.info("Request to /admin/user");
         int page = 1;
         try {
@@ -61,7 +60,6 @@ public class UserController extends BaseController {
             Page<User> usersPage = this.userService.getAllUsers(pageable);
             List<User> users = usersPage.getContent();
             model.addAttribute("listUser", users);
-    
             model.addAttribute("currentPage", page);
             model.addAttribute("totalPages", usersPage.getTotalPages());
             return "admin/user/show";
@@ -99,9 +97,7 @@ public class UserController extends BaseController {
     }
 
     @PostMapping(value = "/admin/user/create")
-    public String createUser(Model model, @ModelAttribute("newUser") @Valid User trinhlam,
-            BindingResult newBindingResult,
-            @RequestParam("avatarFile") MultipartFile file) {
+    public String createUser(Model model, @ModelAttribute("newUser") @Valid User trinhlam, BindingResult newBindingResult, @RequestParam("avatarFile") MultipartFile file) {
         log.info("Request to /admin/user/create");
         List<FieldError> errors = newBindingResult.getFieldErrors();
         for (FieldError error : errors) {
@@ -109,7 +105,6 @@ public class UserController extends BaseController {
         }
 
         if (newBindingResult.hasErrors() || this.userService.checkEmailExist(trinhlam.getEmail())) {
-
             if (this.userService.checkEmailExist(trinhlam.getEmail()))
                 model.addAttribute("errorEmail", "Email đã tồn tại.");
             return "admin/user/create";
@@ -120,7 +115,6 @@ public class UserController extends BaseController {
         trinhlam.setAvatar(avatar);
         trinhlam.setPassword(hashPassword);
         trinhlam.setRole(this.userService.getRoleByName(trinhlam.getRole().getName()));
-
         this.userService.handleSaveUser(trinhlam);
         return "redirect:/admin/user";
     }
@@ -130,7 +124,6 @@ public class UserController extends BaseController {
         log.info("Request to /admin/user/delete/{id}");
         model.addAttribute("id", id);
         model.addAttribute("newUser", new User());
-
         return "admin/user/delete";
     }
 
@@ -154,7 +147,6 @@ public class UserController extends BaseController {
             currentUser.setAddress(trinhlam.getAddress());
             currentUser.setFullName(trinhlam.getFullName());
             currentUser.setPhone(trinhlam.getPhone());
-
             this.userService.handleSaveUser(currentUser);
         }
         return "redirect:/admin/user";
@@ -183,12 +175,9 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/process-reset-password")
-    public String getProcessResetPassword(@ModelAttribute("ResetPasswordDTO") @Valid ResetPasswordDTO ResetPasswordDTO,
-            BindingResult bindingResult,
-            Model model) {
+    public String getProcessResetPassword(@ModelAttribute("ResetPasswordDTO") @Valid ResetPasswordDTO ResetPasswordDTO, BindingResult bindingResult, Model model) {
         log.info("Request to /process-reset-password");
         if (bindingResult.hasErrors()) {
-
             String error = bindingResult.getFieldError().getDefaultMessage();
             model.addAttribute("errorNewpassword", error);
             return "client/homepage/resetPassword";
@@ -196,7 +185,6 @@ public class UserController extends BaseController {
         String currentPassword = ResetPasswordDTO.getNewPassword();
         String confirmPassword = ResetPasswordDTO.getConfirmPassword();
         User user = this.userService.getUserById(ResetPasswordDTO.getUserID());
-
         if (!currentPassword.equals(confirmPassword)) {
             model.addAttribute("errorConfirmPassword", "Mật khẩu không khớp");
             return "client/homepage/resetPassword";
