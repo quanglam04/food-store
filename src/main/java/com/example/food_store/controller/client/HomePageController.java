@@ -47,20 +47,15 @@ public class HomePageController extends BaseController {
     @GetMapping("/")
     public String getHomePage(Model model) {
         log.info("Request to /");
-        List<Product> products = this.productService.fetchAllProductsToHomePage();
         List<Product> productsTypeRauCu = this.productService.fetchProductByType("rau");
         productsTypeRauCu.addAll(this.productService.fetchProductByType("cu"));
-        List<Product> productsTypeTraiCay = this.productService.fetchProductByType("trai-cay");
-        List<Product> productsTypeThit = this.productService.fetchProductByType("thuc-pham-giau-protein");
-        List<Product> productsTypeThucUong = this.productService.fetchProductByType("thuc-uong");
-        List<Product> productsTypeTinhBot = this.productService.fetchProductByType("thuc-pham-chua-tinh-bot");
         model.addAttribute("nameProducts", productService.getAllNames());
-        model.addAttribute("products", products);
-        model.addAttribute("productsTypeThucUongs", productsTypeThucUong);
-        model.addAttribute("productsTypeRauCus", productsTypeRauCu);
-        model.addAttribute("productsTypeTraiCays", productsTypeTraiCay);
-        model.addAttribute("productsTypeThits", productsTypeThit);
-        model.addAttribute("productsTypeTinhBots", productsTypeTinhBot);
+        model.addAttribute("products", this.productService.fetchAllProductsToHomePage());
+        model.addAttribute("productsTypeThucUongs", this.productService.fetchProductByType("thuc-uong"));
+        model.addAttribute("productsTypeRauCus", this.productService.fetchProductByType("rau"));
+        model.addAttribute("productsTypeTraiCays", this.productService.fetchProductByType("trai-cay"));
+        model.addAttribute("productsTypeThits", this.productService.fetchProductByType("thuc-pham-giau-protein"));
+        model.addAttribute("productsTypeTinhBots", this.productService.fetchProductByType("thuc-pham-chua-tinh-bot"));
         return "client/homepage/show";
     }
 

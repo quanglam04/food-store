@@ -87,7 +87,6 @@ public class OrderController extends BaseController {
 
     }
 
-
     @PostMapping("/admin/order/update")
     public String handleUpdateOrder(@ModelAttribute("newOrder") Order order) {
         log.info("Request to /admin/order/update");

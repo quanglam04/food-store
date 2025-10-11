@@ -17,31 +17,28 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 
 @Configuration
 public class RabbitMQConfig {
-    
-
-
     @Bean
-    public Queue queue(){
+    Queue queue(){
         return new Queue(AppConstant.QUEUE, true);
     }
 
     @Bean
-    public TopicExchange exchange(){
+    TopicExchange exchange(){
         return new TopicExchange(AppConstant.EXCHANGE);
     }
 
     @Bean
-    public Binding binding(Queue queue, TopicExchange exchange){
+    Binding binding(Queue queue, TopicExchange exchange){
         return BindingBuilder.bind(queue).to(exchange).with(AppConstant.ROUTING_KEY);
     }
 
     @Bean
-    public MessageConverter jsonMessageConverter() {
+    MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(jsonMessageConverter());
         return template;

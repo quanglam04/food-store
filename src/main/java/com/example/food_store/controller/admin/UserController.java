@@ -164,11 +164,9 @@ public class UserController extends BaseController {
     public String sendRequestToMail(@RequestParam("email") String email) {
         log.info("Request to /send-request-to-mail");
         String tokenEmail = UUID.randomUUID().toString();
-        Token token = new Token();
-        token.setEmail(email);
-        token.setToken(tokenEmail);
-        tokenService.saveToken(token);
         String resetLink = AppConstant.RESET_LINK + tokenEmail;
+        Token token = Token.builder().email(email).token(tokenEmail).build();
+        tokenService.saveToken(token);
         EmailRequest emailRequest = new EmailRequest(email,"Xác nhận khôi phục mật khẩu","Nhấn vào đây để lấy lại mật khẩu: " + resetLink);
         emailProducer.sendEmailToQueue(emailRequest);
         return "redirect:/login";

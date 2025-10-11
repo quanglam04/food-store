@@ -19,12 +19,9 @@ public class DashBoardController extends BaseController {
     @GetMapping("/admin")
     public String getDashBoard(Model model) {
         log.info("Request to /admin");
-        long countUser = this.userService.countUser();
-        long countOrder = this.userService.countOrder();
-        long countProduct = this.productService.countProduct();
-        model.addAttribute("countUser", countUser);
-        model.addAttribute("countOrder", countOrder);
-        model.addAttribute("countProduct", countProduct);
+        model.addAttribute("countUser", this.userService.countUser());
+        model.addAttribute("countOrder",  this.userService.countOrder());
+        model.addAttribute("countProduct",  this.productService.countProduct());
         return "admin/dashboard/show";
     }
 
